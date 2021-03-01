@@ -1,5 +1,13 @@
-import Layout from '../components/Layout'
+import Layout from '../components/Layout';
+import Link from 'next/link';
 
-const Index = () => <Layout children='test'></Layout>
+const Index = () => {
+    return (
+        <Layout>
+            <h2>Index</h2>
+            <Link href="/signup"><a>Signup</a></Link>
+        </Layout>
+    );
+};
 
 export default Index;
