@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 // cors
-if(process.env.NODE_ENV === 'development') {
+if(process.env.PRODUCTION === false) {
     app.use(cors({ origin: process.env.CLIENT_URL }));
 }
 // routes middleware
