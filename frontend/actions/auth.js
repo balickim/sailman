@@ -2,7 +2,7 @@ import fetch from "isomorphic-fetch";
 import cookie from "js-cookie";
 
 export const signup = (user) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API_DEV}/signup`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/signup`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -17,7 +17,7 @@ export const signup = (user) => {
 };
 
 export const signin = (user) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API_DEV}/signin`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/signin`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -29,6 +29,20 @@ export const signin = (user) => {
       return response.json();
     })
     .catch((err) => console.error(err));
+};
+
+export const signout = (next) => {
+  removeCookie("token");
+  removeLocalStorage("user");
+  next();
+
+  return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {
+    method: "GET",
+  })
+    .then((response) => {
+      console.log("signout success");
+    })
+    .catch((err) => console.log(err));
 };
 
 export const setCookie = (key, value) => {
@@ -47,7 +61,7 @@ export const removeCookie = (key) => {
 
 export const getCookie = (key) => {
   if (process.browser) {
-    cookie.get(key);
+    return cookie.get(key);
   }
 };
 
