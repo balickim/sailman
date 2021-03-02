@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Collapse,
   Navbar,
@@ -11,9 +11,9 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  NavbarText
-} from 'reactstrap';
-import Link from 'next/link';
+  NavbarText,
+} from "reactstrap";
+import Link from "next/link";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,31 +23,27 @@ const Header = (props) => {
   return (
     <div>
       <Navbar color="light" light expand="md">
-      <Link href="/">
-        <NavLink className="navbar-brand">Sailman</NavLink>
-      </Link>
+        <Link href="/">
+          <NavLink className="navbar-brand">Sailman</NavLink>
+        </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem>
-            <Link href="/signup">
-              <NavLink>
-                Signup
-              </NavLink>
-            </Link>
+              <Link href="/signup">
+                <NavLink>Signup</NavLink>
+              </Link>
             </NavItem>
             <NavItem>
-            <Link href="/signin">
-              <NavLink>
-                SignIn
-              </NavLink>
-            </Link>
+              <Link href="/signin">
+                <NavLink>SignIn</NavLink>
+              </Link>
             </NavItem>
           </Nav>
         </Collapse>
       </Navbar>
     </div>
   );
-}
+};
 
 export default Header;
