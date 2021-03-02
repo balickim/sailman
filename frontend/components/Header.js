@@ -36,7 +36,7 @@ const Header = (props) => {
             </NavItem>
             <NavItem>
               <Link href="/signin">
-                <NavLink>SignIn</NavLink>
+                <NavLink>Signin</NavLink>
               </Link>
             </NavItem>
           </Nav>
