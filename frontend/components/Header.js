@@ -26,7 +26,9 @@ const Header = (props) => {
     <div>
       <Navbar color="light" light expand="md">
         <Link href="/">
-          <NavLink className="navbar-brand">Sailman</NavLink>
+          <NavLink style={{ cursor: "pointer" }} className="navbar-brand">
+            Sailman
+          </NavLink>
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -45,6 +47,27 @@ const Header = (props) => {
                 </NavItem>
               </>
             )}
+
+            {isAuth() && isAuth().role === 0 && (
+              <NavItem>
+                <Link href="/user">
+                  <NavLink style={{ cursor: "pointer" }}>{`${
+                    isAuth().name
+                  } Dashboard`}</NavLink>
+                </Link>
+              </NavItem>
+            )}
+
+            {isAuth() && isAuth().role === 1 && (
+              <NavItem>
+                <Link href="/admin">
+                  <NavLink style={{ cursor: "pointer" }}>{`${
+                    isAuth().name
+                  } Dashboard`}</NavLink>
+                </Link>
+              </NavItem>
+            )}
+
             {isAuth() && (
               <NavItem>
                 <NavLink
