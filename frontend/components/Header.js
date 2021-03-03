@@ -1,21 +1,20 @@
 import { useState } from "react";
 import { signout, isAuth } from "../actions/auth";
+import NProgress from "nprogress";
 import {
   Collapse,
   Navbar,
   NavbarToggler,
-  NavbarBrand,
   Nav,
   NavItem,
   NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  NavbarText,
 } from "reactstrap";
 import Link from "next/link";
 import Router from "next/router";
+
+Router.onRouteChangeStart = (url) => NProgress.start();
+Router.onRouteChangeComplete = (url) => NProgress.done();
+Router.onRouteChangeError = (url) => NProgress.done();
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
