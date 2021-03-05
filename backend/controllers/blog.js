@@ -177,6 +177,7 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
 exports.read = (req, res) => {
   const slug = req.params.slug.toLowerCase();
   Blog.findOne({ slug })
+    .select("-photo")
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username profile")
@@ -265,4 +266,19 @@ exports.update = (req, res) => {
       });
     });
   });
+};
+
+exports.photo = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+  Blog.findOne({ slug })
+    .select("photo")
+    .exec((err, blog) => {
+      if (err) {
+        return res.json({
+          error: errorHandler(err),
+        });
+      }
+      res.set("Content-Type", blog.photo.contentType);
+      return res.send(blog.photo.data);
+    });
 };
