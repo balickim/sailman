@@ -1,7 +1,6 @@
 const Category = require("../models/category");
 const slugify = require("slugify");
 const { errorHandler } = require("../helpers/dbErrorHandler");
-const category = require("../models/category");
 
 exports.create = (req, res) => {
   const { name } = req.body;
