@@ -1,71 +1,101 @@
 import Head from "next/head";
 import Link from "next/link";
-
-import { useState } from "react";
-import dayjs from "dayjs";
+import { withRouter } from "next/router";
 
 import Layout from "../../components/Layout";
+import Card from "../../components/blog/Card";
 import { listBlogsWithCategoriesAndTags } from "../../actions/blog";
 
-const Blogs = ({ blogs, categories, tags, size }) => {
+const Blogs = ({ blogs, categories, tags, size, router }) => {
+  const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
+  const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
+  const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
+
+  const head = () => (
+    <Head>
+      <title>Boat renting | {DOMAIN}</title>
+      <meta name="description" content="Boat renting announcements" />
+      <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
+      <meta
+        property="og:title"
+        content={`Latest Boat renting announcements | ${APP_NAME}`}
+      />
+      <meta property="og:description" content="Boat renting announcements" />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
+      <meta property="og:site_name" content={`${APP_NAME}`} />
+
+      <meta
+        property="og:image"
+        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
+      />
+      <meta
+        property="og:image:secure_url"
+        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
+      />
+      <meta property="og:image:type" content="image/jpg" />
+      <meta property="fb:app_id" content={`${FB_APP_ID}`} />
+    </Head>
+  );
+
   const showAllBlogs = () => {
     return blogs.map((blog, i) => {
       return (
         <article key={i}>
-          <div className="lead pb-4">
-            <header>
-              <Link href={`/blogs/${blog.slug}`}>
-                <a>
-                  <h2 className="pt-3 pb-3 font-weight-bold">{blog.title}</h2>
-                </a>
-              </Link>
-            </header>
-            <section>
-              <p className="mark ml-1 pt-2 pb-2">
-                Posted by {blog.postedBy.name} | Published{" "}
-                {dayjs(blog.updatedAt).format("D MMMM, YYYY HH:MM")}
-              </p>
-            </section>
-            <section>
-              <p>blog categories and tags</p>
-            </section>
-            <div className="row">
-              <div className="col-md-4">image</div>
-              <div className="col-md-8">
-                <section>
-                  <div className="pb-3">{blog.excerpt}</div>
-                  <Link href={`/blogs/${blog.slug}`}>
-                    <a className="btn btn-primary pt-2">Read more</a>
-                  </Link>
-                </section>
-              </div>
-            </div>
-          </div>
+          <Card blog={blog} />
           <hr />
         </article>
       );
     });
   };
+
+  const showAllCategories = () => {
+    if (categories) {
+      return categories.map((c, i) => (
+        <Link href={`/categories/${c.slug}`} key={i}>
+          <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
+        </Link>
+      ));
+    }
+  };
+
+  const showAllTags = () => {
+    return tags.map((t, i) => (
+      <Link href={`/tags/${t.slug}`} key={i}>
+        <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
+      </Link>
+    ));
+  };
+
   return (
-    <Layout>
-      <main>
-        <div className="container-fluid">
-          <header>
-            <div className="col-md-12 pt-3">
-              <h1 className="display-4 font-weight-bold">Blogs</h1>
-            </div>
-            <section>
-              <p>categories and tags</p>
-            </section>
-          </header>
-        </div>
-        <div className="container-fluid">
-          <div className="row">
-            <div className="col-md-12">{showAllBlogs()}</div>
+    <>
+      {head()}
+      <Layout>
+        <main>
+          <div className="container-fluid">
+            <header>
+              <div className="col-md-12 pt-3">
+                <h1 className="display-4 font-weight-bold text-center">
+                  Blogs
+                </h1>
+              </div>
+              <section>
+                <div className="pb-5 text-center">
+                  {showAllCategories()}
+                  <br />
+                  {showAllTags()}
+                </div>
+              </section>
+            </header>
           </div>
-        </div>
-      </main>
-    </Layout>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="col-md-12">{showAllBlogs()}</div>
+            </div>
+          </div>
+        </main>
+      </Layout>
+    </>
   );
 };
 
@@ -84,4 +114,4 @@ Blogs.getInitialProps = () => {
   });
 };
 
-export default Blogs;
+export default withRouter(Blogs);
