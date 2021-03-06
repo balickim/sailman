@@ -34,3 +34,13 @@ export const listBlogsWithCategoriesAndTags = (skip, limit) => {
     })
     .catch((err) => console.error(err));
 };
+
+export const singleBlog = (slug) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/blog/${slug}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};

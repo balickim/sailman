@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
 import Link from "next/link";
+import parseToHTML from "html-react-parser";
 
 const Card = ({ blog }) => {
   const showBlogCategories = (blog) =>
@@ -50,7 +51,7 @@ const Card = ({ blog }) => {
         </div>
         <div className="col-md-8">
           <section>
-            <div className="pb-3">{blog.excerpt}</div>
+            <div className="pb-3">{parseToHTML(blog.excerpt)}</div>
             <Link href={`/blogs/${blog.slug}`}>
               <a className="btn btn-primary pt-2">Read more</a>
             </Link>
