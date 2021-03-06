@@ -15,12 +15,19 @@ export const create = (blog, token) => {
     .catch((err) => console.error(err));
 };
 
-export const listBlogsWithCategoriesAndTags = () => {
+export const listBlogsWithCategoriesAndTags = (skip, limit) => {
+  const data = {
+    limit,
+    skip,
+  };
+
   return fetch(`${process.env.NEXT_PUBLIC_API}/blogs-categories-tags`, {
     method: "POST",
     headers: {
       Accept: "application/json",
+      "Content-Type": "application/json",
     },
+    body: JSON.stringify(data),
   })
     .then((response) => {
       return response.json();
