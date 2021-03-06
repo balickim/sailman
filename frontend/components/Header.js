@@ -32,6 +32,11 @@ const Header = (props) => {
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
+            <NavItem style={{ cursor: "pointer" }}>
+              <Link href="/blogs">
+                <NavLink>Blogs</NavLink>
+              </Link>
+            </NavItem>
             {!isAuth() && (
               <>
                 <NavItem style={{ cursor: "pointer" }}>
