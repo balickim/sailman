@@ -8,7 +8,35 @@ import Layout from "../../components/Layout";
 
 import { singleBlog } from "../../actions/blog";
 
-const SingleBlog = ({ blog }) => {
+const SingleBlog = ({ blog, query }) => {
+  const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
+  const API = process.env.NEXT_PUBLIC_API;
+  const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
+  const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
+
+  const head = () => (
+    <Head>
+      <title>
+        {blog.title} | {APP_NAME}
+      </title>
+      <meta name="description" content={blog.mdesc} />
+      <link rel="canonical" href={`${DOMAIN}/blogs/${query.slug}`} />
+      <meta property="og:title" content={`${blog.title} | ${APP_NAME}`} />
+      <meta property="og:description" content={blog.mdesc} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={`${DOMAIN}/blogs/${query.slug}`} />
+      <meta property="og:site_name" content={`${APP_NAME}`} />
+
+      <meta property="og:image" content={`${API}/blog/photo/${blog.slug}`} />
+      <meta
+        property="og:image:secure_url"
+        content={`${API}/blog/photo/${blog.slug}`}
+      />
+      <meta property="og:image:type" content="image/jpg" />
+      <meta property="fb:app_id" content={`${FB_APP_ID}`} />
+    </Head>
+  );
+
   const showBlogCategories = (blog) =>
     blog.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
@@ -24,6 +52,7 @@ const SingleBlog = ({ blog }) => {
     ));
   return (
     <>
+      {head()}
       <Layout>
         <main>
           <article>
@@ -38,14 +67,19 @@ const SingleBlog = ({ blog }) => {
                 </div>
               </section>
               <section>
-                <p className="lead mt-3 mark">
-                  Posted by {blog.postedBy.name} | Published{" "}
-                  {dayjs(blog.updatedAt).format("D MMMM, YYYY HH:MM")}
-                </p>
+                <div className="container">
+                  <h1 className="display-2 pb-3 text-center pt-3 font-weight-bold">
+                    {blog.title}
+                  </h1>
+                  <p className="lead mt-3 mark">
+                    Posted by {blog.postedBy.name} | Published{" "}
+                    {dayjs(blog.updatedAt).format("D MMMM, YYYY HH:MM")}
+                  </p>
 
-                <div className="pb-3">
-                  {showBlogCategories(blog)}
-                  {showBlogTags(blog)}
+                  <div className="pb-3">
+                    {showBlogCategories(blog)}
+                    {showBlogTags(blog)}
+                  </div>
                 </div>
               </section>
             </div>
@@ -76,7 +110,7 @@ SingleBlog.getInitialProps = ({ query }) => {
     if (data.error) {
       return console.log("ERROR " + data.error);
     } else {
-      return { blog: data };
+      return { blog: data, query };
     }
   });
 };
