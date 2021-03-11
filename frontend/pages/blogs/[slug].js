@@ -100,7 +100,11 @@ const SingleBlog = ({ blog, query }) => {
                     {blog.title}
                   </h1>
                   <p className="lead mt-3 mark">
-                    Posted by {blog.postedBy.name} | Published{" "}
+                    Posted by{" "}
+                    <Link href={`/profile/${blog.postedBy.username}`}>
+                      <a>{blog.postedBy.username}</a>
+                    </Link>{" "}
+                    | Published{" "}
                     {dayjs(blog.updatedAt).format("D MMMM, YYYY HH:MM")}
                   </p>
 

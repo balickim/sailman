@@ -28,8 +28,11 @@ const Card = ({ blog }) => {
       </header>
       <section>
         <p className="mark ml-1 pt-2 pb-2">
-          Posted by {blog.postedBy.name} | Published{" "}
-          {dayjs(blog.updatedAt).format("D MMMM, YYYY HH:MM")}
+          Posted by{" "}
+          <Link href={`/profile/${blog.postedBy.username}`}>
+            <a>{blog.postedBy.username}</a>
+          </Link>{" "}
+          | Published {dayjs(blog.updatedAt).format("D MMMM, YYYY HH:MM")}
         </p>
       </section>
       <section>
