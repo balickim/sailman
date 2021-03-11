@@ -12,17 +12,24 @@ const AdminIndex = () => {
               <h2>Admin Dashboard</h2>
             </div>
             <div className="col-md-4">
-              <ul class="list-group">
+              <ul className="list-group">
                 <li className="list-group-item">
                   <Link href="/admin/crud/category-tag">
                     <a>Create category or tag</a>
                   </Link>
                 </li>
               </ul>
-              <ul class="list-group">
+              <ul className="list-group">
                 <li className="list-group-item">
                   <Link href="/admin/crud/blog">
                     <a>Create blog</a>
+                  </Link>
+                </li>
+              </ul>
+              <ul className="list-group">
+                <li className="list-group-item">
+                  <Link href="/admin/crud/blogs">
+                    <a>Update/Delete blogs</a>
                   </Link>
                 </li>
               </ul>

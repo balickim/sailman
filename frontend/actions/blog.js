@@ -46,8 +46,6 @@ export const singleBlog = (slug) => {
 };
 
 export const listRelated = (blog) => {
-  console.log(blog);
-
   return fetch(`${process.env.NEXT_PUBLIC_API}/blogs/related`, {
     method: "POST",
     headers: {
@@ -60,4 +58,44 @@ export const listRelated = (blog) => {
       return response.json();
     })
     .catch((err) => console.log(err));
+};
+
+export const list = () => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/blogs`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
+export const remove = (slug, token) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/blog/${slug}`, {
+    method: "DELETE",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.error(err));
+};
+
+export const update = (blog, token, slug) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/blog/${slug}`, {
+    method: "PUT",
+    headers: {
+      Accept: "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: blog,
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.error(err));
 };
