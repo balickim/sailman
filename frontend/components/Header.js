@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import Link from "next/link";
 import Router from "next/router";
+import Search from "./blog/Search";
 
 Router.onRouteChangeStart = (url) => NProgress.start();
 Router.onRouteChangeComplete = (url) => NProgress.done();
@@ -22,7 +23,7 @@ const Header = (props) => {
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <div>
+    <>
       <Navbar color="light" light expand="md">
         <Link href="/">
           <NavLink style={{ cursor: "pointer" }} className="navbar-brand">
@@ -85,7 +86,8 @@ const Header = (props) => {
           </Nav>
         </Collapse>
       </Navbar>
-    </div>
+      <Search />
+    </>
   );
 };
 

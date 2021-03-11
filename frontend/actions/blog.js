@@ -1,4 +1,5 @@
 import fetch from "isomorphic-fetch";
+import queryString from "query-string";
 
 export const create = (blog, token) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/blog`, {
@@ -98,4 +99,18 @@ export const update = (blog, token, slug) => {
       return response.json();
     })
     .catch((err) => console.error(err));
+};
+
+export const listSearch = (params) => {
+  console.log("search params ", params);
+  let query = queryString.stringify(params);
+  console.log("search query ", query);
+
+  return fetch(`${process.env.NEXT_PUBLIC_API}/blogs/search?${query}`, {
+    method: "GET",
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
 };
