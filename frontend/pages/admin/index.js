@@ -33,6 +33,13 @@ const AdminIndex = () => {
                   </Link>
                 </li>
               </ul>
+              <ul className="list-group">
+                <li className="list-group-item">
+                  <Link href="/user/update">
+                    <a>Update profile</a>
+                  </Link>
+                </li>
+              </ul>
             </div>
             <div className="col-md-8">right</div>
           </div>

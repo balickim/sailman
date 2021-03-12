@@ -57,10 +57,25 @@ const UserProfile = ({ user, blogs, query }) => {
             <div className="col-md-12">
               <div className="card">
                 <div className="card-body">
-                  <h5>{user.name}</h5>
-                  <Link href={`${user.profile}`}>
-                    <a>View profile</a>
-                  </Link>
+                  <div className="row">
+                    <div className="col-md-8">
+                      <h5>{user.name}</h5>
+                    </div>
+                    <div className="col-md-4">
+                      {user.username &&
+                      user.username !== "" &&
+                      Boolean(user.username) !== false ? (
+                        <img
+                          src={`${process.env.NEXT_PUBLIC_API}/user/photo/${user.username}`}
+                          alt="user profile"
+                          style={{ maxHeight: "auto", maxWidth: "100%" }}
+                          className="img img-fluid img-thumbnail mb-3"
+                        />
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
                   <p className="text-muted">
                     Joined {dayjs(user.createdAt).format("D MMMM, YYYY HH:MM")}
                   </p>

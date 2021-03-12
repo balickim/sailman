@@ -1,8 +1,7 @@
-import Router from "next/router";
 import { useState, useEffect } from "react";
 import { Spinner } from "reactstrap";
 
-import { getCookie } from "../../actions/auth";
+import { getCookie, updateUser } from "../../actions/auth";
 import { getProfile, update } from "../../actions/user";
 
 const ProfileUpdate = () => {
@@ -63,7 +62,9 @@ const ProfileUpdate = () => {
     userData.append("email", email);
     userData.append("password", password);
     userData.append("about", values.about);
-    userData.append("photo", values.photo);
+    if (values.photo) {
+      userData.append("photo", values.photo);
+    }
 
     update(token, userData).then((data) => {
       if (data.error) {
@@ -74,19 +75,18 @@ const ProfileUpdate = () => {
           loading: false,
         });
       } else {
-        setValues({
-          ...values,
-          username: data.username,
-          name: data.name,
-          email: data.email,
-          about: data.about,
-          password: "",
-          success: true,
-          loading: false,
+        updateUser(data, () => {
+          setValues({
+            ...values,
+            username: data.username,
+            name: data.name,
+            email: data.email,
+            about: data.about,
+            password: "",
+            success: true,
+            loading: false,
+          });
         });
-        setTimeout(() => {
-          Router.reload();
-        }, 500);
       }
     });
   };
@@ -175,7 +175,7 @@ const ProfileUpdate = () => {
       className="alert alert-success"
       style={{ display: success ? "" : "none" }}
     >
-      Profile updated
+      Profile updated. Please reload to see the changes.
     </div>
   );
 
