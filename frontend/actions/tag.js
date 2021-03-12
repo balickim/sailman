@@ -1,4 +1,5 @@
 import fetch from "isomorphic-fetch";
+import { handleResponse } from "./auth";
 
 export const create = (tag, token) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag`, {
@@ -11,6 +12,7 @@ export const create = (tag, token) => {
     body: JSON.stringify(tag),
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -46,6 +48,7 @@ export const removeTag = (slug, token) => {
     },
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));

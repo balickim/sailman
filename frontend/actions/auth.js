@@ -1,5 +1,21 @@
 import fetch from "isomorphic-fetch";
 import cookie from "js-cookie";
+import Router from "next/router";
+
+export const handleResponse = (response) => {
+  if (response.status === 401) {
+    signout(() => {
+      Router.push({
+        pathname: "/signin",
+        query: {
+          message: "Session expired. Please sign in.",
+        },
+      });
+    });
+  } else {
+    return;
+  }
+};
 
 export const signup = (user) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/signup`, {

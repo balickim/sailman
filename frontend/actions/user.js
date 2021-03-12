@@ -1,5 +1,5 @@
 import fetch from "isomorphic-fetch";
-import queryString from "query-string";
+import { handleResponse } from "./auth";
 
 export const userPublicProfile = (username) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/${username}`, {
@@ -23,6 +23,7 @@ export const getProfile = (token) => {
     },
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -38,6 +39,7 @@ export const update = (token, user) => {
     body: user,
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));

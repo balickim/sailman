@@ -1,6 +1,6 @@
 import fetch from "isomorphic-fetch";
 import queryString from "query-string";
-import { isAuth } from "./auth";
+import { isAuth, handleResponse } from "./auth";
 
 export const create = (blog, token) => {
   let createBlogEndpoint;
@@ -20,6 +20,7 @@ export const create = (blog, token) => {
     body: blog,
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -106,6 +107,7 @@ export const remove = (slug, token) => {
     },
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -129,6 +131,7 @@ export const update = (blog, token, slug) => {
     body: blog,
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));

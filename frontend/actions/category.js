@@ -1,4 +1,5 @@
 import fetch from "isomorphic-fetch";
+import { handleResponse } from "./auth";
 
 export const create = (category, token) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/category`, {
@@ -11,6 +12,7 @@ export const create = (category, token) => {
     body: JSON.stringify(category),
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -46,6 +48,7 @@ export const removeCategory = (slug, token) => {
     },
   })
     .then((response) => {
+      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
