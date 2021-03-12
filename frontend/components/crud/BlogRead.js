@@ -7,7 +7,7 @@ import { getCookie, isAuth } from "../../actions/auth";
 import { getCategories } from "../../actions/category";
 import { list, remove } from "../../actions/blog";
 
-const BlogRead = () => {
+const BlogRead = ({ username }) => {
   const [blogs, setBlogs] = useState([]);
   const [message, setMessage] = useState("");
 
@@ -18,7 +18,7 @@ const BlogRead = () => {
   }, []);
 
   const loadBlogs = () => {
-    list().then((data) => {
+    list(username).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {

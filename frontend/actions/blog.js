@@ -70,8 +70,16 @@ export const listRelated = (blog) => {
     .catch((err) => console.log(err));
 };
 
-export const list = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blogs`, {
+export const list = (username) => {
+  let listBlogEndpoint;
+
+  if (username) {
+    listBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/${username}/blogs`;
+  } else {
+    listBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blogs`;
+  }
+
+  return fetch(`${listBlogEndpoint}`, {
     method: "GET",
   })
     .then((response) => {
@@ -81,7 +89,15 @@ export const list = () => {
 };
 
 export const remove = (slug, token) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blog/${slug}`, {
+  let removeBlogEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
+  } else if (isAuth() && isAuth().role === 0) {
+    removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
+  }
+
+  return fetch(`${removeBlogEndpoint}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -96,7 +112,15 @@ export const remove = (slug, token) => {
 };
 
 export const update = (blog, token, slug) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blog/${slug}`, {
+  let updateBlogEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
+  } else if (isAuth() && isAuth().role === 0) {
+    updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
+  }
+
+  return fetch(`${updateBlogEndpoint}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",

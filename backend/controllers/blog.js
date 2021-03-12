@@ -2,6 +2,7 @@
 const Blog = require("../models/blog");
 const Category = require("../models/category");
 const Tag = require("../models/tag");
+const User = require("../models/user");
 
 // imports
 const formidable = require("formidable");
@@ -301,8 +302,6 @@ exports.listRelated = (req, res) => {
 };
 
 exports.listSearch = (req, res) => {
-  console.log(req.query);
-
   const { search } = req.query;
   if (search) {
     Blog.find(
@@ -322,4 +321,28 @@ exports.listSearch = (req, res) => {
       }
     ).select("-photo -body");
   }
+};
+
+exports.listByUser = (req, res) => {
+  User.findOne({ username: req.params.username }).exec((err, user) => {
+    if (err) {
+      return res.status(400).json({
+        error: errorHandler(err),
+      });
+    }
+    let userId = user._id;
+    Blog.find({ postedBy: userId })
+      .populate("categories", "_id name slug")
+      .populate("tags", "_id name slug")
+      .populate("postedBy", "_id name username")
+      .select("_id title slug postedBy")
+      .exec((err, data) => {
+        if (err) {
+          return res.status(400).json({
+            error: errorHandler(err),
+          });
+        }
+        res.json(data);
+      });
+  });
 };
