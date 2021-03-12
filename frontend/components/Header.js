@@ -83,6 +83,13 @@ const Header = (props) => {
                 </NavLink>
               </NavItem>
             )}
+            <NavItem>
+              <Link href="/user/crud/blog">
+                <NavLink className="btn btn-primary text-light">
+                  Add blog
+                </NavLink>
+              </Link>
+            </NavItem>
           </Nav>
         </Collapse>
       </Navbar>

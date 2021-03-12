@@ -1,8 +1,17 @@
 import fetch from "isomorphic-fetch";
 import queryString from "query-string";
+import { isAuth } from "./auth";
 
 export const create = (blog, token) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blog`, {
+  let createBlogEndpoint;
+
+  if (isAuth() && isAuth().role === 1) {
+    createBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog`;
+  } else if (isAuth() && isAuth().role === 0) {
+    createBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog`;
+  }
+
+  return fetch(`${createBlogEndpoint}`, {
     method: "POST",
     headers: {
       Accept: "application/json",

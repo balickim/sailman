@@ -8,7 +8,7 @@ const SmallCard = ({ blog }) => {
       <section>
         <Link href={`/blogs/${blog.slug}`}>
           <img
-            style={{ maxHeight: "auto", width: "100%" }}
+            style={{ height: "250px", width: "100%" }}
             src={`${process.env.NEXT_PUBLIC_API}/blog/photo/${blog.slug}`}
             alt={blog.title}
             className="img img-fluid"
