@@ -84,6 +84,11 @@ const Header = (props) => {
               </NavItem>
             )}
             <NavItem>
+              <Link href="/contact">
+                <NavLink style={{ cursor: "pointer" }}>Contact</NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
               <Link href="/user/crud/blog">
                 <NavLink className="btn btn-primary text-light">
                   Add blog
