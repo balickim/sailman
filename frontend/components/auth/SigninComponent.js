@@ -1,7 +1,9 @@
 import Router from "next/router";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+
 import { signin, authenticate, isAuth } from "../../actions/auth";
+import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {
   const [values, setValues] = useState({
@@ -88,6 +90,10 @@ const SigninComponent = () => {
       {showLoading()}
       {showMessage()}
       {showForm && signinForm()}
+      <hr />
+      <h2>OR</h2>
+      <hr />
+      <LoginGoogle />
     </>
   );
 };

@@ -167,3 +167,18 @@ export const resetPassword = (resetInfo) => {
     })
     .catch((err) => console.error(err));
 };
+
+export const loginWithGoogle = (user) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/google-login`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(user),
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.error(err));
+};
