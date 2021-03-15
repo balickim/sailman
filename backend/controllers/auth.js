@@ -11,30 +11,71 @@ const { sendEmailWithNodemailer } = require("../helpers/email");
 // helpers
 const { errorHandler } = require("../helpers/dbErrorHandler");
 
-exports.signup = (req, res) => {
-  User.findOne({ email: req.body.email }).exec((err, user) => {
+exports.preSignup = (req, res) => {
+  const { name, email, password } = req.body;
+  User.findOne({ email: email.toLowerCase() }, (err, user) => {
     if (user) {
       return res.status(400).json({
         error: "Email is taken",
       });
     }
+    const token = jwt.sign(
+      { name, email, password },
+      process.env.JWT_ACCOUNT_ACTIVATION,
+      { expiresIn: "10m" }
+    );
 
-    const { name, email, password } = req.body;
-    let username = shortId.generate();
-    let profile = `${process.env.CLIENT_URL}/profile/${username}`;
+    const emailData = {
+      from: `${process.env.EMAIL_FROM}`,
+      to: email,
+      subject: `${process.env.APP_NAME} account activation link`,
+      html: `
+          <p>Use the following email to activate your password:</p>
+          <p>${process.env.CLIENT_URL}/auth/account/activate/${token}</p>
+      `,
+    };
 
-    let newUser = new User({ name, email, password, profile, username });
-    newUser.save((err, success) => {
-      if (err) {
-        return res.status(400).json({
-          error: err,
+    sendEmailWithNodemailer(req, res, emailData);
+  });
+};
+
+exports.signup = (req, res) => {
+  const token = req.body.token;
+  console.log("%cauth.js line:44 token", "color: #007acc;", token);
+  if (token) {
+    jwt.verify(
+      token,
+      process.env.JWT_ACCOUNT_ACTIVATION,
+      function (err, decoded) {
+        if (err) {
+          return res.status(401).json({
+            error: "Expired link. Signup again",
+          });
+        }
+
+        const { name, email, password } = jwt.decode(token);
+
+        let username = shortId.generate();
+        let profile = `${process.env.CLIENT_URL}/profile/${username}`;
+
+        const user = new User({ name, email, password, profile, username });
+        user.save((err, user) => {
+          if (err) {
+            return res.status(401).json({
+              error: errorHandler(err),
+            });
+          }
+          return res.json({
+            message: "Signup success! Please signin",
+          });
         });
       }
-      res.json({
-        message: "Signup success! Please sign in.",
-      });
+    );
+  } else {
+    return res.json({
+      message: "Something went wrong. Try again",
     });
-  });
+  }
 };
 
 exports.signin = (req, res) => {

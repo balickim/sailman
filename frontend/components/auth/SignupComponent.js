@@ -1,6 +1,6 @@
 import Router from "next/router";
 import { useState, useEffect } from "react";
-import { signup, isAuth } from "../../actions/auth";
+import { preSignup, isAuth } from "../../actions/auth";
 
 const SignupComponent = () => {
   const [values, setValues] = useState({
@@ -24,7 +24,7 @@ const SignupComponent = () => {
     setValues({ ...values, loading: true, error: false });
     const user = { name, email, password };
 
-    signup(user).then((data) => {
+    preSignup(user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
@@ -34,7 +34,7 @@ const SignupComponent = () => {
           email: "",
           password: "",
           loading: false,
-          message: data.message,
+          message: "Account verification email sent. Expires in 10 minutes",
           showForm: false,
         });
       }
