@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { signout, isAuth } from "../actions/auth";
+// import { signout, isAuth } from "../actions/auth";
+import { useAuth } from "../actions/AuthProvider";
 import NProgress from "nprogress";
 import {
   Collapse,
@@ -20,6 +21,8 @@ Router.onRouteChangeError = (url) => NProgress.done();
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const { signout, user } = useAuth();
+
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -38,7 +41,7 @@ const Header = (props) => {
                 <NavLink>Blogs</NavLink>
               </Link>
             </NavItem>
-            {!isAuth() && (
+            {!user && (
               <>
                 <NavItem style={{ cursor: "pointer" }}>
                   <Link href="/signup">
@@ -53,27 +56,27 @@ const Header = (props) => {
               </>
             )}
 
-            {isAuth() && isAuth().role === 0 && (
+            {user && user.role === 0 && (
               <NavItem>
                 <Link href="/user">
-                  <NavLink style={{ cursor: "pointer" }}>{`${
-                    isAuth().name
-                  } Dashboard`}</NavLink>
+                  <NavLink
+                    style={{ cursor: "pointer" }}
+                  >{`${user.name} Dashboard`}</NavLink>
                 </Link>
               </NavItem>
             )}
 
-            {isAuth() && isAuth().role === 1 && (
+            {user && user.role === 1 && (
               <NavItem>
                 <Link href="/admin">
-                  <NavLink style={{ cursor: "pointer" }}>{`${
-                    isAuth().name
-                  } Dashboard`}</NavLink>
+                  <NavLink
+                    style={{ cursor: "pointer" }}
+                  >{`${user.name} Dashboard`}</NavLink>
                 </Link>
               </NavItem>
             )}
 
-            {isAuth() && (
+            {user && (
               <NavItem>
                 <NavLink
                   style={{ cursor: "pointer" }}
@@ -88,13 +91,15 @@ const Header = (props) => {
                 <NavLink style={{ cursor: "pointer" }}>Contact</NavLink>
               </Link>
             </NavItem>
-            <NavItem>
-              <Link href="/user/crud/blog">
-                <NavLink className="btn btn-primary text-light">
-                  Add blog
-                </NavLink>
-              </Link>
-            </NavItem>
+            {user && (
+              <NavItem>
+                <Link href="/user/crud/blog">
+                  <NavLink className="btn btn-primary text-light">
+                    Add blog
+                  </NavLink>
+                </Link>
+              </NavItem>
+            )}
           </Nav>
         </Collapse>
       </Navbar>

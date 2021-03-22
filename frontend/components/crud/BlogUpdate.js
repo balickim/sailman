@@ -5,6 +5,7 @@ import { getCookie } from "../../actions/auth";
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { update, singleBlog } from "../../actions/blog";
+import { useAuth } from "../../actions/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import { QuillModules, QuillFormats } from "../../helpers/quill";
@@ -28,6 +29,7 @@ const BlogUpdate = ({ router }) => {
 
   const { error, success, /*formData,*/ title } = values;
   const token = getCookie("token");
+  const { user } = useAuth();
 
   useEffect(() => {
     setValues({ ...values /*, formData: new FormData()*/ });
@@ -107,7 +109,7 @@ const BlogUpdate = ({ router }) => {
     formData.append("categories", checkedCategory);
     formData.append("tags", checkedTag);
 
-    update(formData, token, router.query.slug).then((data) => {
+    update(formData, token, router.query.slug, user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -116,11 +118,6 @@ const BlogUpdate = ({ router }) => {
           title: "",
           success: `Blog titled "${data.title}" was successfully updated.`,
         });
-        // if (isAuth() && isAuth().role === 1) {
-        //   Router.replace(`/admin/crud/${router.query.slug}`);
-        // } else if (isAuth() && isAuth().role === 0) {
-        //   Router.replace(`/user/crud/${router.query.slug}`);
-        // }
       }
     });
   };

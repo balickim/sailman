@@ -2,7 +2,7 @@ import Router from "next/router";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-import { signin, authenticate, isAuth } from "../../actions/auth";
+import { useAuth } from "../../actions/AuthProvider";
 import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {
@@ -17,9 +17,11 @@ const SigninComponent = () => {
 
   const { email, password, error, loading, message, showForm } = values;
 
+  const { signin, authenticate, user } = useAuth();
+
   useEffect(() => {
-    isAuth() && Router.push(`/`);
-  }, []);
+    user && Router.push(`/`);
+  }, [user]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +33,7 @@ const SigninComponent = () => {
         setValues({ ...values, error: data.error, loading: false });
       } else {
         authenticate(data, () => {
-          if (isAuth() && isAuth().role === 1) {
+          if (user && user.role === 1) {
             Router.push(`/admin`);
           } else {
             Router.push(`/user`);
