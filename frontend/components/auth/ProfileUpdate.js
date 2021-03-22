@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import { Spinner } from "reactstrap";
 
-import { getCookie, updateUser } from "../../actions/auth";
+import { getCookie } from "../../actions/auth";
+import { useAuth } from "../../actions/AuthProvider";
+
 import { getProfile, update } from "../../actions/user";
 
 const ProfileUpdate = () => {
@@ -19,6 +21,8 @@ const ProfileUpdate = () => {
   });
 
   const token = getCookie("token");
+  const { updateUser } = useAuth();
+
   const {
     username,
     name,

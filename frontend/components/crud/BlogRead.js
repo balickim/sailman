@@ -7,11 +7,14 @@ import { getCookie, isAuth } from "../../actions/auth";
 import { getCategories } from "../../actions/category";
 import { list, remove } from "../../actions/blog";
 
+import { useAuth } from "../../actions/AuthProvider";
+
 const BlogRead = ({ username }) => {
   const [blogs, setBlogs] = useState([]);
   const [message, setMessage] = useState("");
 
   const token = getCookie("token");
+  const { user } = useAuth();
 
   useEffect(() => {
     loadBlogs();
@@ -28,7 +31,7 @@ const BlogRead = ({ username }) => {
   };
 
   const deleteBlog = (slug) => {
-    remove(slug, token).then((data) => {
+    remove(slug, token, user).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -46,13 +49,13 @@ const BlogRead = ({ username }) => {
   };
 
   const showUpdateButton = (blog) => {
-    if (isAuth() && isAuth().role === 0) {
+    if (user && user.role === 0) {
       return (
         <Link href={`/user/crud/${blog.slug}`}>
           <a className="btn btn-sm btn-warning">Update</a>
         </Link>
       );
-    } else if (isAuth() && isAuth().role === 1) {
+    } else if (user && user.role === 1) {
       return (
         <Link href={`/admin/crud/${blog.slug}`}>
           <a className="ml-2 btn btn-sm btn-warning">Update</a>

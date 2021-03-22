@@ -1,12 +1,14 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import { isAuth } from "../../actions/auth";
+import { useAuth } from "../../actions/AuthProvider";
 
 const Admin = ({ children }) => {
+  const { user } = useAuth();
+
   useEffect(() => {
-    if (!isAuth()) {
+    if (!user) {
       Router.push(`/signin`);
-    } else if (isAuth().role !== 1) {
+    } else if (user.role !== 1) {
       Router.push(`/`);
     }
   }, []);

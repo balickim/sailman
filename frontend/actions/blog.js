@@ -2,12 +2,12 @@ import fetch from "isomorphic-fetch";
 import queryString from "query-string";
 import { isAuth, handleResponse } from "./auth";
 
-export const create = (blog, token) => {
+export const create = (blog, token, user) => {
   let createBlogEndpoint;
 
-  if (isAuth() && isAuth().role === 1) {
+  if (user && user.role === 1) {
     createBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog`;
-  } else if (isAuth() && isAuth().role === 0) {
+  } else if (user && user.role === 0) {
     createBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog`;
   }
 
@@ -89,12 +89,12 @@ export const list = (username) => {
     .catch((err) => console.log(err));
 };
 
-export const remove = (slug, token) => {
+export const remove = (slug, token, user) => {
   let removeBlogEndpoint;
 
-  if (isAuth() && isAuth().role === 1) {
+  if (user && user.role === 1) {
     removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
-  } else if (isAuth() && isAuth().role === 0) {
+  } else if (user && user.role === 0) {
     removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
   }
 
@@ -113,12 +113,12 @@ export const remove = (slug, token) => {
     .catch((err) => console.error(err));
 };
 
-export const update = (blog, token, slug) => {
+export const update = (blog, token, slug, user) => {
   let updateBlogEndpoint;
 
-  if (isAuth() && isAuth().role === 1) {
+  if (user && user.role === 1) {
     updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
-  } else if (isAuth() && isAuth().role === 0) {
+  } else if (user && user.role === 0) {
     updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
   }
 

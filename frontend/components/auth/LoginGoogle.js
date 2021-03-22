@@ -1,21 +1,22 @@
-import { useState, useEffect } from "react";
-import { Spinner } from "reactstrap";
 import GoogleLogin from "react-google-login";
 import Router from "next/router";
 
-import { loginWithGoogle, authenticate, isAuth } from "../../actions/auth";
+import { loginWithGoogle } from "../../actions/auth";
+import { useAuth } from "../../actions/AuthProvider";
 
 const LoginGoogle = () => {
+  const { authenticate, user } = useAuth();
+
   const responseGoogle = (response) => {
     const tokenId = response.tokenId;
-    const user = { tokenId };
+    const token = { tokenId };
 
-    loginWithGoogle(user).then((data) => {
+    loginWithGoogle(token).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
         authenticate(data, () => {
-          if (isAuth() && isAuth().role === 1) {
+          if (user && user.role === 1) {
             Router.push(`/admin`);
           } else {
             Router.push(`/user`);

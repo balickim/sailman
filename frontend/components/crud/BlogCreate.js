@@ -8,6 +8,8 @@ import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { create } from "../../actions/blog";
 
+import { useAuth } from "../../actions/AuthProvider";
+
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 
@@ -50,6 +52,7 @@ const CreateBlog = ({ router }) => {
   } = values;
 
   const token = getCookie("token");
+  const { user } = useAuth();
 
   useEffect(() => {
     setValues({ ...values, formData: new FormData() });
@@ -79,7 +82,7 @@ const CreateBlog = ({ router }) => {
 
   const publishBlog = (e) => {
     e.preventDefault();
-    create(formData, token).then((data) => {
+    create(formData, token, user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
