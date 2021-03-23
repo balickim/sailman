@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
 const AuthContext = createContext({});
@@ -18,11 +19,17 @@ export const AuthProvider = ({ children }) => {
         },
         credentials: "include",
       })
+        .then((response) => {
+          if (!response.ok) {
+            throw Error(response.statusText);
+          }
+          return response;
+        })
         .then((response) => response.json())
         .then((data) => {
           setUser(data);
         })
-        .catch((err) => console.error(err));
+        .catch((err) => console.warn(err));
       setLoading(false);
     }
     loadUserFromCookies();
@@ -64,6 +71,7 @@ export const AuthProvider = ({ children }) => {
 
     return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {
       method: "GET",
+      credentials: "include",
     })
       .then((response) => {
         console.log("signout success");

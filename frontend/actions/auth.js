@@ -83,6 +83,7 @@ export const loginWithGoogle = (user) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(user),
   })
     .then((response) => {

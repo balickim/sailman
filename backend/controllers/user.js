@@ -14,16 +14,17 @@ exports.read = (req, res) => {
 };
 
 exports.me = (req, res) => {
-  req.profile.hashed_password = undefined;
-  req.profile.photo = undefined;
-  req.profile.resetPasswordLink = undefined;
-  req.profile.salt = undefined;
-  req.profile.profile = undefined;
-  req.profile.createdAt = undefined;
-  req.profile.updatedAt = undefined;
-  req.profile.__v = undefined;
-  req.profile.about = undefined;
-  return res.json(req.profile);
+  const userId = req.user._id;
+  User.findById({ _id: userId })
+    .select("_id username name email role")
+    .exec((err, data) => {
+      if (err) {
+        return res.status(400).json({
+          error: errorHandler(err),
+        });
+      }
+      res.json(data);
+    });
 };
 
 exports.publicProfile = (req, res) => {

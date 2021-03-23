@@ -16,7 +16,7 @@ exports.verifyToken = async (req, res, next) => {
   const token = req.cookies.token || "";
   try {
     if (!token) {
-      return res.status(401).json("You need to Login");
+      return res.status(401).json("User not logged in");
     }
     const decrypt = await jwt.verify(token, process.env.JWT_SECRET);
     req.user = {

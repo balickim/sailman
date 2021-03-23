@@ -17,10 +17,6 @@ const { smartTrim } = require("../helpers/blog");
 // JS
 const fs = require("fs");
 
-exports.test = (req, res) => {
-  res.json(req.user._id);
-};
-
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;

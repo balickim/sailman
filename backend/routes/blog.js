@@ -17,10 +17,7 @@ const {
   listRelated,
   listSearch,
   listByUser,
-  test,
 } = require("../controllers/blog");
-
-router.get("/test", verifyToken, test);
 
 router.post("/blog", verifyToken, adminMiddleware, create);
 router.get("/blogs", list);

@@ -95,12 +95,6 @@ exports.signin = (req, res) => {
         error: "Email and password does not match.",
       });
     }
-    // generate a token and send to client
-    // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-    //   expiresIn: "1d",
-    // });
-
-    // res.cookie("token", token, { expiresIn: "1d" });
     const { _id, username, name, email, role } = user;
 
     generateToken(res, user);
@@ -263,13 +257,11 @@ exports.googleLogin = (req, res) => {
       if (email_verified) {
         User.findOne({ email }).exec((err, user) => {
           if (user) {
-            const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-              expiresIn: "1d",
-            });
-            res.cookie("token", token, { expiresIn: "1d" });
             const { _id, email, name, role, username } = user;
+
+            generateToken(res, user);
+
             return res.json({
-              token,
               user: { _id, email, name, role, username },
             });
           } else {
@@ -284,17 +276,11 @@ exports.googleLogin = (req, res) => {
                   error: errorHandler(err),
                 });
               }
-              const token = jwt.sign(
-                { _id: data._id },
-                process.env.JWT_SECRET,
-                {
-                  expiresIn: "1d",
-                }
-              );
-              res.cookie("token", token, { expiresIn: "1d" });
               const { _id, email, name, role, username } = data;
+
+              generateToken(res, user);
+
               return res.json({
-                token,
                 user: { _id, email, name, role, username },
               });
             });
