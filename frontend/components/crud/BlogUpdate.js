@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
 import { withRouter } from "next/router";
-import { getCookie } from "../../actions/auth";
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { update, singleBlog } from "../../actions/blog";
@@ -22,13 +21,11 @@ const BlogUpdate = ({ router }) => {
   const [values, setValues] = useState({
     error: "",
     success: "",
-    // formData: "",
     title: "",
     body: "",
   });
 
-  const { error, success, /*formData,*/ title } = values;
-  const token = getCookie("token");
+  const { error, success, title } = values;
   const { user } = useAuth();
 
   useEffect(() => {
@@ -91,13 +88,11 @@ const BlogUpdate = ({ router }) => {
 
   const handleChange = (name) => (e) => {
     const value = name === "photo" ? e.target.files[0] : e.target.value;
-    // formData.set(name, value);
-    setValues({ ...values, [name]: value, /*formData,*/ error: "" });
+    setValues({ ...values, [name]: value, error: "" });
   };
 
   const handleBody = (e) => {
     setBody(e);
-    // formData.set("body", e);
   };
 
   const editBlog = (e) => {
@@ -109,7 +104,7 @@ const BlogUpdate = ({ router }) => {
     formData.append("categories", checkedCategory);
     formData.append("tags", checkedTag);
 
-    update(formData, token, router.query.slug, user).then((data) => {
+    update(formData, router.query.slug, user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -134,7 +129,6 @@ const BlogUpdate = ({ router }) => {
     }
     console.log(all);
     setCheckedCategory(all);
-    // formData.set("categories", all);
   };
 
   const handleTagToggle = (c) => () => {
@@ -148,7 +142,6 @@ const BlogUpdate = ({ router }) => {
       all.splice(clickedTag, 1);
     }
     setCheckedTag(all);
-    // formData.set("tags", all);
   };
 
   const findOutCategory = (c) => {

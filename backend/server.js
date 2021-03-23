@@ -1,8 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
-const bodyParser = require("body-parser");
-const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
@@ -30,15 +30,16 @@ mongoose
     console.log(err);
   });
 
+// cors
+// if (process.env.NODE_ENV === "production") {
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+// }
+
 // middleware
+app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
-app.use(cookieParser());
 
-// cors
-if (process.env.NODE_ENV === "production") {
-  app.use(cors({ origin: process.env.CLIENT_URL }));
-}
 // routes middleware
 app.use("/api", blogRoutes);
 app.use("/api", authRoutes);

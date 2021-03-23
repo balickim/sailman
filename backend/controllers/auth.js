@@ -1,6 +1,5 @@
 const shortId = require("shortid");
 const jwt = require("jsonwebtoken");
-const expressJwt = require("express-jwt");
 const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
 
@@ -12,6 +11,7 @@ const { sendEmailWithNodemailer } = require("../helpers/email");
 // helpers
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { response } = require("express");
+const { generateToken } = require("../helpers/token");
 
 exports.preSignup = (req, res) => {
   const { name, email, password } = req.body;
@@ -96,15 +96,17 @@ exports.signin = (req, res) => {
       });
     }
     // generate a token and send to client
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1d",
-    });
+    // const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, {
+    //   expiresIn: "1d",
+    // });
 
-    res.cookie("token", token, { expiresIn: "1d" });
+    // res.cookie("token", token, { expiresIn: "1d" });
     const { _id, username, name, email, role } = user;
 
+    generateToken(res, user);
+
     return res.json({
-      token,
+      // token,
       user: { _id, username, name, email, role },
     });
   });
@@ -116,12 +118,6 @@ exports.signout = (req, res) => {
     message: "Sign out success.",
   });
 };
-
-exports.requireSignin = expressJwt({
-  secret: process.env.JWT_SECRET,
-  algorithms: ["HS256"],
-  // userProperty: "auth",
-});
 
 exports.authMiddleware = (req, res, next) => {
   const authUserId = req.user._id;

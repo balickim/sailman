@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { getCookie } from "../../actions/auth";
 import { create, getCategories, removeCategory } from "../../actions/category";
 
 const Category = () => {
@@ -13,7 +12,6 @@ const Category = () => {
   });
 
   const { name, error, success, categories, removed, reload } = values;
-  const token = getCookie("token");
 
   useEffect(() => {
     loadCategories();
@@ -54,7 +52,7 @@ const Category = () => {
   };
 
   const deleteCategory = (slug) => {
-    removeCategory(slug, token).then((data) => {
+    removeCategory(slug).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -72,7 +70,7 @@ const Category = () => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    create({ name }, token).then((data) => {
+    create({ name }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {

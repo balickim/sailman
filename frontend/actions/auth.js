@@ -1,5 +1,4 @@
 import fetch from "isomorphic-fetch";
-import cookie from "js-cookie";
 import Router from "next/router";
 
 export const handleResponse = (response) => {
@@ -45,18 +44,6 @@ export const signup = (user) => {
       return response.json();
     })
     .catch((err) => console.error(err));
-};
-
-export const removeCookie = (key) => {
-  if (process.browser) {
-    cookie.remove(key);
-  }
-};
-
-export const getCookie = (key) => {
-  if (process.browser) {
-    return cookie.get(key);
-  }
 };
 
 export const forgotPassword = (email) => {

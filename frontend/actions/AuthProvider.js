@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
 const AuthContext = createContext({});
@@ -12,34 +11,31 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
-      const token = Cookies.get("token");
-      if (token) {
-        fetch(`${process.env.NEXT_PUBLIC_API}/user/profile`, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            Authorization: `Bearer ${token}`,
-          },
+      fetch(`${process.env.NEXT_PUBLIC_API}/user/me`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+        },
+        credentials: "include",
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setUser(data);
         })
-          .then((response) => response.json())
-          .then((data) => {
-            setUser(data);
-          })
-          .catch((err) => console.error(err));
-      }
+        .catch((err) => console.error(err));
       setLoading(false);
     }
     loadUserFromCookies();
   }, []);
 
   const signin = (user) => {
-    console.log("%cAuthProvider.js line:36 user", "color: #007acc;", user);
     return fetch(`${process.env.NEXT_PUBLIC_API}/signin`, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
+      credentials: "include",
       body: JSON.stringify(user),
     })
       .then((response) => {
@@ -49,7 +45,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const authenticate = (data, next) => {
-    Cookies.set("token", data.token, { expires: 1 });
     setUser(data.user);
     next();
   };
@@ -64,7 +59,6 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signout = () => {
-    Cookies.remove("token");
     setUser(null);
     router.push("/");
 

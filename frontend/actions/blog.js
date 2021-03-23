@@ -1,8 +1,8 @@
 import fetch from "isomorphic-fetch";
 import queryString from "query-string";
-import { isAuth, handleResponse } from "./auth";
+import { handleResponse } from "./auth";
 
-export const create = (blog, token, user) => {
+export const create = (blog, user) => {
   let createBlogEndpoint;
 
   if (user && user.role === 1) {
@@ -15,8 +15,8 @@ export const create = (blog, token, user) => {
     method: "POST",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
     body: blog,
   })
     .then((response) => {
@@ -89,7 +89,7 @@ export const list = (username) => {
     .catch((err) => console.log(err));
 };
 
-export const remove = (slug, token, user) => {
+export const remove = (slug, user) => {
   let removeBlogEndpoint;
 
   if (user && user.role === 1) {
@@ -103,8 +103,8 @@ export const remove = (slug, token, user) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
   })
     .then((response) => {
       handleResponse(response);
@@ -113,7 +113,7 @@ export const remove = (slug, token, user) => {
     .catch((err) => console.error(err));
 };
 
-export const update = (blog, token, slug, user) => {
+export const update = (blog, slug, user) => {
   let updateBlogEndpoint;
 
   if (user && user.role === 1) {
@@ -126,8 +126,8 @@ export const update = (blog, token, slug, user) => {
     method: "PUT",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
     body: blog,
   })
     .then((response) => {

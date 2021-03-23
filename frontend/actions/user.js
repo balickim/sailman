@@ -14,13 +14,13 @@ export const userPublicProfile = (username) => {
     .catch((err) => console.error(err));
 };
 
-export const getProfile = (token) => {
+export const getProfile = () => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/profile`, {
     method: "GET",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
   })
     .then((response) => {
       handleResponse(response);
@@ -29,13 +29,13 @@ export const getProfile = (token) => {
     .catch((err) => console.error(err));
 };
 
-export const update = (token, user) => {
+export const update = (user) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/update`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
     body: user,
   })
     .then((response) => {

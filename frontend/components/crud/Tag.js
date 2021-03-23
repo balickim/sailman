@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { getCookie } from "../../actions/auth";
 import { create, getTags, removeTag } from "../../actions/tag";
 
 const Tag = () => {
@@ -13,7 +12,6 @@ const Tag = () => {
   });
 
   const { name, error, success, tags, removed, reload } = values;
-  const token = getCookie("token");
 
   useEffect(() => {
     loadTags();
@@ -52,7 +50,7 @@ const Tag = () => {
   };
 
   const deleteTag = (slug) => {
-    removeTag(slug, token).then((data) => {
+    removeTag(slug).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -70,7 +68,7 @@ const Tag = () => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    create({ name }, token).then((data) => {
+    create({ name }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {

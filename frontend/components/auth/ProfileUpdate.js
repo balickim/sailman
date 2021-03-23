@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { Spinner } from "reactstrap";
 
-import { getCookie } from "../../actions/auth";
 import { useAuth } from "../../actions/AuthProvider";
 
 import { getProfile, update } from "../../actions/user";
@@ -20,7 +19,6 @@ const ProfileUpdate = () => {
     userData: "",
   });
 
-  const token = getCookie("token");
   const { updateUser } = useAuth();
 
   const {
@@ -36,7 +34,7 @@ const ProfileUpdate = () => {
   } = values;
 
   const init = () => {
-    getProfile(token).then((data) => {
+    getProfile().then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -70,7 +68,7 @@ const ProfileUpdate = () => {
       userData.append("photo", values.photo);
     }
 
-    update(token, userData).then((data) => {
+    update(userData).then((data) => {
       if (data.error) {
         setValues({
           ...values,

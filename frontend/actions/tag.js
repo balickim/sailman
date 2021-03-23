@@ -1,14 +1,14 @@
 import fetch from "isomorphic-fetch";
 import { handleResponse } from "./auth";
 
-export const create = (tag, token) => {
+export const create = (tag) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
     body: JSON.stringify(tag),
   })
     .then((response) => {
@@ -38,14 +38,14 @@ export const singleTag = (slug) => {
     .catch((err) => console.error(err));
 };
 
-export const removeTag = (slug, token) => {
+export const removeTag = (slug) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag/${slug}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
     },
+    credentials: "include",
   })
     .then((response) => {
       handleResponse(response);

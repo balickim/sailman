@@ -13,6 +13,19 @@ exports.read = (req, res) => {
   return res.json(req.profile);
 };
 
+exports.me = (req, res) => {
+  req.profile.hashed_password = undefined;
+  req.profile.photo = undefined;
+  req.profile.resetPasswordLink = undefined;
+  req.profile.salt = undefined;
+  req.profile.profile = undefined;
+  req.profile.createdAt = undefined;
+  req.profile.updatedAt = undefined;
+  req.profile.__v = undefined;
+  req.profile.about = undefined;
+  return res.json(req.profile);
+};
+
 exports.publicProfile = (req, res) => {
   let username = req.params.username;
 

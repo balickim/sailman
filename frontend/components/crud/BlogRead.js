@@ -1,10 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import Router from "next/router";
 import dayjs from "dayjs";
 
-import { getCookie, isAuth } from "../../actions/auth";
-import { getCategories } from "../../actions/category";
 import { list, remove } from "../../actions/blog";
 
 import { useAuth } from "../../actions/AuthProvider";
@@ -13,7 +10,6 @@ const BlogRead = ({ username }) => {
   const [blogs, setBlogs] = useState([]);
   const [message, setMessage] = useState("");
 
-  const token = getCookie("token");
   const { user } = useAuth();
 
   useEffect(() => {
@@ -31,7 +27,7 @@ const BlogRead = ({ username }) => {
   };
 
   const deleteBlog = (slug) => {
-    remove(slug, token, user).then((data) => {
+    remove(slug, user).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
