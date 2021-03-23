@@ -3,15 +3,7 @@ import queryString from "query-string";
 import { handleResponse } from "./auth";
 
 export const create = (blog, user) => {
-  let createBlogEndpoint;
-
-  if (user && user.role === 1) {
-    createBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog`;
-  } else if (user && user.role === 0) {
-    createBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog`;
-  }
-
-  return fetch(`${createBlogEndpoint}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/blog`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -92,9 +84,9 @@ export const list = (username) => {
 export const remove = (slug, user) => {
   let removeBlogEndpoint;
 
-  if (user && user.role === 1) {
+  if ((user && user.role === "admin") || user.role === "moderator") {
     removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
-  } else if (user && user.role === 0) {
+  } else if (user && user.role === "user") {
     removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
   }
 
@@ -116,9 +108,9 @@ export const remove = (slug, user) => {
 export const update = (blog, slug, user) => {
   let updateBlogEndpoint;
 
-  if (user && user.role === 1) {
+  if ((user && user.role === "admin") || user.role === "moderator") {
     updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
-  } else if (user && user.role === 0) {
+  } else if (user && user.role === "user") {
     updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
   }
 

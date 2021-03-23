@@ -12,6 +12,7 @@ const { sendEmailWithNodemailer } = require("../helpers/email");
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { response } = require("express");
 const { generateToken } = require("../helpers/token");
+const e = require("express");
 
 exports.preSignup = (req, res) => {
   const { name, email, password } = req.body;
@@ -43,7 +44,6 @@ exports.preSignup = (req, res) => {
 
 exports.signup = (req, res) => {
   const token = req.body.token;
-  console.log("%cauth.js line:44 token", "color: #007acc;", token);
   if (token) {
     jwt.verify(
       token,
@@ -115,35 +115,46 @@ exports.signout = (req, res) => {
 
 exports.authMiddleware = (req, res, next) => {
   const authUserId = req.user._id;
-  User.findById({ _id: authUserId }).exec((err, user) => {
-    if (err || !user) {
-      return res.status(400).json({
-        error: "User not found",
-      });
-    }
-    req.profile = user;
-    next();
-  });
+  User.findById({ _id: authUserId })
+    .select("-photo -hashed_password")
+    .exec((err, user) => {
+      if (err || !user) {
+        return res.status(400).json({
+          error: "User not found",
+        });
+      }
+      req.profile = user;
+      next();
+    });
 };
 
-exports.adminMiddleware = (req, res, next) => {
-  const adminUserId = req.user._id;
-  User.findById({ _id: adminUserId }).exec((err, user) => {
-    if (err || !user) {
-      return res.status(400).json({
-        error: "User not found",
-      });
-    }
+exports.isAuthorized = (opts, allowSameUser) => {
+  allowSameUser = allowSameUser ?? false;
 
-    if (user.role !== 1) {
-      return res.status(400).json({
+  return (req, res, next) => {
+    const appRolesList = ["user", "moderator", "admin"];
+
+    if (appRolesList.some((v) => opts.includes(v))) {
+      const { role, _id, username } = req.profile; // from db
+      const paramUsername = req.params.username; // from token
+
+      if (allowSameUser && paramUsername && username === paramUsername)
+        return next();
+
+      if (!role)
+        return res.status(403).json({
+          error: "No role submitted.",
+        });
+
+      if (opts.includes(role)) return next();
+
+      return res.status(403).json({
         error: "Admin resource. Access denied.",
       });
+    } else {
+      res.json("Role unknown or not given");
     }
-
-    req.profile = user;
-    next();
-  });
+  };
 };
 
 exports.canUpdateDeleteBlog = (req, res, next) => {
@@ -194,11 +205,6 @@ exports.forgotPassword = (req, res) => {
         return res.json({ error: errorHandler(err) });
       } else {
         sendEmailWithNodemailer(req, res, emailData);
-        // .then((sent) => {
-        //   return res.json({
-        //     message: `Reset password email has been sent to ${email}. Link expires in 10 minutes.`,
-        //   });
-        // });
       }
     });
   });

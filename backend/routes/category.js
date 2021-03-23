@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { create, list, read, remove } = require("../controllers/category");
-const { requireSignin, adminMiddleware } = require("../controllers/auth");
+const { authMiddleware, isAuthorized } = require("../controllers/auth");
 
 // validators
 const { runValidation } = require("../validators");
@@ -14,11 +14,18 @@ router.post(
   categoryCreateValidator,
   runValidation,
   verifyToken,
-  adminMiddleware,
+  authMiddleware,
+  isAuthorized(["admin"]),
   create
 );
 router.get("/category/:slug", read);
-router.delete("/category/:slug", verifyToken, adminMiddleware, remove);
+router.delete(
+  "/category/:slug",
+  verifyToken,
+  authMiddleware,
+  isAuthorized(["admin"]),
+  remove
+);
 router.get("/categories", list);
 
 module.exports = router;

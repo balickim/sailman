@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 // controllers
-const { adminMiddleware } = require("../controllers/auth");
+const { authMiddleware, isAuthorized } = require("../controllers/auth");
 const { create, list, read, remove } = require("../controllers/tag");
 
 // validators
@@ -16,11 +16,18 @@ router.post(
   tagCreateValidator,
   runValidation,
   verifyToken,
-  adminMiddleware,
+  authMiddleware,
+  isAuthorized(["admin"]),
   create
 );
 router.get("/tag/:slug", read);
-router.delete("/tag/:slug", verifyToken, adminMiddleware, remove);
+router.delete(
+  "/tag/:slug",
+  verifyToken,
+  authMiddleware,
+  isAuthorized(["admin"]),
+  remove
+);
 router.get("/tags", list);
 
 module.exports = router;

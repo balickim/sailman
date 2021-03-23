@@ -62,7 +62,7 @@ const ProfileUpdate = () => {
     userData.append("username", username);
     userData.append("name", name);
     userData.append("email", email);
-    userData.append("password", password);
+    // userData.append("password", password);
     userData.append("about", values.about);
     if (values.photo) {
       userData.append("photo", values.photo);
@@ -140,15 +140,6 @@ const ProfileUpdate = () => {
           type="text"
           className="form-control"
           value={email}
-        />
-      </div>
-      <div className="form-group">
-        <label className="text-muted">Password</label>
-        <input
-          onChange={handleChange("password")}
-          type="password"
-          className="form-control"
-          value={password}
         />
       </div>
       <div>

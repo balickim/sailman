@@ -5,7 +5,7 @@ import { loginWithGoogle } from "../../actions/auth";
 import { useAuth } from "../../actions/AuthProvider";
 
 const LoginGoogle = () => {
-  const { authenticate, user } = useAuth();
+  const { authenticate } = useAuth();
 
   const responseGoogle = (response) => {
     const tokenId = response.tokenId;
@@ -16,11 +16,7 @@ const LoginGoogle = () => {
         console.log(data.error);
       } else {
         authenticate(data, () => {
-          if (user && user.role === 1) {
-            Router.push(`/admin`);
-          } else {
-            Router.push(`/user`);
-          }
+          Router.push(`/user`);
         });
       }
     });

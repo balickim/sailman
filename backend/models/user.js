@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { ObjectId } = mongoose.Schema;
 const crypto = require("crypto");
 
 const userSchema = new mongoose.Schema(
@@ -38,9 +39,10 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     role: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: "user",
     },
+
     photo: {
       data: Buffer,
       contentType: String,

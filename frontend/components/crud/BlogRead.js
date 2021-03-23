@@ -45,13 +45,13 @@ const BlogRead = ({ username }) => {
   };
 
   const showUpdateButton = (blog) => {
-    if (user && user.role === 0) {
+    if (user && user.role === "user") {
       return (
         <Link href={`/user/crud/${blog.slug}`}>
           <a className="btn btn-sm btn-warning">Update</a>
         </Link>
       );
-    } else if (user && user.role === 1) {
+    } else if ((user && user.role === "admin") || user.role === "moderator") {
       return (
         <Link href={`/admin/crud/${blog.slug}`}>
           <a className="ml-2 btn btn-sm btn-warning">Update</a>

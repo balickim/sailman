@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useAuth } from "../actions/AuthProvider";
 import {
   Collapse,
   Navbar,
@@ -12,6 +13,8 @@ import Search from "./blog/Search";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { signout, user } = useAuth();
 
   const toggle = () => setIsOpen(!isOpen);
 
@@ -31,21 +34,31 @@ const Header = (props) => {
                 <NavLink>Blogs</NavLink>
               </Link>
             </NavItem>
-            <>
-              <NavItem style={{ cursor: "pointer" }}>
-                <Link href="/signup">
-                  <NavLink>Signup</NavLink>
-                </Link>
-              </NavItem>
-              <NavItem style={{ cursor: "pointer" }}>
-                <Link href="/signin">
-                  <NavLink>Signin</NavLink>
-                </Link>
-              </NavItem>
-            </>
+            <NavItem>
+              <Link href="/user">
+                <NavLink
+                  style={{ cursor: "pointer" }}
+                >{`${user.name} Dashboard`}</NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <NavLink
+                style={{ cursor: "pointer" }}
+                onClick={() => signout(() => Router.replace(`/signin`))}
+              >
+                Signout
+              </NavLink>
+            </NavItem>
             <NavItem>
               <Link href="/contact">
                 <NavLink style={{ cursor: "pointer" }}>Contact</NavLink>
+              </Link>
+            </NavItem>
+            <NavItem>
+              <Link href="/user/crud/blog">
+                <NavLink className="btn btn-primary text-light">
+                  Add blog
+                </NavLink>
               </Link>
             </NavItem>
           </Nav>
