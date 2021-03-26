@@ -9,6 +9,7 @@ const subPages = [
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 const Website = require("../models/websites");
+const SHA256 = require("crypto-js/sha256");
 
 class kubryk {
   static get() {
@@ -77,6 +78,15 @@ class kubryk {
       data.forEach(function (el, i) {
         el.forEach((value) => {
           let website = new Website({
+            index: SHA256(
+              value.route +
+                value.dateRange +
+                value.price +
+                value.freeSits +
+                value.link +
+                value.area +
+                url
+            ).toString(),
             route: value.route,
             dateRange: value.dateRange,
             price: parseInt(value.price),
@@ -85,11 +95,8 @@ class kubryk {
             area: value.area,
             siteUrl: url,
           });
-          website.save((err, data) => {
-            if (err) {
-              console.error(err);
-            }
-          });
+          // website.save(data);
+          website.update(data, { upsert: true });
         });
       });
     });

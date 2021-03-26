@@ -3,6 +3,7 @@ const url = "https://sailingfactory.pl/rejsy-morskie";
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
 const Website = require("../models/websites");
+const SHA256 = require("crypto-js/sha256");
 
 class sailingFactory {
   static get() {
@@ -35,17 +36,14 @@ class sailingFactory {
       let now = new Date().toISOString();
       console.log(now + " - " + url);
       data.forEach(function (el, i) {
-        console.log(el.title);
         let website = new Website({
+          index: SHA256(el.title + el.link + url).toString(),
           title: el.title,
           link: el.link,
           siteUrl: url,
         });
-        website.save((err, data) => {
-          if (err) {
-            console.error(err);
-          }
-        });
+        // website.save(data);
+        website.update(data, { upsert: true });
       });
     });
   }

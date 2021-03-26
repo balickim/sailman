@@ -1,6 +1,11 @@
 const mongoose = require("mongoose");
 
 const websiteSchema = new mongoose.Schema({
+  index: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   title: {
     type: String,
   },

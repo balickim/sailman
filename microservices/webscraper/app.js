@@ -25,11 +25,9 @@ mongoose
   });
 
 // cron.schedule("*/1 * * * *", () => {
-// sailingFactory.saveToDb();
-//   kubryk.saveToDb();
-// });
-// sailingFactory.saveToDb();
+sailingFactory.saveToDb();
 kubryk.saveToDb();
+// });
 
 app.listen(PORT, function () {
   console.log("App listening on port " + PORT);

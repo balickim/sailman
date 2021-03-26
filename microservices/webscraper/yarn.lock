@@ -538,6 +538,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"crypto-js@npm:^4.0.0":
+  version: 4.0.0
+  resolution: "crypto-js@npm:4.0.0"
+  checksum: fdd1415b9e4b317f6ac7f055a00495dabea6aa93ab82ccd63866b0a76d2da9587942764816a8a7976cb23b8bbfd7eea23ccb852b3fef218d166cc5db8c008ab3
+  languageName: node
+  linkType: hard
+
 "crypto-random-string@npm:^2.0.0":
   version: 2.0.0
   resolution: "crypto-random-string@npm:2.0.0"
@@ -2669,6 +2676,7 @@ fsevents@~2.3.1:
   resolution: "webscraper@workspace:."
   dependencies:
     cheerio: ^1.0.0-rc.5
+    crypto-js: ^4.0.0
     dotenv: ^8.2.0
     express: ^4.17.1
     mongoose: ^5.12.2
