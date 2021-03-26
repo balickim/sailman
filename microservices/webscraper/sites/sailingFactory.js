@@ -1,4 +1,4 @@
-const url = "https://sailingfactory.pl/rejsy-morskie/";
+const url = "https://sailingfactory.pl/rejsy-morskie";
 
 const cheerio = require("cheerio");
 const fetch = require("node-fetch");
@@ -33,12 +33,13 @@ class sailingFactory {
   static saveToDb() {
     this.get().then((data) => {
       let now = new Date().toISOString();
-      console.log(now + " - https://sailingfactory.pl/rejsy-morskie/");
+      console.log(now + " - " + url);
       data.forEach(function (el, i) {
+        console.log(el.title);
         let website = new Website({
           title: el.title,
           link: el.link,
-          siteUrl: "https://sailingfactory.pl/rejsy-morskie/",
+          siteUrl: url,
         });
         website.save((err, data) => {
           if (err) {
