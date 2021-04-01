@@ -6,6 +6,9 @@
 .env.build
 # Dependency directories
 node_modules/
+cypress/videos
+cypress/screenshots
+cypress/integration/examples
 # Logs
 npm-debug.log*
 yarn-debug.log*

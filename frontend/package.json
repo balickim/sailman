@@ -6,12 +6,15 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "cypress:open": "npx cypress open",
+    "cypress:run": "npx cypress run"
   },
   "author": "balickim",
   "license": "ISC",
   "dependencies": {
     "bootstrap": "^4.6.0",
+    "cypress": "^6.8.0",
     "dayjs": "^1.10.4",
     "html-react-parser": "^1.2.4",
     "isomorphic-fetch": "^3.0.0",
