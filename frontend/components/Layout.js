@@ -2,7 +2,7 @@ import Header from "./Header";
 import HeaderUser from "./HeaderUser";
 import HeaderModerator from "./HeaderModerator";
 import HeaderAdmin from "./HeaderAdmin";
-import { useAuth } from "../actions/AuthProvider";
+import { useAuth } from "../components/auth/AuthProvider";
 import NProgress from "nprogress";
 import Router from "next/router";
 

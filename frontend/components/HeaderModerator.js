@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../actions/AuthProvider";
+import { useAuth } from "../components/auth/AuthProvider";
 import {
   Collapse,
   Navbar,

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Spinner } from "reactstrap";
 
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 import { getProfile, update } from "../../actions/user";
 

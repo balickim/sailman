@@ -1,5 +1,4 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 
 const AuthContext = createContext({});

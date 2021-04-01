@@ -5,7 +5,7 @@ import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { create } from "../../actions/announcement";
 
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import { QuillModules, QuillFormats } from "../../helpers/quill";

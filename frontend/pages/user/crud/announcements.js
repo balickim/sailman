@@ -1,6 +1,6 @@
 import Layout from "../../../components/Layout";
 import AnnouncementRead from "../../../components/crud/AnnouncementRead";
-import { useAuth } from "../../../actions/AuthProvider";
+import { useAuth } from "../../../components/auth/AuthProvider";
 
 const Announcements = () => {
   const { user } = useAuth();

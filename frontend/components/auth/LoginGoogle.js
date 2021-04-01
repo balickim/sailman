@@ -2,7 +2,7 @@ import GoogleLogin from "react-google-login";
 import Router from "next/router";
 
 import { loginWithGoogle } from "../../actions/auth";
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 const LoginGoogle = () => {
   const { authenticate } = useAuth();

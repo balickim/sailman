@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Router from "next/router";
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 const Admin = ({ children }) => {
   const { user } = useAuth();

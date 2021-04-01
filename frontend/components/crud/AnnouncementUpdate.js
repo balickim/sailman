@@ -4,7 +4,7 @@ import { withRouter } from "next/router";
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { update, singleAnnouncement } from "../../actions/announcement";
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import { QuillModules, QuillFormats } from "../../helpers/quill";

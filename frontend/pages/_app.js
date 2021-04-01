@@ -4,7 +4,7 @@ import "react-quill/dist/quill.snow.css";
 import "../public/styles.css";
 import "dayjs/locale/en";
 
-import { AuthProvider, ProtectRoute } from "../actions/AuthProvider";
+import { AuthProvider, ProtectRoute } from "../components/auth/AuthProvider";
 
 // This default export is required in a new `pages/_app.js` file.
 function MyApp({ Component, pageProps }) {

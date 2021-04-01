@@ -2,7 +2,7 @@ import Router from "next/router";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {

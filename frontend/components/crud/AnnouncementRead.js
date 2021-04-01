@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import { list, remove } from "../../actions/announcement";
 
-import { useAuth } from "../../actions/AuthProvider";
+import { useAuth } from "../../components/auth/AuthProvider";
 
 const AnnouncementRead = ({ username }) => {
   const [announcements, setAnnouncements] = useState([]);
