@@ -7,8 +7,8 @@ exports.sendEmailWithNodemailer = (req, res, emailData) => {
     secure: false,
     requireTLS: true,
     auth: {
-      user: "mbalicki.btc@gmail.com",
-      pass: "xfhfprpidznyjrqj",
+      user: process.env.GOOGLE_APP_EMAIL,
+      pass: process.env.GOOGLE_APP_PASSWORD,
     },
     tls: {
       ciphers: "SSLv3",

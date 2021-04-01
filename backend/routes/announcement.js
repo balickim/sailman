@@ -29,12 +29,14 @@ router.get("/announcement/:slug", read);
 router.delete(
   "/announcement/:slug",
   verifyToken,
+  authMiddleware,
   isAuthorized(["admin", "moderator"]),
   remove
 );
 router.put(
   "/announcement/:slug",
   verifyToken,
+  authMiddleware,
   isAuthorized(["admin", "moderator"]),
   update
 );
