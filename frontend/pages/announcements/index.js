@@ -4,30 +4,30 @@ import { withRouter } from "next/router";
 import { useState } from "react";
 
 import Layout from "../../components/Layout";
-import Card from "../../components/blog/Card";
-import { listBlogsWithCategoriesAndTags } from "../../actions/blog";
+import Card from "../../components/announcement/Card";
+import { listAnnouncementsWithCategoriesAndTags } from "../../actions/announcement";
 
-const Blogs = ({
-  blogs,
+const Announcements = ({
+  announcements,
   categories,
   tags,
-  totalBlogs,
-  blogsLimit,
-  blogsSkip,
+  totalAnnouncements,
+  announcementsLimit,
+  announcementsSkip,
   router,
 }) => {
-  const [limit, setLimit] = useState(blogsLimit);
+  const [limit, setLimit] = useState(announcementsLimit);
   const [skip, setSkip] = useState(0);
-  const [size, setSize] = useState(totalBlogs);
-  const [loadedBlogs, setLoadedBlogs] = useState([]);
+  const [size, setSize] = useState(totalAnnouncements);
+  const [loadedAnnouncements, setLoadedAnnouncements] = useState([]);
 
   const loadMore = () => {
     let toSkip = skip + limit;
-    listBlogsWithCategoriesAndTags(toSkip, limit).then((data) => {
+    listAnnouncementsWithCategoriesAndTags(toSkip, limit).then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
-        setLoadedBlogs([...loadedBlogs, ...data.blogs]);
+        setLoadedAnnouncements([...loadedAnnouncements, ...data.announcements]);
         setSize(data.size);
         setSkip(toSkip);
       }
@@ -76,11 +76,11 @@ const Blogs = ({
     </Head>
   );
 
-  const showAllBlogs = () => {
-    return blogs.map((blog, i) => {
+  const showAllAnnouncements = () => {
+    return announcements.map((announcement, i) => {
       return (
         <article key={i}>
-          <Card blog={blog} />
+          <Card announcement={announcement} />
           <hr />
         </article>
       );
@@ -105,10 +105,10 @@ const Blogs = ({
     ));
   };
 
-  const showLoadedBlogs = () => {
-    return loadedBlogs.map((blog, i) => (
+  const showLoadedAnnouncements = () => {
+    return loadedAnnouncements.map((announcement, i) => (
       <article key={i}>
-        <Card blog={blog} />
+        <Card announcement={announcement} />
       </article>
     ));
   };
@@ -122,7 +122,7 @@ const Blogs = ({
             <header>
               <div className="col-md-12 pt-3">
                 <h1 className="display-4 font-weight-bold text-center">
-                  Blogs
+                  Announcements
                 </h1>
               </div>
               <section>
@@ -134,8 +134,8 @@ const Blogs = ({
               </section>
             </header>
           </div>
-          <div className="container-fluid">{showAllBlogs()}</div>
-          <div className="container-fluid">{showLoadedBlogs()}</div>
+          <div className="container-fluid">{showAllAnnouncements()}</div>
+          <div className="container-fluid">{showLoadedAnnouncements()}</div>
           <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
         </main>
       </Layout>
@@ -143,23 +143,23 @@ const Blogs = ({
   );
 };
 
-Blogs.getInitialProps = () => {
+Announcements.getInitialProps = () => {
   let skip = 0;
   let limit = 2;
-  return listBlogsWithCategoriesAndTags(skip, limit).then((data) => {
+  return listAnnouncementsWithCategoriesAndTags(skip, limit).then((data) => {
     if (data.error) {
       console.log(data.error);
     } else {
       return {
-        blogs: data.blogs,
+        announcements: data.announcements,
         categories: data.categories,
         tags: data.tags,
-        totalBlogs: data.size,
-        blogsLimit: limit,
-        blogsSkip: skip,
+        totalAnnouncements: data.size,
+        announcementsLimit: limit,
+        announcementsSkip: skip,
       };
     }
   });
 };
 
-export default withRouter(Blogs);
+export default withRouter(Announcements);

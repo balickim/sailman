@@ -1,10 +1,10 @@
 import Head from "next/head";
 import Layout from "../../components/Layout";
-import Card from "../../components/blog/Card";
+import Card from "../../components/announcement/Card";
 
 import { singleCategory } from "../../actions/category";
 
-const Category = ({ category, blogs, query }) => {
+const Category = ({ category, announcements, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
   const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
@@ -44,8 +44,8 @@ const Category = ({ category, blogs, query }) => {
             <header>
               <div className="col-md-12 pt-3">
                 <h1 className="display-4 font-weight-bold">{category.name}</h1>
-                {blogs.map((b, i) => (
-                  <Card key={i} blog={b} />
+                {announcements.map((b, i) => (
+                  <Card key={i} announcement={b} />
                 ))}
               </div>
             </header>
@@ -61,7 +61,11 @@ Category.getInitialProps = ({ query }) => {
     if (data.error) {
       console.log(data.error);
     } else {
-      return { category: data.category, blogs: data.blogs, query };
+      return {
+        category: data.category,
+        announcements: data.announcements,
+        query,
+      };
     }
   });
 };

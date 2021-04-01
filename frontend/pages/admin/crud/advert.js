@@ -1,18 +1,18 @@
 import Layout from "../../../components/Layout";
 import Admin from "../../../components/auth/Admin";
-import BlogRead from "../../../components/crud/BlogRead";
+import AnnouncementCreate from "../../../components/crud/AnnouncementCreate";
 
-const Blogs = () => {
+const Announcement = () => {
   return (
     <Layout>
       <Admin>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">
-              <h2>Manage blogs</h2>
+              <h2>Manage a new announcement</h2>
             </div>
             <div className="col-md-12">
-              <BlogRead />
+              <AnnouncementCreate />
             </div>
           </div>
         </div>
@@ -21,4 +21,4 @@ const Blogs = () => {
   );
 };
 
-export default Blogs;
+export default Announcement;

@@ -5,13 +5,13 @@ import dayjs from "dayjs";
 import { userPublicProfile } from "../../actions/user";
 import Layout from "../../components/Layout";
 
-const UserProfile = ({ user, blogs, query }) => {
-  const showUserBlogs = () => {
-    return blogs.map((blog, i) => {
+const UserProfile = ({ user, announcements, query }) => {
+  const showUserAnnouncements = () => {
+    return announcements.map((announcement, i) => {
       return (
         <div className="mt-4 mb-4" key={i}>
-          <Link href={`/blogs/${blog.slug}`}>
-            <a className="lead">{blog.title}</a>
+          <Link href={`/announcements/${announcement.slug}`}>
+            <a className="lead">{announcement.title}</a>
           </Link>
         </div>
       );
@@ -90,9 +90,9 @@ const UserProfile = ({ user, blogs, query }) => {
               <div className="card">
                 <div className="card-body">
                   <h5 className="card-title bg-primary pt-4 pb-4 pl-4 pr-4 text-light">
-                    Recent blogs by {user.name}
+                    Recent announcements by {user.name}
                   </h5>
-                  {showUserBlogs()}
+                  {showUserAnnouncements()}
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@ UserProfile.getInitialProps = ({ query }) => {
     if (data.error) {
       return console.log("ERROR " + data.error);
     } else {
-      return { user: data.user, blogs: data.blogs, query };
+      return { user: data.user, announcements: data.announcements, query };
     }
   });
 };

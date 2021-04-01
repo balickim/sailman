@@ -3,7 +3,7 @@ const formidable = require("formidable");
 const fs = require("fs");
 
 const User = require("../models/user");
-const Blog = require("../models/blog");
+const Announcement = require("../models/announcement");
 
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { result } = require("lodash");
@@ -31,7 +31,7 @@ exports.publicProfile = (req, res) => {
   let username = req.params.username;
 
   let user;
-  let blogs;
+  let announcements;
 
   User.findOne({ username }).exec((err, userFromDB) => {
     if (err || !userFromDB) {
@@ -40,7 +40,7 @@ exports.publicProfile = (req, res) => {
       });
     }
     user = userFromDB;
-    Blog.find({ postedBy: user._id })
+    Announcement.find({ postedBy: user._id })
       .populate("categories", "_id name slug")
       .populate("tags", "_id name slug")
       .populate("postedBy", "_id name")
@@ -58,7 +58,7 @@ exports.publicProfile = (req, res) => {
         user.hashed_password = undefined;
         res.json({
           user,
-          blogs: data,
+          announcements: data,
         });
       });
   });

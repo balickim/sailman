@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { ObjectId } = mongoose.Schema;
 
-const blogSchema = new mongoose.Schema(
+const announcementSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -31,6 +31,9 @@ const blogSchema = new mongoose.Schema(
     mdesc: {
       type: String,
     },
+    language: {
+      type: String,
+    },
     photo: {
       data: Buffer,
       contentType: String,
@@ -45,4 +48,4 @@ const blogSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Blog", blogSchema);
+module.exports = mongoose.model("Announcement", announcementSchema);

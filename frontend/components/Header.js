@@ -8,7 +8,7 @@ import {
   NavLink,
 } from "reactstrap";
 import Link from "next/link";
-import Search from "./blog/Search";
+import Search from "./announcement/Search";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,8 +27,8 @@ const Header = (props) => {
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem style={{ cursor: "pointer" }}>
-              <Link href="/blogs">
-                <NavLink>Blogs</NavLink>
+              <Link href="/announcements">
+                <NavLink>Announcements</NavLink>
               </Link>
             </NavItem>
             <>

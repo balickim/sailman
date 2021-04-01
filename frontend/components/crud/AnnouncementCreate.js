@@ -3,21 +3,21 @@ import dynamic from "next/dynamic";
 import { withRouter } from "next/router";
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
-import { create } from "../../actions/blog";
+import { create } from "../../actions/announcement";
 
 import { useAuth } from "../../actions/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 
-const CreateBlog = ({ router }) => {
-  const blogFromLS = () => {
+const CreateAnnouncement = ({ router }) => {
+  const announcementFromLS = () => {
     if (typeof window === "undefined") {
       return false;
     }
 
-    if (localStorage.getItem("blog")) {
-      return JSON.parse(localStorage.getItem("blog"));
+    if (localStorage.getItem("announcement")) {
+      return JSON.parse(localStorage.getItem("announcement"));
     } else {
       return false;
     }
@@ -29,7 +29,7 @@ const CreateBlog = ({ router }) => {
   const [checkedCategory, setCheckedCategory] = useState([]);
   const [checkedTag, setCheckedTag] = useState([]);
 
-  const [body, setBody] = useState(blogFromLS());
+  const [body, setBody] = useState(announcementFromLS());
   const [values, setValues] = useState({
     error: "",
     sizeError: "",
@@ -76,7 +76,7 @@ const CreateBlog = ({ router }) => {
     });
   };
 
-  const publishBlog = (e) => {
+  const publishAnnouncement = (e) => {
     e.preventDefault();
     create(formData, user).then((data) => {
       if (data.error) {
@@ -86,7 +86,7 @@ const CreateBlog = ({ router }) => {
           ...values,
           title: "",
           error: "",
-          success: `A new blog titled "${data.title}" was created.`,
+          success: `A new announcement titled "${data.title}" was created.`,
         });
         setBody("");
         setCategories([]);
@@ -105,7 +105,7 @@ const CreateBlog = ({ router }) => {
     setBody(e);
     formData.set("body", e);
     if (typeof window !== "undefined") {
-      localStorage.setItem("blog", JSON.stringify(e));
+      localStorage.setItem("announcement", JSON.stringify(e));
     }
   };
 
@@ -187,9 +187,9 @@ const CreateBlog = ({ router }) => {
     </div>
   );
 
-  const createBlogForm = () => {
+  const createAnnouncementForm = () => {
     return (
-      <form onSubmit={publishBlog}>
+      <form onSubmit={publishAnnouncement}>
         <div className="form-group">
           <label className="text-muted">Title</label>
           <input
@@ -223,7 +223,7 @@ const CreateBlog = ({ router }) => {
     <div className="container-fluid pb-3">
       <div className="row">
         <div className="col-md-8">
-          {createBlogForm()}
+          {createAnnouncementForm()}
           <div className="pt-3">
             {showError()}
             {showSuccess()}
@@ -267,4 +267,4 @@ const CreateBlog = ({ router }) => {
   );
 };
 
-export default withRouter(CreateBlog);
+export default withRouter(CreateAnnouncement);

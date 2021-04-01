@@ -1,5 +1,5 @@
 const Category = require("../models/category");
-const Blog = require("../models/blog");
+const Announcement = require("../models/announcement");
 
 const slugify = require("slugify");
 const { errorHandler } = require("../helpers/dbErrorHandler");
@@ -40,7 +40,7 @@ exports.read = (req, res) => {
         error: errorHandler(err),
       });
     }
-    Blog.find({ categories: category })
+    Announcement.find({ categories: category })
       .populate("categories", "_id name slug")
       .populate("tags", "_id name slug")
       .populate("postedBy", "_id name")
@@ -53,7 +53,7 @@ exports.read = (req, res) => {
             error: errorHandler(err),
           });
         } else {
-          res.json({ category, blogs: data });
+          res.json({ category, announcements: data });
         }
       });
   });

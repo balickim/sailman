@@ -1,16 +1,16 @@
 import Layout from "../../../components/Layout";
-import BlogCreate from "../../../components/crud/BlogCreate";
+import AnnouncementCreate from "../../../components/crud/AnnouncementCreate";
 
-const Blog = () => {
+const Announcement = () => {
   return (
     <Layout>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12 pt-5 pb-5">
-            <h2>Manage a new blog</h2>
+            <h2>Manage a new announcement</h2>
           </div>
           <div className="col-md-12">
-            <BlogCreate />
+            <AnnouncementCreate />
           </div>
         </div>
       </div>
@@ -18,4 +18,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Announcement;

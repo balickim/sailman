@@ -104,14 +104,14 @@ export const ProtectRoute = ({ children }) => {
 
   const AllowPathsList = [
     "/",
-    "/blogs",
+    "/announcements",
     "/signup",
     "/signin",
     "/contact",
     "/auth/account/activate/[token]",
     "/auth/password/forgot",
     "/auth/password/reset/[token]",
-    "/blogs/[slug]",
+    "/announcements/[slug]",
   ];
 
   if (

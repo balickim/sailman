@@ -2,7 +2,7 @@ import Link from "next/link";
 import parseToHTML from "html-react-parser";
 import { useState, useEffect } from "react";
 
-import { listSearch } from "../../actions/blog";
+import { listSearch } from "../../actions/announcement";
 
 const Search = () => {
   const [values, setValues] = useState({
@@ -21,7 +21,7 @@ const Search = () => {
         ...values,
         results: data,
         searched: true,
-        message: `${data.length} blogs found`,
+        message: `${data.length} announcements found`,
       });
     });
   };
@@ -35,16 +35,16 @@ const Search = () => {
     });
   };
 
-  const searchedBlogs = (results = []) => {
+  const searchedAnnouncements = (results = []) => {
     return (
       <div className="jumbotron bg-white">
         {message && <p className="pt-4 text-muted font-italic">{message}</p>}
 
-        {results.map((blog, i) => {
+        {results.map((announcement, i) => {
           return (
             <div key={i}>
-              <Link href={`/blogs/${blog.slug}`}>
-                <a className="text-primary">{blog.title}</a>
+              <Link href={`/announcements/${announcement.slug}`}>
+                <a className="text-primary">{announcement.title}</a>
               </Link>
             </div>
           );
@@ -60,7 +60,7 @@ const Search = () => {
           <input
             type="search"
             className="form-control"
-            placeholder="Search blogs"
+            placeholder="Search announcements"
             onChange={handleChange}
           />
         </div>
@@ -79,7 +79,7 @@ const Search = () => {
       <div className="pt-3 pb-5">{searchForm()}</div>
       {searched && (
         <div style={{ marginTop: "-120px", marginBottom: "-80px" }}>
-          {searchedBlogs(results)}
+          {searchedAnnouncements(results)}
         </div>
       )}
     </div>

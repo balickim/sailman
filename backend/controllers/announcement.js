@@ -1,5 +1,5 @@
 // models
-const Blog = require("../models/blog");
+const Announcement = require("../models/announcement");
 const Category = require("../models/category");
 const Tag = require("../models/tag");
 const User = require("../models/user");
@@ -12,7 +12,7 @@ const _ = require("lodash");
 
 // helpers
 const { errorHandler } = require("../helpers/dbErrorHandler");
-const { smartTrim } = require("../helpers/blog");
+const { smartTrim } = require("../helpers/announcement");
 
 // JS
 const fs = require("fs");
@@ -53,14 +53,14 @@ exports.create = (req, res) => {
       });
     }
 
-    let blog = new Blog();
-    blog.title = title;
-    blog.body = body;
-    blog.excerpt = smartTrim(body, 320, " ", "...");
-    blog.slug = slugify(title).toLowerCase();
-    blog.mtitle = `${title} - ${process.env.APP_NAME}`;
-    blog.mdesc = stripHtml(body.substr(0, 160)).result;
-    blog.postedBy = req.user._id;
+    let announcement = new Announcement();
+    announcement.title = title;
+    announcement.body = body;
+    announcement.excerpt = smartTrim(body, 320, " ", "...");
+    announcement.slug = slugify(title).toLowerCase();
+    announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
+    announcement.mdesc = stripHtml(body.substr(0, 160)).result;
+    announcement.postedBy = req.user._id;
 
     let arrayOfCategories = categories && categories.split(",");
     let arrayOfTags = tags && tags.split(",");
@@ -72,17 +72,17 @@ exports.create = (req, res) => {
         });
       }
 
-      blog.photo.data = fs.readFileSync(files.photo.path);
-      blog.photo.contentType = files.photo.type;
+      announcement.photo.data = fs.readFileSync(files.photo.path);
+      announcement.photo.contentType = files.photo.type;
     }
 
-    blog.save((err, result) => {
+    announcement.save((err, result) => {
       if (err) {
         return res.status(400).json({
           error: errorHandler(err),
         });
       }
-      Blog.findByIdAndUpdate(
+      Announcement.findByIdAndUpdate(
         result._id,
         { $push: { categories: arrayOfCategories } },
         { new: true }
@@ -92,7 +92,7 @@ exports.create = (req, res) => {
             error: errorHandler(err),
           });
         } else {
-          Blog.findByIdAndUpdate(
+          Announcement.findByIdAndUpdate(
             result._id,
             { $push: { tags: arrayOfTags } },
             { new: true }
@@ -112,7 +112,7 @@ exports.create = (req, res) => {
 };
 
 exports.list = (req, res) => {
-  Blog.find({})
+  Announcement.find({})
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username profile")
@@ -129,15 +129,15 @@ exports.list = (req, res) => {
     });
 };
 
-exports.listAllBlogsCategoriesTags = (req, res) => {
+exports.listAllAnnouncementsCategoriesTags = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 10;
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
-  let blogs;
+  let announcements;
   let categories;
   let tags;
 
-  Blog.find({})
+  Announcement.find({})
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username profile")
@@ -153,7 +153,7 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
           error: errorHandler(err),
         });
       }
-      blogs = data;
+      announcements = data;
       Category.find({}).exec((err, c) => {
         if (err) {
           return res.json({
@@ -170,14 +170,19 @@ exports.listAllBlogsCategoriesTags = (req, res) => {
         }
         tags = t;
 
-        res.json({ blogs, categories, tags, size: blogs.length });
+        res.json({
+          announcements,
+          categories,
+          tags,
+          size: announcements.length,
+        });
       });
     });
 };
 
 exports.read = (req, res) => {
   const slug = req.params.slug.toLowerCase();
-  Blog.findOne({ slug })
+  Announcement.findOne({ slug })
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
@@ -196,20 +201,20 @@ exports.read = (req, res) => {
 
 exports.remove = (req, res) => {
   const slug = req.params.slug.toLowerCase();
-  Blog.findOneAndRemove({ slug }).exec((err, data) => {
+  Announcement.findOneAndRemove({ slug }).exec((err, data) => {
     if (err) {
       return res.json({
         error: errorHandler(err),
       });
     }
-    res.json({ message: "Blog was deleted successfully." });
+    res.json({ message: "Announcement was deleted successfully." });
   });
 };
 
 exports.update = (req, res) => {
   const slug = req.params.slug.toLowerCase();
 
-  Blog.findOne({ slug }).exec((err, oldBlog) => {
+  Announcement.findOne({ slug }).exec((err, oldAnnouncement) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler(err),
@@ -226,23 +231,23 @@ exports.update = (req, res) => {
         });
       }
 
-      let slugBeforeMerge = oldBlog.slug;
-      oldBlog = _.merge(oldBlog, fields);
-      oldBlog.slug = slugBeforeMerge;
+      let slugBeforeMerge = oldAnnouncement.slug;
+      oldAnnouncement = _.merge(oldAnnouncement, fields);
+      oldAnnouncement.slug = slugBeforeMerge;
 
       const { body, desc, categories, tags } = fields;
 
       if (body) {
-        oldBlog.excerpt = smartTrim(body, 320, " ", "...");
-        oldBlog.mdesc = stripHtml(body.substr(0, 160)).result;
+        oldAnnouncement.excerpt = smartTrim(body, 320, " ", "...");
+        oldAnnouncement.mdesc = stripHtml(body.substr(0, 160)).result;
       }
 
       if (categories) {
-        oldBlog.categories = categories.split(",");
+        oldAnnouncement.categories = categories.split(",");
       }
 
       if (tags) {
-        oldBlog.tags = tags.split(",");
+        oldAnnouncement.tags = tags.split(",");
       }
 
       if (files.photo) {
@@ -252,11 +257,11 @@ exports.update = (req, res) => {
           });
         }
 
-        oldBlog.photo.data = fs.readFileSync(files.photo.path);
-        oldBlog.photo.contentType = files.photo.type;
+        oldAnnouncement.photo.data = fs.readFileSync(files.photo.path);
+        oldAnnouncement.photo.contentType = files.photo.type;
       }
 
-      oldBlog.save((err, result) => {
+      oldAnnouncement.save((err, result) => {
         if (err) {
           return res.status(400).json({
             error: errorHandler(err),
@@ -270,54 +275,54 @@ exports.update = (req, res) => {
 
 exports.photo = (req, res) => {
   const slug = req.params.slug.toLowerCase();
-  Blog.findOne({ slug })
+  Announcement.findOne({ slug })
     .select("photo")
-    .exec((err, blog) => {
+    .exec((err, announcement) => {
       if (err) {
         return res.json({
           error: errorHandler(err),
         });
       }
-      res.set("Content-Type", blog.photo.contentType);
-      return res.send(blog.photo.data);
+      res.set("Content-Type", announcement.photo.contentType);
+      return res.send(announcement.photo.data);
     });
 };
 
 exports.listRelated = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 3;
-  const { _id, categories } = req.body.blog;
+  const { _id, categories } = req.body.announcement;
 
-  Blog.find({ _id: { $ne: _id }, categories: { $in: categories } })
+  Announcement.find({ _id: { $ne: _id }, categories: { $in: categories } })
     .limit(limit)
     .populate("postedBy", "_id name username profile")
     .select("title slug excerpt postedBy createdAt updatedAt")
-    .exec((err, blogs) => {
+    .exec((err, announcements) => {
       if (err) {
         return res.status(400).json({
-          error: "Blogs not found",
+          error: "Announcements not found",
         });
       }
-      res.json(blogs);
+      res.json(announcements);
     });
 };
 
 exports.listSearch = (req, res) => {
   const { search } = req.query;
   if (search) {
-    Blog.find(
+    Announcement.find(
       {
         $or: [
           { title: { $regex: search, $options: "i" } },
           { body: { $regex: search, $options: "i" } },
         ],
       },
-      (err, blogs) => {
+      (err, announcements) => {
         if (err) {
           return res.status(400).json({
             error: errorHandler(err),
           });
         }
-        res.json(blogs);
+        res.json(announcements);
       }
     ).select("-photo -body");
   }
@@ -331,7 +336,7 @@ exports.listByUser = (req, res) => {
       });
     }
     let userId = user._id;
-    Blog.find({ postedBy: userId })
+    Announcement.find({ postedBy: userId })
       .populate("categories", "_id name slug")
       .populate("tags", "_id name slug")
       .populate("postedBy", "_id name username")

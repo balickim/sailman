@@ -2,14 +2,14 @@ import fetch from "isomorphic-fetch";
 import queryString from "query-string";
 import { handleResponse } from "./auth";
 
-export const create = (blog, user) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blog`, {
+export const create = (announcement, user) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/announcement`, {
     method: "POST",
     headers: {
       Accept: "application/json",
     },
     credentials: "include",
-    body: blog,
+    body: announcement,
   })
     .then((response) => {
       handleResponse(response);
@@ -18,13 +18,13 @@ export const create = (blog, user) => {
     .catch((err) => console.error(err));
 };
 
-export const listBlogsWithCategoriesAndTags = (skip, limit) => {
+export const listAnnouncementsWithCategoriesAndTags = (skip, limit) => {
   const data = {
     limit,
     skip,
   };
 
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blogs-categories-tags`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/announcements-categories-tags`, {
     method: "POST",
     headers: {
       Accept: "application/json",
@@ -38,8 +38,8 @@ export const listBlogsWithCategoriesAndTags = (skip, limit) => {
     .catch((err) => console.error(err));
 };
 
-export const singleBlog = (slug) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blog/${slug}`, {
+export const singleAnnouncement = (slug) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/announcement/${slug}`, {
     method: "GET",
   })
     .then((response) => {
@@ -48,14 +48,14 @@ export const singleBlog = (slug) => {
     .catch((err) => console.log(err));
 };
 
-export const listRelated = (blog) => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blogs/related`, {
+export const listRelated = (announcement) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/related`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(blog),
+    body: JSON.stringify(announcement),
   })
     .then((response) => {
       return response.json();
@@ -64,15 +64,15 @@ export const listRelated = (blog) => {
 };
 
 export const list = (username) => {
-  let listBlogEndpoint;
+  let listAnnouncementEndpoint;
 
   if (username) {
-    listBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/${username}/blogs`;
+    listAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/${username}/announcements`;
   } else {
-    listBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blogs`;
+    listAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcements`;
   }
 
-  return fetch(`${listBlogEndpoint}`, {
+  return fetch(`${listAnnouncementEndpoint}`, {
     method: "GET",
   })
     .then((response) => {
@@ -82,15 +82,15 @@ export const list = (username) => {
 };
 
 export const remove = (slug, user) => {
-  let removeBlogEndpoint;
+  let removeAnnouncementEndpoint;
 
   if ((user && user.role === "admin") || user.role === "moderator") {
-    removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
+    removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcement/${slug}`;
   } else if (user && user.role === "user") {
-    removeBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
+    removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/user/announcement/${slug}`;
   }
 
-  return fetch(`${removeBlogEndpoint}`, {
+  return fetch(`${removeAnnouncementEndpoint}`, {
     method: "DELETE",
     headers: {
       Accept: "application/json",
@@ -105,22 +105,22 @@ export const remove = (slug, user) => {
     .catch((err) => console.error(err));
 };
 
-export const update = (blog, slug, user) => {
-  let updateBlogEndpoint;
+export const update = (announcement, slug, user) => {
+  let updateAnnouncementEndpoint;
 
   if ((user && user.role === "admin") || user.role === "moderator") {
-    updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/blog/${slug}`;
+    updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcement/${slug}`;
   } else if (user && user.role === "user") {
-    updateBlogEndpoint = `${process.env.NEXT_PUBLIC_API}/user/blog/${slug}`;
+    updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/user/announcement/${slug}`;
   }
 
-  return fetch(`${updateBlogEndpoint}`, {
+  return fetch(`${updateAnnouncementEndpoint}`, {
     method: "PUT",
     headers: {
       Accept: "application/json",
     },
     credentials: "include",
-    body: blog,
+    body: announcement,
   })
     .then((response) => {
       handleResponse(response);
@@ -134,7 +134,7 @@ export const listSearch = (params) => {
   let query = queryString.stringify(params);
   console.log("search query ", query);
 
-  return fetch(`${process.env.NEXT_PUBLIC_API}/blogs/search?${query}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/search?${query}`, {
     method: "GET",
   })
     .then((response) => {

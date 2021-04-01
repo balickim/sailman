@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 // routes
-const blogRoutes = require("./routes/blog");
+const announcementRoutes = require("./routes/announcement");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
@@ -41,7 +41,7 @@ app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
 
 // routes middleware
-app.use("/api", blogRoutes);
+app.use("/api", announcementRoutes);
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);

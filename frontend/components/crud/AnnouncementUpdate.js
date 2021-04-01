@@ -3,13 +3,13 @@ import dynamic from "next/dynamic";
 import { withRouter } from "next/router";
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
-import { update, singleBlog } from "../../actions/blog";
+import { update, singleAnnouncement } from "../../actions/announcement";
 import { useAuth } from "../../actions/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 
-const BlogUpdate = ({ router }) => {
+const AnnouncementUpdate = ({ router }) => {
   const [body, setBody] = useState("");
 
   const [categories, setCategories] = useState([]);
@@ -30,14 +30,14 @@ const BlogUpdate = ({ router }) => {
 
   useEffect(() => {
     setValues({ ...values /*, formData: new FormData()*/ });
-    initBlog();
+    initAnnouncement();
     initCategories();
     initTags();
   }, [router]);
 
-  const initBlog = () => {
+  const initAnnouncement = () => {
     if (router.query.slug) {
-      singleBlog(router.query.slug).then((data) => {
+      singleAnnouncement(router.query.slug).then((data) => {
         if (data.error) {
           console.log(data.error);
         } else {
@@ -50,17 +50,17 @@ const BlogUpdate = ({ router }) => {
     }
   };
 
-  const setCategoriesArray = (blogCategories) => {
+  const setCategoriesArray = (announcementCategories) => {
     let ca = [];
-    blogCategories.map((c, i) => {
+    announcementCategories.map((c, i) => {
       ca.push(c._id);
     });
     setCheckedCategory(ca);
   };
 
-  const setTagsArray = (blogTags) => {
+  const setTagsArray = (announcementTags) => {
     let ta = [];
-    blogTags.map((t, i) => {
+    announcementTags.map((t, i) => {
       ta.push(t._id);
     });
     setCheckedTag(ta);
@@ -95,7 +95,7 @@ const BlogUpdate = ({ router }) => {
     setBody(e);
   };
 
-  const editBlog = (e) => {
+  const editAnnouncement = (e) => {
     e.preventDefault();
 
     let formData = new FormData();
@@ -111,7 +111,7 @@ const BlogUpdate = ({ router }) => {
         setValues({
           ...values,
           title: "",
-          success: `Blog titled "${data.title}" was successfully updated.`,
+          success: `Announcement titled "${data.title}" was successfully updated.`,
         });
       }
     });
@@ -214,9 +214,9 @@ const BlogUpdate = ({ router }) => {
     </div>
   );
 
-  const updateBlogForm = () => {
+  const updateAnnouncementForm = () => {
     return (
-      <form onSubmit={editBlog}>
+      <form onSubmit={editAnnouncement}>
         <div className="form-group">
           <label className="text-muted">Title</label>
           <input
@@ -250,7 +250,7 @@ const BlogUpdate = ({ router }) => {
     <div className="container-fluid pb-3">
       <div className="row">
         <div className="col-md-8">
-          {updateBlogForm()}
+          {updateAnnouncementForm()}
           <div className="pt-3">
             {showError()}
             {showSuccess()}
@@ -258,7 +258,7 @@ const BlogUpdate = ({ router }) => {
 
           {body && (
             <img
-              src={`${process.env.NEXT_PUBLIC_API}/blog/photo/${router.query.slug}`}
+              src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${router.query.slug}`}
               alt={title}
               style={{ width: "100%" }}
             />
@@ -302,4 +302,4 @@ const BlogUpdate = ({ router }) => {
   );
 };
 
-export default withRouter(BlogUpdate);
+export default withRouter(AnnouncementUpdate);

@@ -4,7 +4,7 @@ const _ = require("lodash");
 const { OAuth2Client } = require("google-auth-library");
 
 const User = require("../models/user");
-const Blog = require("../models/blog");
+const Announcement = require("../models/announcement");
 
 const { sendEmailWithNodemailer } = require("../helpers/email");
 
@@ -157,9 +157,9 @@ exports.isAuthorized = (opts, allowSameUser) => {
   };
 };
 
-exports.canUpdateDeleteBlog = (req, res, next) => {
+exports.canUpdateDeleteAnnouncement = (req, res, next) => {
   const slug = req.params.slug.toLowerCase();
-  Blog.findOne({ slug }).exec((err, data) => {
+  Announcement.findOne({ slug }).exec((err, data) => {
     if (err) {
       return res.status(400).json({
         error: errorHandler(err),
