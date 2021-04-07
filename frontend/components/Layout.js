@@ -6,6 +6,7 @@ import { useAuth } from "../components/auth/AuthProvider";
 import NProgress from "nprogress";
 import Router from "next/router";
 import Search from "./announcement/Search";
+import FeedbackForm from "./form/FeedbackForm";
 
 Router.onRouteChangeStart = (url) => NProgress.start();
 Router.onRouteChangeComplete = (url) => NProgress.done();
@@ -19,6 +20,7 @@ const Layout = ({ children }) => {
       return (
         <>
           <HeaderUser />
+          <FeedbackForm />
           <Search />
           {children}
         </>
