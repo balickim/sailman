@@ -130,9 +130,7 @@ export const update = (announcement, slug, user) => {
 };
 
 export const listSearch = (params) => {
-  console.log("search params ", params);
   let query = queryString.stringify(params);
-  console.log("search query ", query);
 
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/search?${query}`, {
     method: "GET",

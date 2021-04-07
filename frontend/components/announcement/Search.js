@@ -1,6 +1,5 @@
 import Link from "next/link";
-import parseToHTML from "html-react-parser";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { listSearch } from "../../actions/announcement";
 

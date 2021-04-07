@@ -9,7 +9,6 @@ import {
   NavLink,
 } from "reactstrap";
 import Link from "next/link";
-import Search from "./announcement/Search";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +63,6 @@ const Header = (props) => {
           </Nav>
         </Collapse>
       </Navbar>
-      <Search />
     </>
   );
 };
