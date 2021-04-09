@@ -56,12 +56,14 @@ const Tag = ({ tag, announcements, query }) => {
   );
 };
 
-Tag.getInitialProps = ({ query }) => {
+export const getServerSideProps = async ({ query }) => {
   return singleTag(query.slug).then((data) => {
     if (data.error) {
       console.log(data.error);
     } else {
-      return { tag: data.tag, announcements: data.announcements, query };
+      return {
+        props: { tag: data.tag, announcements: data.announcements, query },
+      };
     }
   });
 };

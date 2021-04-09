@@ -91,13 +91,11 @@ const Announcements = ({
   };
 
   const showAllCategories = () => {
-    if (categories) {
-      return categories.map((c, i) => (
-        <Link href={`/categories/${c.slug}`} key={i}>
-          <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
-        </Link>
-      ));
-    }
+    return categories.map((c, i) => (
+      <Link href={`/categories/${c.slug}`} key={i}>
+        <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
+      </Link>
+    ));
   };
 
   const showAllTags = () => {
@@ -146,7 +144,7 @@ const Announcements = ({
   );
 };
 
-Announcements.getInitialProps = () => {
+export const getServerSideProps = async () => {
   let skip = 0;
   let limit = 2;
   return listAnnouncementsWithCategoriesAndTags(skip, limit).then((data) => {
@@ -154,12 +152,14 @@ Announcements.getInitialProps = () => {
       console.log(data.error);
     } else {
       return {
-        announcements: data.announcements,
-        categories: data.categories,
-        tags: data.tags,
-        totalAnnouncements: data.size,
-        announcementsLimit: limit,
-        announcementsSkip: skip,
+        props: {
+          announcements: data.announcements,
+          categories: data.categories,
+          tags: data.tags,
+          totalAnnouncements: data.size,
+          announcementsLimit: limit,
+          announcementsSkip: skip,
+        },
       };
     }
   });

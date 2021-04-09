@@ -150,12 +150,12 @@ const SingleAnnouncement = ({ announcement, query }) => {
   );
 };
 
-SingleAnnouncement.getInitialProps = ({ query }) => {
+export const getServerSideProps = async ({ query }) => {
   return singleAnnouncement(query.slug).then((data) => {
     if (data.error) {
       return console.log("ERROR " + data.error);
     } else {
-      return { announcement: data, query };
+      return { props: { announcement: data, query } };
     }
   });
 };

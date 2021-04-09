@@ -56,15 +56,17 @@ const Category = ({ category, announcements, query }) => {
   );
 };
 
-Category.getInitialProps = ({ query }) => {
+export const getServerSideProps = async ({ query }) => {
   return singleCategory(query.slug).then((data) => {
     if (data.error) {
       console.log(data.error);
     } else {
       return {
-        category: data.category,
-        announcements: data.announcements,
-        query,
+        props: {
+          category: data.category,
+          announcements: data.announcements,
+          query,
+        },
       };
     }
   });
