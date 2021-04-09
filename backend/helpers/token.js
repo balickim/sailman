@@ -8,6 +8,7 @@ exports.generateToken = (res, user) => {
   return res.cookie("token", token, {
     expires: new Date(Date.now() + expiration),
     secure: false, // set to true if your using https
+    sameSite: "Lax",
     httpOnly: true,
   });
 };
