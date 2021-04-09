@@ -1,13 +1,32 @@
-import Layout from '../components/Layout';
-import Link from 'next/link';
+import Layout from "../components/Layout";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 const Index = () => {
-    return (
-        <Layout>
-            <h2>Index</h2>
-            <Link href="/signup"><a>Signup</a></Link>
-        </Layout>
-    );
+  const { locale, locales } = useRouter();
+  const router = useRouter();
+
+  return (
+    <>
+      <Layout>
+        <h2>Current locale: {locale}</h2>
+      </Layout>
+      <div>
+        <h2>All locales:</h2>
+        <nav>
+          <ul>
+            {locales.map((loc) => (
+              <li key={loc}>
+                <Link href={router.asPath} locale={loc}>
+                  <a>{loc}</a>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </>
+  );
 };
 
 export default Index;

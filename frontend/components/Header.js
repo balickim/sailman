@@ -8,11 +8,14 @@ import {
   NavLink,
 } from "reactstrap";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => setIsOpen(!isOpen);
+
+  let { t } = useTranslation("common");
 
   return (
     <>
@@ -27,26 +30,30 @@ const Header = (props) => {
           <Nav className="mr-auto" navbar>
             <NavItem style={{ cursor: "pointer" }}>
               <Link href="/announcements">
-                <NavLink>Announcements</NavLink>
+                <NavLink>{t("Announcements")}</NavLink>
               </Link>
             </NavItem>
+
             <>
               <NavItem style={{ cursor: "pointer" }}>
                 <Link href="/signup">
-                  <NavLink>Signup</NavLink>
+                  <NavLink>{t("Signup")}</NavLink>
                 </Link>
               </NavItem>
               <NavItem style={{ cursor: "pointer" }}>
                 <Link href="/signin">
-                  <NavLink>Signin</NavLink>
+                  <NavLink>{t("Signin")}</NavLink>
                 </Link>
               </NavItem>
             </>
+
             <NavItem>
               <Link href="/contact">
-                <NavLink style={{ cursor: "pointer" }}>Contact</NavLink>
+                <NavLink style={{ cursor: "pointer" }}>{t("Contact")}</NavLink>
               </Link>
             </NavItem>
+
+            <NavItem>Not logged in</NavItem>
           </Nav>
         </Collapse>
       </Navbar>

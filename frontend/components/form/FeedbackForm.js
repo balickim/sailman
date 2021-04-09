@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
 
 import { useState } from "react";
 
@@ -15,13 +16,20 @@ const FeedbackForm = () => {
     error: "",
   });
 
+  const { locale } = useRouter();
   const router = useRouter();
 
   const { value, message, success, error } = values;
 
+  let { t } = useTranslation("common");
+
   const feedbackSubmit = (e) => {
     e.preventDefault();
-    sendFeedback({ value, message, pathname: router.pathname }).then((data) => {
+    sendFeedback({
+      value,
+      message,
+      pathname: `${locale}${router.pathname}`,
+    }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -67,7 +75,7 @@ const FeedbackForm = () => {
           <input
             type="textarea"
             className="form-control"
-            placeholder="(Optional) What should we change?"
+            placeholder={t("(Optional) What should we change?")}
             value={message}
             onChange={handleChange}
           />
@@ -75,7 +83,7 @@ const FeedbackForm = () => {
 
         <div className="col-md-4">
           <button className="btn btn-block btn-outline-primary" type="submit">
-            Submit
+            {t("Submit")}
           </button>
         </div>
       </div>
@@ -94,7 +102,7 @@ const FeedbackForm = () => {
           });
         }}
       >
-        Feedback
+        {t("Feedback")}
       </button>
       {values.showForm && (
         <div className="container-fluid">

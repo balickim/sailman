@@ -6,6 +6,7 @@ import { useState } from "react";
 import Layout from "../../components/Layout";
 import Card from "../../components/announcement/Card";
 import { listAnnouncementsWithCategoriesAndTags } from "../../actions/announcement";
+import useTranslation from "next-translate/useTranslation";
 
 const Announcements = ({
   announcements,
@@ -20,6 +21,8 @@ const Announcements = ({
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(totalAnnouncements);
   const [loadedAnnouncements, setLoadedAnnouncements] = useState([]);
+
+  let { t } = useTranslation("announcements");
 
   const loadMore = () => {
     let toSkip = skip + limit;
@@ -122,7 +125,7 @@ const Announcements = ({
             <header>
               <div className="col-md-12 pt-3">
                 <h1 className="display-4 font-weight-bold text-center">
-                  Announcements
+                  {t("Announcements")}
                 </h1>
               </div>
               <section>

@@ -9,6 +9,7 @@ import {
   NavLink,
 } from "reactstrap";
 import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
 
 const Header = (props) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -16,6 +17,8 @@ const Header = (props) => {
   const { signout, user } = useAuth();
 
   const toggle = () => setIsOpen(!isOpen);
+
+  let { t } = useTranslation("common");
 
   return (
     <>
@@ -30,36 +33,42 @@ const Header = (props) => {
           <Nav className="mr-auto" navbar>
             <NavItem style={{ cursor: "pointer" }}>
               <Link href="/announcements">
-                <NavLink>Announcements</NavLink>
+                <NavLink>{t("Announcements")}</NavLink>
               </Link>
             </NavItem>
+
             <NavItem>
               <Link href="/user">
-                <NavLink
-                  style={{ cursor: "pointer" }}
-                >{`${user.name} Dashboard`}</NavLink>
+                <NavLink style={{ cursor: "pointer" }}>{`${user.name} ${t(
+                  "Dashboard"
+                )}`}</NavLink>
               </Link>
             </NavItem>
+
             <NavItem>
               <NavLink
                 style={{ cursor: "pointer" }}
                 onClick={() => signout(() => Router.replace(`/signin`))}
               >
-                Signout
+                {t("Signout")}
               </NavLink>
             </NavItem>
+
             <NavItem>
               <Link href="/contact">
-                <NavLink style={{ cursor: "pointer" }}>Contact</NavLink>
+                <NavLink style={{ cursor: "pointer" }}>{t("Contact")}</NavLink>
               </Link>
             </NavItem>
+
             <NavItem>
               <Link href="/user/crud/announcement">
                 <NavLink className="btn btn-primary text-light">
-                  Add announcement
+                  {t("Add announcement")}
                 </NavLink>
               </Link>
             </NavItem>
+
+            <NavItem>User</NavItem>
           </Nav>
         </Collapse>
       </Navbar>
