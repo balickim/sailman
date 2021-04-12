@@ -1,22 +1,25 @@
 import Layout from "../components/Layout";
-// import { withRouter } from "next/router";
 import SigninComponent from "../components/auth/SigninComponent";
 
-const Signin = ({ router }) => {
-  // const showRedirectMessage = () => {
-  //   if (router.query.message) {
-  //     return <div className="alert alert-danger">{router.query.message}</div>;
-  //   } else {
-  //     return;
-  //   }
-  // };
+const Signin = () => {
+  const showRedirectMessage = () => {
+    if (window?.location.search) {
+      return (
+        <div className="alert alert-danger">
+          {window.location.search.substring(9)}
+        </div>
+      );
+    } else {
+      return;
+    }
+  };
   return (
     <>
       <Layout>
         <h2 className="text-center pt-4 pb-4">Signin</h2>
-        {/* <div className="row">
+        <div className="row">
           <div className="col-md-6 offset-md-3">{showRedirectMessage()}</div>
-        </div> */}
+        </div>
         <div className="row">
           <div className="col-md-6 offset-md-3">
             <SigninComponent />
@@ -28,4 +31,3 @@ const Signin = ({ router }) => {
 };
 
 export default Signin;
-// export default withRouter(Signin); // Commented out because of "[next-translate] In Next 10.x.x there is an issue related to i18n and getInitialProps. We recommend to replace getInitialProps to getServerSideProps on /signin.js" warning
