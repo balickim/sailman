@@ -21,6 +21,40 @@ const announcementSchema = new mongoose.Schema(
       max: 2000000,
       required: true,
     },
+    startDate: {
+      type: String,
+      min: 1,
+      max: 20,
+      required: true,
+    },
+    endDate: {
+      type: String,
+      min: 1,
+      max: 20,
+      required: true,
+    },
+    days: {
+      type: Number,
+    },
+    price: {
+      type: Number,
+    },
+    currency: {
+      type: String,
+      max: 3,
+    },
+    includedInPrice: {
+      type: String,
+    },
+    yacht: {
+      type: String,
+    },
+    lastMinute: {
+      type: Boolean,
+    },
+    tidalCruise: {
+      type: Boolean,
+    },
     excerpt: {
       type: String,
       max: 1000,

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
+import useTranslation from "next-translate/useTranslation";
 import dynamic from "next/dynamic";
-import { withRouter } from "next/router";
+import { withRouter, useRouter } from "next/router";
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { create } from "../../actions/announcement";
@@ -23,6 +24,9 @@ const CreateAnnouncement = ({ router }) => {
     }
   };
 
+  let { t } = useTranslation("announcements");
+  const { locale } = useRouter();
+
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
@@ -36,6 +40,15 @@ const CreateAnnouncement = ({ router }) => {
     success: "",
     formData: "",
     title: "",
+    startDate: "",
+    endDate: "",
+    days: "",
+    price: "",
+    currency: "pln",
+    includedInPrice: "",
+    yacht: "",
+    lastMinute: false,
+    tidalCruise: false,
     hidePublishButton: false,
   });
 
@@ -45,6 +58,15 @@ const CreateAnnouncement = ({ router }) => {
     success,
     formData,
     title,
+    startDate,
+    endDate,
+    days,
+    price,
+    currency,
+    includedInPrice,
+    yacht,
+    lastMinute,
+    tidalCruise,
     hidePublishButton,
   } = values;
 
@@ -78,6 +100,8 @@ const CreateAnnouncement = ({ router }) => {
 
   const publishAnnouncement = (e) => {
     e.preventDefault();
+    formData.set("language", locale);
+    formData.set("currency", currency);
     create(formData, user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -86,7 +110,7 @@ const CreateAnnouncement = ({ router }) => {
           ...values,
           title: "",
           error: "",
-          success: `A new announcement titled "${data.title}" was created.`,
+          success: t("resp_success", { title: data.title }),
         });
         setBody("");
         setCategories([]);
@@ -96,7 +120,17 @@ const CreateAnnouncement = ({ router }) => {
   };
 
   const handleChange = (name) => (e) => {
-    const value = name === "photo" ? e.target.files[0] : e.target.value;
+    let value;
+    const target = e.target;
+
+    if (name === "photo") {
+      value = target.files[0];
+    } else if (target.type === "checkbox") {
+      value = target.checked;
+    } else {
+      value = target.value;
+    }
+
     formData.set(name, value);
     setValues({ ...values, [name]: value, formData, error: "" });
   };
@@ -189,9 +223,9 @@ const CreateAnnouncement = ({ router }) => {
 
   const createAnnouncementForm = () => {
     return (
-      <form onSubmit={publishAnnouncement}>
+      <form onSubmit={publishAnnouncement} id="announcementForm">
         <div className="form-group">
-          <label className="text-muted">Title</label>
+          <label className="text-muted">{t("Title")}</label>
           <input
             type="text"
             className="form-control"
@@ -200,20 +234,99 @@ const CreateAnnouncement = ({ router }) => {
           />
         </div>
 
+        <div className="row">
+          <div className="form-group col-md-3">
+            <label className="text-muted">{t("Start date")}</label>
+            <input
+              type="date"
+              className="form-control"
+              value={startDate}
+              onChange={handleChange("startDate")}
+            />
+          </div>
+
+          <div className="form-group col-md-3">
+            <label className="text-muted">{t("End date")}</label>
+            <input
+              type="date"
+              className="form-control"
+              value={endDate}
+              onChange={handleChange("endDate")}
+            />
+          </div>
+          <div className="form-group col-md-2">
+            <label className="text-muted text-nowrap">
+              {t("Number of cruise days")}
+            </label>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              value={days}
+              onChange={handleChange("days")}
+            />
+          </div>
+          <div className="form-group col-md-2">
+            <label className="text-muted text-nowrap">
+              {t("Price per person")}
+            </label>
+            <input
+              type="number"
+              min="0"
+              className="form-control"
+              value={price}
+              onChange={handleChange("price")}
+            />
+          </div>
+          <div className="form-group col-md-2">
+            <label className="text-muted text-nowrap">
+              <br />
+            </label>
+            <select
+              name="currency"
+              id="currency"
+              className="form-control"
+              onChange={handleChange("currency")}
+            >
+              <option value="pln">PLN</option>
+              <option value="eur">EUR</option>
+            </select>
+          </div>
+        </div>
+
         <div className="form-group">
+          <label className="text-muted">
+            {t("What's included in the price")}
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            value={includedInPrice}
+            onChange={handleChange("includedInPrice")}
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="text-muted">
+            {t("The yacht and its description")}
+          </label>
+          <input
+            type="text"
+            className="form-control"
+            value={yacht}
+            onChange={handleChange("yacht")}
+          />
+        </div>
+
+        <div className="form-group">
+          <label className="text-muted">{t("Description")}</label>
           <ReactQuill
             modules={QuillModules}
             formats={QuillFormats}
             value={body}
-            placeholder="Write something..."
+            placeholder={t("Write something")}
             onChange={handleBody}
           />
-        </div>
-
-        <div>
-          <button type="submit" className="btn btn-primary">
-            Publish
-          </button>
         </div>
       </form>
     );
@@ -222,22 +335,16 @@ const CreateAnnouncement = ({ router }) => {
   return (
     <div className="container-fluid pb-3">
       <div className="row">
-        <div className="col-md-8">
-          {createAnnouncementForm()}
-          <div className="pt-3">
-            {showError()}
-            {showSuccess()}
-          </div>
-        </div>
-        <div className="col-md-4">
+        <div className="col-xl-8">{createAnnouncementForm()}</div>
+        <div className="col-xl-4">
           <div>
             <div className="form-group pb-2">
-              <h5>Featured image</h5>
+              <h5>{t("Featured image")}</h5>
               <hr />
 
-              <small className="text-muted">Max size 1mb </small>
+              <small className="text-muted">{t("Max size 1mb")} </small>
               <label className="btn btn-outline-info">
-                Upload featured image
+                {t("Upload featured image")}
                 <input
                   onChange={handleChange("photo")}
                   type="file"
@@ -247,21 +354,79 @@ const CreateAnnouncement = ({ router }) => {
               </label>
             </div>
           </div>
+
+          <div className="form-group">
+            <h5>{t("Cruise map (Optional)")}</h5>
+            <hr />
+            <div
+              className="border"
+              style={{ width: "auto", height: "400px" }}
+            ></div>
+          </div>
+
           <div>
-            <h5>Categories</h5>
+            <h5>{t("Categories")}</h5>
             <hr />
             <ul style={{ maxHeight: "200px", overflowY: "scroll" }}>
               {showCategories()}
             </ul>
           </div>
+
           <div>
-            <h5>Tags</h5>
+            <h5>{t("Tags")}</h5>
             <hr />
             <ul style={{ maxHeight: "200px", overflowY: "scroll" }}>
               {showTags()}
             </ul>
           </div>
+
+          <div className="mb-2">
+            <h5>{t("Last Minute")}</h5>
+            <hr />
+            <input
+              type="checkbox"
+              id="lastMinute"
+              className="mr-1"
+              checked={lastMinute}
+              onChange={handleChange("lastMinute")}
+            />
+            <label htmlFor="lastMinute" className="small">
+              {t(
+                "Tick if less than a month left until the trip and the price has been reduced"
+              )}
+            </label>
+          </div>
+
+          <div>
+            <h5>{t("Tidal cruise")}</h5>
+            <hr />
+            <input
+              type="checkbox"
+              id="tidalCruise"
+              className="mr-1"
+              checked={tidalCruise}
+              onChange={handleChange("tidalCruise")}
+            />
+            <label htmlFor="tidalCruise" className="small">
+              {t("Check if the voyage is tidal")}
+            </label>
+          </div>
         </div>
+      </div>
+      <div>
+        <div className="pt-3">
+          {showError()}
+          {showSuccess()}
+        </div>
+      </div>
+      <div className="sticky float-right mb-4">
+        <button
+          type="submit"
+          className="btn btn-primary  "
+          form="announcementForm"
+        >
+          {t("Publish announcement")}
+        </button>
       </div>
     </div>
   );

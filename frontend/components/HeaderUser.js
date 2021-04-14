@@ -67,7 +67,6 @@ const Header = (props) => {
                 </NavLink>
               </Link>
             </NavItem>
-            {console.log(process.env.NEXT_PUBLIC_NODE_ENV)}
             {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
               <NavItem>User</NavItem>
             ) : null}

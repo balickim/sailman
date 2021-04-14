@@ -2,7 +2,7 @@ import fetch from "isomorphic-fetch";
 import queryString from "query-string";
 import { handleResponse } from "./auth";
 
-export const create = (announcement, user) => {
+export const create = (announcement) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcement`, {
     method: "POST",
     headers: {

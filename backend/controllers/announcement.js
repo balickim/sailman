@@ -27,7 +27,22 @@ exports.create = (req, res) => {
       });
     }
 
-    const { title, body, categories, tags } = fields;
+    const {
+      title,
+      body,
+      categories,
+      tags,
+      startDate,
+      endDate,
+      days,
+      price,
+      currency,
+      includedInPrice,
+      yacht,
+      lastMinute,
+      tidalCruise,
+      language,
+    } = fields;
 
     if (!title || !title.length) {
       return res.status(400).json({
@@ -53,9 +68,49 @@ exports.create = (req, res) => {
       });
     }
 
+    if (!startDate || !startDate.length || !endDate || !endDate.length) {
+      return res.status(400).json({
+        error: "Date can not be empty.",
+      });
+    }
+
+    if (startDate > endDate) {
+      return res.status(400).json({
+        error: "Start date cannot be after end date.",
+      });
+    }
+
+    if (!days || !days.length) {
+      return res.status(400).json({
+        error: "Days are required.",
+      });
+    }
+
+    if (!price || !price.length || price < 0) {
+      return res.status(400).json({
+        error: "Incorrect price.",
+      });
+    }
+
+    if (!currency || !currency.length) {
+      return res.status(400).json({
+        error: "Currency is required.",
+      });
+    }
+
     let announcement = new Announcement();
     announcement.title = title;
     announcement.body = body;
+    announcement.startDate = startDate;
+    announcement.endDate = endDate;
+    announcement.days = days;
+    announcement.price = price;
+    announcement.currency = currency;
+    announcement.includedInPrice = includedInPrice;
+    announcement.yacht = yacht;
+    announcement.lastMinute = lastMinute;
+    announcement.tidalCruise = tidalCruise;
+    announcement.language = language;
     announcement.excerpt = smartTrim(body, 320, " ", "...");
     announcement.slug = slugify(title).toLowerCase();
     announcement.mtitle = `${title} - ${process.env.APP_NAME}`;

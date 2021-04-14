@@ -4,6 +4,7 @@
   "pages": {
     "*": ["common"],
     "/": ["home"],
-    "/announcements": ["announcements"]
+    "/announcements": ["announcements"],
+    "/user/crud/announcement": ["announcements"]
   }
 }
