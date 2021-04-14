@@ -8,23 +8,27 @@ const Index = () => {
 
   return (
     <>
-      <Layout>
-        <h2>Current locale: {locale}</h2>
-      </Layout>
-      <div>
-        <h2>All locales:</h2>
-        <nav>
-          <ul>
-            {locales.map((loc) => (
-              <li key={loc}>
-                <Link href={router.asPath} locale={loc}>
-                  <a>{loc}</a>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </div>
+      {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
+        <>
+          <Layout>
+            <h2>Current locale: {locale}</h2>
+          </Layout>
+          <div>
+            <h2>All locales:</h2>
+            <nav>
+              <ul>
+                {locales.map((loc) => (
+                  <li key={loc}>
+                    <Link href={router.asPath} locale={loc}>
+                      <a>{loc}</a>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </>
+      ) : null}
     </>
   );
 };

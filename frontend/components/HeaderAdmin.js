@@ -60,7 +60,9 @@ const Header = (props) => {
               </Link>
             </NavItem>
 
-            <NavItem>Admin</NavItem>
+            {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
+              <NavItem>Admin</NavItem>
+            ) : null}
           </Nav>
         </Collapse>
       </Navbar>
