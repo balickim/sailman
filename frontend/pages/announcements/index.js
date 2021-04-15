@@ -7,6 +7,7 @@ import Layout from "../../components/Layout";
 import Card from "../../components/announcement/Card";
 import { listAnnouncementsWithCategoriesAndTags } from "../../actions/announcement";
 import useTranslation from "next-translate/useTranslation";
+import Search from "../../components/announcement/Search";
 
 const Announcements = ({
   announcements,
@@ -119,6 +120,7 @@ const Announcements = ({
       {head()}
       <Layout>
         <main>
+          <Search />
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">

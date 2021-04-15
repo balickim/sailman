@@ -5,7 +5,6 @@ import HeaderAdmin from "./HeaderAdmin";
 import { useAuth } from "../components/auth/AuthProvider";
 import NProgress from "nprogress";
 import Router from "next/router";
-import Search from "./announcement/Search";
 import FeedbackForm from "./form/FeedbackForm";
 
 Router.onRouteChangeStart = (url) => NProgress.start();
@@ -21,7 +20,6 @@ const Layout = ({ children }) => {
         <>
           <HeaderUser />
           <FeedbackForm />
-          <Search />
           {children}
         </>
       );
@@ -29,7 +27,6 @@ const Layout = ({ children }) => {
       return (
         <>
           <HeaderModerator />
-          <Search />
           {children}
         </>
       );
@@ -37,7 +34,6 @@ const Layout = ({ children }) => {
       return (
         <>
           <HeaderAdmin />
-          <Search />
           {children}
         </>
       );
@@ -45,7 +41,6 @@ const Layout = ({ children }) => {
       return (
         <>
           <Header />
-          <Search />
           {children}
         </>
       );
