@@ -1,7 +1,7 @@
 {
   "Announcements": "Ogłoszenia",
   "Add a new announcement": "Dodaj nowe ogłoszenie",
-  "Edit announcement": "Edytuj ogłoszenie",
+  "Edit announcement": "Zatwierdź edycje",
   "Title": "Tytuł",
   "Description": "Opis",
   "Featured image": "Wyróżniony obrazek",
@@ -24,5 +24,17 @@
   "Tidal cruise": "Rejs pływowy",
   "Check if the voyage is tidal": "Zaznacz, jeśli rejs jest pływowy",
   "Write something": "Napisz coś...",
-  "resp_success": "Ogłoszenie o nazwie {{title}} zostało utworzone."
+  "create_success": "Ogłoszenie o nazwie {{title}} zostało utworzone.",
+  "update_success": "Ogłoszenie o nazwie {{title}} zostało poprawnie zaktualizowane.",
+  "Image could not upload.": "Problem z wysyłaniem obrazka.",
+  "Title is required.": "Tytuł jest wymagany.",
+  "Content must be at least 100 characters.": "Zawartość opisu musi mieć przynajmniej 100 znaków.",
+  "At least one category is required.": "Przynajmniej jedna kategoria jest wymagana.",
+  "At least one tag is required.": "Przynajmniej jeden tag jest wymagany.",
+  "Date can not be empty.": "Data jest wymagana.",
+  "End date cannot be before start date.": "Data zakończenia przed datą rozpoczęcia.",
+  "At least one of the dates is in the past.": "Przynajmniej jedna z dat jest w przeszłości.",
+  "Days are required.": "Pole liczba dni rejsu jest wymagane.",
+  "Price is required.": "Cena za osobę jest wymagana.",
+  "Currency is required.": "Waluta jest wymagana."
 }

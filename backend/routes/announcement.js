@@ -44,14 +44,6 @@ router.get("/announcement/photo/:slug", photo);
 router.post("/announcements/related", listRelated);
 router.get("/announcements/search", listSearch);
 
-router.get(
-  "/test",
-  verifyToken,
-  authMiddleware,
-  isAuthorized(["admin", "moderator"]),
-  list
-);
-
 // auth user announcement crud
 // router.post("/user/announcement", verifyToken, authMiddleware, create);
 router.get("/:username/announcements", listByUser);

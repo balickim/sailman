@@ -24,5 +24,17 @@
   "Tidal cruise": "Tidal cruise",
   "Check if the voyage is tidal": "Check if the voyage is tidal",
   "Write something": "Write something...",
-  "resp_success": "A new announcement titled {{title}} was created."
+  "create_success": "A new announcement titled {{title}} was created.",
+  "update_success": "Announcement titled {{title}} was successfully updated.",
+  "error_Image could not upload.": "Image could not upload.",
+  "error_Title is required.": "Title is required.",
+  "error_Content must be at least 100 characters.": "Content must be at least 100 characters.",
+  "error_At least one category is required.": "At least one category is required.",
+  "error_At least one tag is required.": "At least one tag is required.",
+  "error_Date can not be empty.": "Date can not be empty.",
+  "error_End date cannot be before start date.": "End date cannot be before start date.",
+  "error_At least one of the dates is in the past.": "At least one of the dates is in the past.",
+  "error_Days are required.": "Number of cruise days field is required.",
+  "error_Price is required.": "Price is required.",
+  "error_Currency is required.": "Currency is required."
 }

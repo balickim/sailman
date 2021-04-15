@@ -50,9 +50,9 @@ exports.create = (req, res) => {
       });
     }
 
-    if (!body || body.length < 200) {
+    if (!body || body.length < 100) {
       return res.status(400).json({
-        error: "Content is too short.",
+        error: "Content must be at least 100 characters.",
       });
     }
 
@@ -74,9 +74,30 @@ exports.create = (req, res) => {
       });
     }
 
-    if (startDate > endDate) {
+    let startDateSplit = startDate.split("-");
+    let endDateSplit = endDate.split("-");
+    let startDateParsed = new Date(
+      Number(startDateSplit[0]),
+      Number(startDateSplit[1]) - 1,
+      Number(startDateSplit[2]) + 1
+    );
+    let endDateParsed = new Date(
+      Number(endDateSplit[0]),
+      Number(endDateSplit[1]) - 1,
+      Number(endDateSplit[2]) + 1
+    );
+
+    let dateNow = new Date(Date.now());
+
+    if (startDateParsed > endDateParsed) {
       return res.status(400).json({
-        error: "Start date cannot be after end date.",
+        error: "End date cannot be before start date.",
+      });
+    }
+
+    if (startDateParsed < dateNow || endDateParsed < dateNow) {
+      return res.status(400).json({
+        error: "At least one of the dates is in the past.",
       });
     }
 
@@ -88,7 +109,7 @@ exports.create = (req, res) => {
 
     if (!price || !price.length || price < 0) {
       return res.status(400).json({
-        error: "Incorrect price.",
+        error: "Price is required.",
       });
     }
 
@@ -242,7 +263,7 @@ exports.read = (req, res) => {
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
     .select(
-      "_id title body slug mtitle mdesc categories tags postedBy createdAt updatedAt"
+      "_id title body startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise slug mtitle mdesc categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -290,7 +311,89 @@ exports.update = (req, res) => {
       oldAnnouncement = _.merge(oldAnnouncement, fields);
       oldAnnouncement.slug = slugBeforeMerge;
 
-      const { body, desc, categories, tags } = fields;
+      const {
+        title,
+        body,
+        desc,
+        categories,
+        tags,
+        startDate,
+        endDate,
+        days,
+        price,
+        currency,
+        includedInPrice,
+        yacht,
+        lastMinute,
+        tidalCruise,
+      } = fields;
+
+      if (!title || !title.length) {
+        return res.status(400).json({
+          error: "Title is required.",
+        });
+      }
+
+      if (!body || body.length < 100) {
+        return res.status(400).json({
+          error: "Content must be at least 100 characters.",
+        });
+      }
+
+      if (!categories || categories.length === 0) {
+        return res.status(400).json({
+          error: "At least one category is required.",
+        });
+      }
+
+      if (!tags || tags.length === 0) {
+        return res.status(400).json({
+          error: "At least one tag is required.",
+        });
+      }
+
+      if (!startDate || !startDate.length || !endDate || !endDate.length) {
+        return res.status(400).json({
+          error: "Date can not be empty.",
+        });
+      }
+
+      let startDateSplit = startDate.split("-");
+      let endDateSplit = endDate.split("-");
+      let startDateParsed = new Date(
+        Number(startDateSplit[0]),
+        Number(startDateSplit[1]) - 1,
+        Number(startDateSplit[2]) + 1
+      );
+      let endDateParsed = new Date(
+        Number(endDateSplit[0]),
+        Number(endDateSplit[1]) - 1,
+        Number(endDateSplit[2]) + 1
+      );
+
+      if (startDateParsed > endDateParsed) {
+        return res.status(400).json({
+          error: "End date cannot be before start date.",
+        });
+      }
+
+      if (!days || !days.length) {
+        return res.status(400).json({
+          error: "Days are required.",
+        });
+      }
+
+      if (!price || !price.length || price < 0) {
+        return res.status(400).json({
+          error: "Price is required.",
+        });
+      }
+
+      if (!currency || !currency.length) {
+        return res.status(400).json({
+          error: "Currency is required.",
+        });
+      }
 
       if (body) {
         oldAnnouncement.excerpt = smartTrim(body, 320, " ", "...");
@@ -303,6 +406,42 @@ exports.update = (req, res) => {
 
       if (tags) {
         oldAnnouncement.tags = tags.split(",");
+      }
+
+      if (startDate) {
+        oldAnnouncement.startDate = startDate;
+      }
+
+      if (endDate) {
+        oldAnnouncement.endDate = endDate;
+      }
+
+      if (days) {
+        oldAnnouncement.days = days;
+      }
+
+      if (price) {
+        oldAnnouncement.price = price;
+      }
+
+      if (currency) {
+        oldAnnouncement.currency = currency;
+      }
+
+      if (includedInPrice) {
+        oldAnnouncement.includedInPrice = includedInPrice;
+      }
+
+      if (yacht) {
+        oldAnnouncement.yacht = yacht;
+      }
+
+      if (lastMinute) {
+        oldAnnouncement.lastMinute = lastMinute;
+      }
+
+      if (tidalCruise) {
+        oldAnnouncement.tidalCruise = tidalCruise;
       }
 
       if (files.photo) {

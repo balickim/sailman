@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 import Layout from "../../../components/Layout";
-import AnnouncementCreate from "../../../components/crud/AnnouncementCreate";
+import AnnouncementForm from "../../../components/crud/AnnouncementForm";
 
 const Announcement = () => {
   let { t } = useTranslation("announcements");
@@ -13,7 +13,7 @@ const Announcement = () => {
             <h2>{t("Add a new announcement")}</h2>
           </div>
           <div className="col-md-12">
-            <AnnouncementCreate />
+            <AnnouncementForm />
           </div>
         </div>
       </div>
