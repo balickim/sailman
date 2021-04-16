@@ -111,6 +111,7 @@ export const ProtectRoute = ({ children }) => {
     "/auth/password/forgot",
     "/auth/password/reset/[token]",
     "/announcements/[slug]",
+    "/map",
   ];
 
   if (

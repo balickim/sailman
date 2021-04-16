@@ -17,6 +17,8 @@
     "dayjs": "^1.10.4",
     "html-react-parser": "^1.2.4",
     "isomorphic-fetch": "^3.0.0",
+    "leaflet": "^1.7.1",
+    "leaflet.polylinemeasure": "^2.0.0",
     "next": "^10.1.3",
     "next-translate": "^1.0.5",
     "nprogress": "^0.2.0",
@@ -24,6 +26,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-google-login": "^5.2.2",
+    "react-leaflet": "^3.1.0",
     "react-quill": "^1.3.5",
     "reactstrap": "^8.9.0"
   },
