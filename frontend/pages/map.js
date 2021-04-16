@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 
 function HomePage() {
-  const Map = dynamic(() => import("../components/Map"), {
+  const Map = dynamic(() => import("../components/map/Map"), {
     loading: () => <p>A map is loading</p>,
     ssr: false,
   });
