@@ -55,6 +55,10 @@ const announcementSchema = new mongoose.Schema(
     tidalCruise: {
       type: Boolean,
     },
+    route: {
+      type: {},
+      max: 2000000,
+    },
     excerpt: {
       type: String,
       max: 1000,

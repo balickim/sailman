@@ -42,6 +42,7 @@ exports.create = (req, res) => {
       lastMinute,
       tidalCruise,
       language,
+      allRoutes,
     } = fields;
 
     if (!title || !title.length) {
@@ -132,6 +133,7 @@ exports.create = (req, res) => {
     announcement.lastMinute = lastMinute;
     announcement.tidalCruise = tidalCruise;
     announcement.language = language;
+    announcement.route = JSON.parse(allRoutes);
     announcement.excerpt = smartTrim(body, 320, " ", "...");
     announcement.slug = slugify(title).toLowerCase();
     announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
@@ -263,7 +265,7 @@ exports.read = (req, res) => {
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
     .select(
-      "_id title body startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise slug mtitle mdesc categories tags postedBy createdAt updatedAt"
+      "_id title body startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -326,6 +328,7 @@ exports.update = (req, res) => {
         yacht,
         lastMinute,
         tidalCruise,
+        allRoutes,
       } = fields;
 
       if (!title || !title.length) {
@@ -442,6 +445,10 @@ exports.update = (req, res) => {
 
       if (tidalCruise) {
         oldAnnouncement.tidalCruise = tidalCruise;
+      }
+
+      if (allRoutes) {
+        oldAnnouncement.route = JSON.parse(allRoutes);
       }
 
       if (files.photo) {

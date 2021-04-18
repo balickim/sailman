@@ -1,17 +1,26 @@
-import { useState, useEffect } from "react";
 import useTranslation from "next-translate/useTranslation";
+import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
+import { Spinner } from "reactstrap";
 import Image from "next/image";
 import { withRouter, useRouter } from "next/router";
+
 import { getCategories } from "../../actions/category";
 import { getTags } from "../../actions/tag";
 import { update, singleAnnouncement } from "../../actions/announcement";
 import { create } from "../../actions/announcement";
-
 import { useAuth } from "../../components/auth/AuthProvider";
 
-const ReactQuill = dynamic(() => import("react-quill"), { ssr: false });
+const ReactQuill = dynamic(() => import("react-quill"), {
+  loading: () => <Spinner />,
+  ssr: false,
+});
 import { QuillModules, QuillFormats } from "../../helpers/quill";
+
+const Map = dynamic(() => import("../map/Map"), {
+  loading: () => <Spinner />,
+  ssr: false,
+});
 
 const AnnouncementForm = ({ router }) => {
   const announcementFromLS = () => {
@@ -40,6 +49,10 @@ const AnnouncementForm = ({ router }) => {
   const [checkedTag, setCheckedTag] = useState([]);
 
   const [body, setBody] = useState(announcementFromLS());
+
+  const [seedRoutes, setSeedRoutes] = useState();
+  const [currentRoutes, setCurrentRoutes] = useState();
+
   const [values, setValues] = useState({
     error: "",
     success: "",
@@ -76,11 +89,12 @@ const AnnouncementForm = ({ router }) => {
 
   useEffect(() => {
     setValues({ ...values });
+    initCategories();
+    initTags();
+
     if (router.query.slug) {
       initAnnouncement();
     }
-    initCategories();
-    initTags();
   }, [router]);
 
   const initAnnouncement = () => {
@@ -104,6 +118,7 @@ const AnnouncementForm = ({ router }) => {
         setBody(data.body);
         setCategoriesArray(data.categories);
         setTagsArray(data.tags);
+        setSeedRoutes(data.route);
       }
     });
   };
@@ -265,6 +280,20 @@ const AnnouncementForm = ({ router }) => {
   const publishAnnouncement = (e) => {
     e.preventDefault();
 
+    const allRoutes = [];
+
+    if (currentRoutes) {
+      currentRoutes.map((element) => {
+        allRoutes.push(element.circleCoords);
+      });
+    }
+
+    if (seedRoutes) {
+      seedRoutes.map((element) => {
+        allRoutes.push(element);
+      });
+    }
+
     let formData = new FormData();
     formData.append("title", values.title);
     formData.append("body", body);
@@ -280,13 +309,14 @@ const AnnouncementForm = ({ router }) => {
     formData.append("currency", currency);
     formData.append("categories", checkedCategory);
     formData.append("tags", checkedTag);
+    formData.append("allRoutes", JSON.stringify(allRoutes));
     if (photo) {
       // prevent photo from overwriting with empty
       formData.append("photo", photo);
     }
 
     if (!router.query.slug) {
-      create(formData, user).then((data) => {
+      create(formData).then((data) => {
         if (data.error) {
           setValues({ ...values, error: data.error });
         } else {
@@ -471,10 +501,13 @@ const AnnouncementForm = ({ router }) => {
         <div className="form-group">
           <h5>{t("Cruise map (Optional)")}</h5>
           <hr />
-          <div
-            className="border"
-            style={{ width: "auto", height: "400px" }}
-          ></div>
+          <div className="border" style={{ width: "auto", height: "400px" }}>
+            <Map
+              setCurrentRoutes={setCurrentRoutes}
+              setSeedRoutes={setSeedRoutes}
+              seedRoutes={seedRoutes}
+            />
+          </div>
         </div>
 
         <div>
