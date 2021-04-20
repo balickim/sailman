@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useCallback } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
+
 import PolylineMeasurer from "./Leaflet.PolylineMeasure/PolylineMeasurer";
+import { getLatLngCenter } from "../../helpers/getLatLngCenter";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet.polylinemeasure/Leaflet.PolylineMeasure.css";
@@ -26,6 +28,14 @@ function Events({ setCurrentRoutes, setSeedRoutes, map }) {
   useEffect(() => {
     map.on("polylinemeasure:finish", onFinish);
     map.on("polylinemeasure:clear", onClear);
+
+    if (
+      setCurrentRoutes === undefined &&
+      document.getElementById("polyline-measure-control")
+    ) {
+      document.getElementById("polyline-measure-control").style.display =
+        "none";
+    } // turn off polyline-measure-control when in read only map view i.e. announcements list
   }, [map]);
 
   return null;
@@ -33,11 +43,14 @@ function Events({ setCurrentRoutes, setSeedRoutes, map }) {
 
 const Map = ({ setCurrentRoutes, setSeedRoutes, seedRoutes }) => {
   const [map, setMap] = useState(null);
+
+  const center = seedRoutes ? getLatLngCenter(seedRoutes) : [52.11, 19.21];
+
   return (
     <>
       <MapContainer
         whenCreated={setMap}
-        center={[52.11, 19.21]}
+        center={center}
         zoom={5}
         scrollWheelZoom={true}
         style={{ height: "100%", width: "100%" }}
@@ -52,7 +65,7 @@ const Map = ({ setCurrentRoutes, setSeedRoutes, seedRoutes }) => {
           unit="nauticalmiles"
           showUnitControl="true"
           showBearings="true"
-          showClearControl="true"
+          showClearControl={setCurrentRoutes === undefined ? false : true}
           bearingTextIn="In"
           bearingTextOut="Out"
           seedData={seedRoutes}
