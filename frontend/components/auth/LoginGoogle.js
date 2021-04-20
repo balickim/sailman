@@ -4,7 +4,7 @@ import Router from "next/router";
 import { loginWithGoogle } from "../../actions/auth";
 import { useAuth } from "../../components/auth/AuthProvider";
 
-const LoginGoogle = () => {
+const LoginGoogle = ({ buttonText }) => {
   const { authenticate } = useAuth();
 
   const responseGoogle = (response) => {
@@ -26,7 +26,7 @@ const LoginGoogle = () => {
     <div>
       <GoogleLogin
         clientId={process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID}
-        buttonText="Login with google"
+        buttonText={buttonText}
         onSuccess={responseGoogle}
         onFailure={responseGoogle}
         theme="dark"

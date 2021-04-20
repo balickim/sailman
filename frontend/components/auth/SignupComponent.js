@@ -1,9 +1,12 @@
 import Router from "next/router";
+import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
 import { preSignup } from "../../actions/auth";
 import { useAuth } from "../../components/auth/AuthProvider";
 
 const SignupComponent = () => {
+  let { t } = useTranslation("common");
+
   const [values, setValues] = useState({
     name: "",
     email: "",
@@ -37,7 +40,7 @@ const SignupComponent = () => {
           email: "",
           password: "",
           loading: false,
-          message: "Account verification email sent. Expires in 10 minutes",
+          message: t("Account verification email sent. Expires in 10 minutes."),
           showForm: false,
         });
       }
@@ -57,38 +60,41 @@ const SignupComponent = () => {
 
   const signupForm = () => {
     return (
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
-            value={name}
-            onChange={handleChange("name")}
-            type="text"
-            className="form-control"
-            placeholder="Type your name"
-          ></input>
-        </div>
-        <div className="form-group">
-          <input
-            value={email}
-            onChange={handleChange("email")}
-            type="email"
-            className="form-control"
-            placeholder="Type your email"
-          ></input>
-        </div>
-        <div className="form-group">
-          <input
-            value={password}
-            onChange={handleChange("password")}
-            type="password"
-            className="form-control"
-            placeholder="Type your password"
-          ></input>
-        </div>
-        <div>
-          <button className="btn btn-primary">Signup</button>
-        </div>
-      </form>
+      <>
+        <h2 className="text-center pt-4 pb-4">{t("Signup")}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <input
+              value={name}
+              onChange={handleChange("name")}
+              type="text"
+              className="form-control"
+              placeholder={t("Name")}
+            ></input>
+          </div>
+          <div className="form-group">
+            <input
+              value={email}
+              onChange={handleChange("email")}
+              type="email"
+              className="form-control"
+              placeholder={t("E-mail")}
+            ></input>
+          </div>
+          <div className="form-group">
+            <input
+              value={password}
+              onChange={handleChange("password")}
+              type="password"
+              className="form-control"
+              placeholder={t("Password")}
+            ></input>
+          </div>
+          <div>
+            <button className="btn btn-primary">{t("Signup")}</button>
+          </div>
+        </form>
+      </>
     );
   };
   return (

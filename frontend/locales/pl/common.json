@@ -9,5 +9,16 @@
   "Feedback": "Opinia",
   "(Optional) What should we change?": "(Opcjonalnie) Co powinniśmy zmienić?",
   "Submit": "Wyślij",
-  "Search": "Szukaj"
+  "Search": "Szukaj",
+  "forgot password": "zapomniałem hasła",
+  "Password reset": "Resetowanie hasła",
+  "OR": "LUB",
+  "E-mail": "Adres e-mail",
+  "Password": "Hasło",
+  "new password": "Nowe hasło",
+  "Change password": "Zmień hasło",
+  "Login with Google": "Zaloguj z Google",
+  "Name": "Imię",
+  "Account verification email sent. Expires in 10 minutes.": "Wysłano E-mail z linkiem aktywacyjnym. Link wygasa za 10 minut.",
+  "Password reset email sent successfully. Expires in 10 minutes.": "Wysłano E-mail z linkiem resetującym hasło. Link wygasa za 10 minut."
 }

@@ -1,4 +1,5 @@
 import Router from "next/router";
+import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
@@ -6,6 +7,8 @@ import { useAuth } from "../../components/auth/AuthProvider";
 import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {
+  let { t } = useTranslation("common");
+
   const [values, setValues] = useState({
     email: "",
     password: "",
@@ -56,34 +59,37 @@ const SigninComponent = () => {
 
   const signinForm = () => {
     return (
-      <form onSubmit={handleSubmit}>
-        <div className="form-group">
-          <input
-            value={email}
-            onChange={handleChange("email")}
-            type="email"
-            className="form-control"
-            placeholder="Type your email"
-          ></input>
-        </div>
-        <div className="form-group">
-          <input
-            value={password}
-            onChange={handleChange("password")}
-            type="password"
-            className="form-control"
-            placeholder="Type your password"
-          ></input>
-        </div>
-        <div>
-          <button className="btn btn-primary">Signin</button>
-        </div>
-        <div>
-          <Link href="/auth/password/forgot">
-            <a>forgot password</a>
-          </Link>
-        </div>
-      </form>
+      <>
+        <h2 className="text-center pt-4 pb-4">{t("Signin")}</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <input
+              value={email}
+              onChange={handleChange("email")}
+              type="email"
+              className="form-control"
+              placeholder={t("E-mail")}
+            ></input>
+          </div>
+          <div className="form-group">
+            <input
+              value={password}
+              onChange={handleChange("password")}
+              type="password"
+              className="form-control"
+              placeholder={t("Password")}
+            ></input>
+          </div>
+          <div>
+            <button className="btn btn-primary">{t("Signin")}</button>
+          </div>
+          <div>
+            <Link href="/auth/password/forgot">
+              <a>{t("forgot password")}</a>
+            </Link>
+          </div>
+        </form>
+      </>
     );
   };
   return (
@@ -93,9 +99,9 @@ const SigninComponent = () => {
       {showMessage()}
       {showForm && signinForm()}
       <hr />
-      <h2>OR</h2>
+      <h2>{t("OR")}</h2>
       <hr />
-      <LoginGoogle />
+      <LoginGoogle buttonText={t("Login with Google")} />
     </>
   );
 };

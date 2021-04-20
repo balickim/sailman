@@ -9,5 +9,16 @@
   "Feedback": "Feedback",
   "(Optional) What should we change?": "(Optional) What should we change?",
   "Submit": "Submit",
-  "Search": "Search"
+  "Search": "Search",
+  "forgot password": "forgot password",
+  "Password reset": "Password reset",
+  "OR": "OR",
+  "E-mail": "E-mail",
+  "Password": "Password",
+  "new password": "new password",
+  "Change password": "Change password",
+  "Login with Google": "Login with Google",
+  "Name": "Name",
+  "Account verification email sent. Expires in 10 minutes.": "Account verification email sent. Expires in 10 minutes",
+  "Password reset email sent successfully. Expires in 10 minutes.": "Password reset email sent successfully. Expires in 10 minutes."
 }

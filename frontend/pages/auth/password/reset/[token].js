@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { withRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
 
 import Layout from "../../../../components/Layout";
 import { resetPassword } from "../../../../actions/auth";
 
 const ResetPassword = ({ router }) => {
+  let { t } = useTranslation("common");
+
   const [values, setValues] = useState({
     name: "",
     newPassword: "",
@@ -49,20 +52,20 @@ const ResetPassword = ({ router }) => {
           }
           className="form-control"
           value={newPassword}
-          placeholder="new password"
+          placeholder={t("new password")}
           required
         />
       </div>
       <div>
-        <button className="btn btn-primary">Change password</button>
+        <button className="btn btn-primary">{t("Change password")}</button>
       </div>
     </form>
   );
 
   return (
     <Layout>
-      <div className="container">
-        <h2>Change password</h2>
+      <div className="container mt-4">
+        <h2>{t("Password reset")}</h2>
         <hr />
         {showError()}
         {showMessage()}
@@ -70,6 +73,12 @@ const ResetPassword = ({ router }) => {
       </div>
     </Layout>
   );
+};
+
+export const getServerSideProps = async () => {
+  return {
+    props: {},
+  };
 };
 
 export default withRouter(ResetPassword);

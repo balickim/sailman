@@ -1,9 +1,12 @@
 import { useState } from "react";
+import useTranslation from "next-translate/useTranslation";
 
 import Layout from "../../../components/Layout";
 import { forgotPassword } from "../../../actions/auth";
 
 const ForgotPassword = () => {
+  let { t } = useTranslation("common");
+
   const [values, setValues] = useState({
     email: "",
     message: "",
@@ -25,8 +28,9 @@ const ForgotPassword = () => {
       } else {
         setValues({
           ...values,
-          message:
-            "Password reset email sent successfully. Expires in 10 minutes.",
+          message: t(
+            "Password reset email sent successfully. Expires in 10 minutes."
+          ),
           email: "",
         });
       }
@@ -46,20 +50,20 @@ const ForgotPassword = () => {
           onChange={handleChange("email")}
           className="form-control"
           value={email}
-          placeholder="email"
+          placeholder={t("E-mail")}
           required
         />
       </div>
       <div>
-        <button className="btn btn-primary">Send</button>
+        <button className="btn btn-primary">{t("Submit")}</button>
       </div>
     </form>
   );
 
   return (
     <Layout>
-      <div className="container">
-        <h2>Forgot password</h2>
+      <div className="container mt-4">
+        <h2>{t("Password reset")}</h2>
         <hr />
         {showError()}
         {showMessage()}
