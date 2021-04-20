@@ -9,6 +9,8 @@ const formidable = require("formidable");
 const slugify = require("slugify");
 const { stripHtml } = require("string-strip-html");
 const _ = require("lodash");
+const sanitizeHtml = require("sanitize-html");
+const { sanitizeHtmlOptions } = require("../helpers/sanitizeHtmlOptions");
 
 // helpers
 const { errorHandler } = require("../helpers/dbErrorHandler");
@@ -122,7 +124,7 @@ exports.create = (req, res) => {
 
     let announcement = new Announcement();
     announcement.title = title;
-    announcement.body = body;
+    announcement.body = sanitizeHtml(body, sanitizeHtmlOptions);
     announcement.startDate = startDate;
     announcement.endDate = endDate;
     announcement.days = days;
@@ -134,7 +136,12 @@ exports.create = (req, res) => {
     announcement.tidalCruise = tidalCruise;
     announcement.language = language;
     announcement.route = JSON.parse(allRoutes);
-    announcement.excerpt = smartTrim(body, 320, " ", "...");
+    announcement.excerpt = smartTrim(
+      sanitizeHtml(body, sanitizeHtmlOptions),
+      320,
+      " ",
+      "..."
+    );
     announcement.slug = slugify(title).toLowerCase();
     announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
     announcement.mdesc = stripHtml(body.substr(0, 160)).result;
@@ -223,7 +230,7 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
     .skip(skip)
     .limit(limit)
     .select(
-      "_id, title slug excerpt categories tags postedBy createdAt updatedAt"
+      "_id, title startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise route slug excerpt categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -308,6 +315,8 @@ exports.update = (req, res) => {
           error: "Image could not upload.",
         });
       }
+
+      fields.body = sanitizeHtml(fields.body, sanitizeHtmlOptions);
 
       let slugBeforeMerge = oldAnnouncement.slug;
       oldAnnouncement = _.merge(oldAnnouncement, fields);
@@ -399,7 +408,12 @@ exports.update = (req, res) => {
       }
 
       if (body) {
-        oldAnnouncement.excerpt = smartTrim(body, 320, " ", "...");
+        oldAnnouncement.excerpt = smartTrim(
+          sanitizeHtml(body, sanitizeHtmlOptions),
+          320,
+          " ",
+          "..."
+        );
         oldAnnouncement.mdesc = stripHtml(body.substr(0, 160)).result;
       }
 
