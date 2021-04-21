@@ -25,30 +25,6 @@ const Announcements = ({
 
   let { t } = useTranslation("announcements");
 
-  const loadMore = () => {
-    let toSkip = skip + limit;
-    listAnnouncementsWithCategoriesAndTags(toSkip, limit).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setLoadedAnnouncements([...loadedAnnouncements, ...data.announcements]);
-        setSize(data.size);
-        setSkip(toSkip);
-      }
-    });
-  };
-
-  const loadMoreButton = () => {
-    return (
-      size > 0 &&
-      size >= limit && (
-        <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
-          Load more
-        </button>
-      )
-    );
-  };
-
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
   const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
@@ -79,6 +55,30 @@ const Announcements = ({
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
     </Head>
   );
+
+  const loadMore = () => {
+    let toSkip = skip + limit;
+    listAnnouncementsWithCategoriesAndTags(toSkip, limit).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setLoadedAnnouncements([...loadedAnnouncements, ...data.announcements]);
+        setSize(data.size);
+        setSkip(toSkip);
+      }
+    });
+  };
+
+  const loadMoreButton = () => {
+    return (
+      size > 0 &&
+      size >= limit && (
+        <button onClick={loadMore} className="btn btn-outline-primary btn-lg">
+          Load more
+        </button>
+      )
+    );
+  };
 
   const showAllAnnouncements = () => {
     return announcements.map((announcement, i) => {
@@ -120,7 +120,6 @@ const Announcements = ({
       {head()}
       <Layout>
         <main>
-          <Search />
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">
@@ -137,9 +136,21 @@ const Announcements = ({
               </section>
             </header>
           </div>
-          <div className="container-fluid">{showAllAnnouncements()}</div>
-          <div className="container-fluid">{showLoadedAnnouncements()}</div>
-          <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
+          <div className="row">
+            <div className="col-xl-4">
+              <div
+                className="border"
+                style={{ width: "100%", height: "1200px" }}
+              >
+                <Search />
+              </div>
+            </div>
+            <div className="col-xl-8">
+              <div className="container-fluid">{showAllAnnouncements()}</div>
+              <div className="container-fluid">{showLoadedAnnouncements()}</div>
+              <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
+            </div>
+          </div>
         </main>
       </Layout>
     </>

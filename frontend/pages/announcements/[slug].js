@@ -1,6 +1,8 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
+import { Spinner } from "reactstrap";
 import dayjs from "dayjs";
 import parseToHTML from "html-react-parser";
 
@@ -9,27 +11,18 @@ import Layout from "../../components/Layout";
 import { singleAnnouncement, listRelated } from "../../actions/announcement";
 import SmallCard from "../../components/announcement/SmallCard";
 
+const Map = dynamic(() => import("../../components/map/Map"), {
+  loading: () => <Spinner />,
+  ssr: false,
+});
+
 const SingleAnnouncement = ({ announcement, query }) => {
   const [related, setRelated] = useState([]);
-
-  const loadRelated = () => {
-    listRelated({ announcement }).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setRelated(data);
-      }
-    });
-  };
 
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
   const API = process.env.NEXT_PUBLIC_API;
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
   const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
-
-  useEffect(() => {
-    loadRelated();
-  }, []);
 
   const head = () => (
     <Head>
@@ -63,6 +56,20 @@ const SingleAnnouncement = ({ announcement, query }) => {
     </Head>
   );
 
+  const loadRelated = () => {
+    listRelated({ announcement }).then((data) => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRelated(data);
+      }
+    });
+  };
+
+  useEffect(() => {
+    loadRelated();
+  }, []);
+
   const showAnnouncementCategories = (announcement) =>
     announcement.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
@@ -93,40 +100,36 @@ const SingleAnnouncement = ({ announcement, query }) => {
       <Layout>
         <main>
           <article>
-            <div className="container-fluid">
-              <section>
-                <div className="row">
-                  <img
-                    src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
-                    alt={announcement.title}
-                    className="img img-fluid featured-image"
-                  />
-                </div>
-              </section>
-              <section>
-                <div className="container">
-                  <h1 className="display-2 pb-3 text-center pt-3 font-weight-bold">
-                    {announcement.title}
-                  </h1>
-                  <p className="lead mt-3 mark">
-                    Posted by{" "}
-                    <Link href={`/profile/${announcement.postedBy.username}`}>
-                      <a>{announcement.postedBy.username}</a>
-                    </Link>{" "}
-                    | Published{" "}
-                    {dayjs(announcement.updatedAt).format("D MMMM, YYYY HH:MM")}
-                  </p>
-
-                  <div className="pb-3">
-                    {showAnnouncementCategories(announcement)}
-                    {showAnnouncementTags(announcement)}
-                  </div>
-                </div>
-              </section>
-            </div>
             <div className="container">
+              <h2 className="pb-3 text-center pt-3">{announcement.title}</h2>
               <section>
-                <div className="col-md-12 lead">
+                {announcement.route && (
+                  <div
+                    className="border"
+                    style={{ width: "auto", height: "400px" }}
+                  >
+                    <Map seedRoutes={announcement.route} />
+                  </div>
+                )}
+                <div className="row">Od: {announcement.startDate}</div>
+                <div className="row">Do: {announcement.endDate}</div>
+                <div className="row">Dni: {announcement.days}</div>
+                <div className="row">
+                  Cena: {announcement.price + " " + announcement.currency} za
+                  osobę
+                </div>
+                <div className="row">
+                  Zawarte: {announcement.includedInPrice}
+                </div>
+                <div className="row">Jacht: {announcement.yacht}</div>
+                <div className="row">
+                  LastMinute:{" "}
+                  {announcement.lastMinute === false ? "tak" : "nie"}
+                </div>
+                <div className="row">
+                  Pływowy: {announcement.tidalCruise === false ? "tak" : "nie"}
+                </div>
+                <div className="col-md-12 lead mt-3">
                   {parseToHTML(announcement.body)}
                 </div>
               </section>
@@ -137,6 +140,23 @@ const SingleAnnouncement = ({ announcement, query }) => {
               </h4>
               <hr />
               <div className="row">{showRelatedAnnouncement()}</div>
+            </div>
+            <div className="container-fluid">
+              <div className="container">
+                <p className="lead mt-3 mark">
+                  Posted by{" "}
+                  <Link href={`/profile/${announcement.postedBy.username}`}>
+                    <a>{announcement.postedBy.username}</a>
+                  </Link>{" "}
+                  | Published{" "}
+                  {dayjs(announcement.updatedAt).format("D MMMM, YYYY HH:MM")}
+                </p>
+
+                <div className="pb-3">
+                  {showAnnouncementCategories(announcement)}
+                  {showAnnouncementTags(announcement)}
+                </div>
+              </div>
             </div>
             <div className="container pb-5">
               <h4 className="text-center pt-5 pb-5 h2">Comments</h4>

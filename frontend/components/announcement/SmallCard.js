@@ -22,19 +22,19 @@ const SmallCard = ({ announcement }) => {
               <h5 className="card-title">{announcement.title}</h5>
             </a>
           </Link>
-          <p className="card-text">{parseToHTML(announcement.excerpt)}</p>
+          <div className="card-text">{parseToHTML(announcement.excerpt)}</div>
         </section>
       </div>
       <div className="card-body">
         <div>
-          <p className="mark ml-1 pt-2 pb-2">
+          <div className="mark ml-1 pt-2 pb-2">
             Posted by{" "}
             <Link href={`/profile/${announcement.postedBy.username}`}>
               <a>{announcement.postedBy.username}</a>
             </Link>{" "}
             | Published{" "}
             {dayjs(announcement.updatedAt).format("D MMMM, YYYY HH:MM")}
-          </p>
+          </div>
         </div>
       </div>
     </div>
