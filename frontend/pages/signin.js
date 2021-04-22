@@ -1,13 +1,12 @@
 import Layout from "../components/Layout";
+import { withRouter } from "next/router";
 import SigninComponent from "../components/auth/SigninComponent";
 
-const Signin = () => {
+const Signin = ({ router }) => {
   const showRedirectMessage = () => {
-    if (window?.location.search) {
+    if (router.query.message) {
       return (
-        <div className="alert alert-danger">
-          {window.location.search.substring(9)}
-        </div>
+        <div className="alert alert-danger mt-5">{router.query.message}</div>
       );
     } else {
       return;
@@ -29,4 +28,10 @@ const Signin = () => {
   );
 };
 
-export default Signin;
+export const getServerSideProps = async () => {
+  return {
+    props: {},
+  };
+};
+
+export default withRouter(Signin);

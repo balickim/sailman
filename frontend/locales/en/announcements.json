@@ -36,5 +36,8 @@
   "error_At least one of the dates is in the past.": "At least one of the dates is in the past.",
   "error_Days are required.": "Number of cruise days field is required.",
   "error_Price is required.": "Price is required.",
-  "error_Currency is required.": "Currency is required."
+  "error_Currency is required.": "Currency is required.",
+  "Read more": "Read more",
+  "Search": "Search",
+  "Announcement includes map": "Announcement includes map"
 }

@@ -36,5 +36,8 @@
   "At least one of the dates is in the past.": "Przynajmniej jedna z dat jest w przeszłości.",
   "Days are required.": "Pole liczba dni rejsu jest wymagane.",
   "Price is required.": "Cena za osobę jest wymagana.",
-  "Currency is required.": "Waluta jest wymagana."
+  "Currency is required.": "Waluta jest wymagana.",
+  "Read more": "Zobacz więcej",
+  "Search": "Szukaj",
+  "Announcement includes map": "Ogłoszenie zawiera mapę"
 }
