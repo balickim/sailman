@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { withRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Layout from "../../components/Layout";
 import Card from "../../components/announcement/Card";
@@ -22,6 +22,32 @@ const Announcements = ({
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(totalAnnouncements);
   const [loadedAnnouncements, setLoadedAnnouncements] = useState([]);
+
+  const [values, setValues] = useState({
+    phrase: "",
+    priceFrom: 0,
+    priceTo: 0,
+    dateStartFrom: "",
+    dateStartTo: "",
+    dateEndFrom: "",
+    dateEndTo: "",
+    lastMinute: false,
+    tidalCruise: false,
+    map: false,
+  });
+
+  const {
+    phrase,
+    priceFrom,
+    priceTo,
+    dateStartFrom,
+    dateStartTo,
+    dateEndFrom,
+    dateEndTo,
+    lastMinute,
+    tidalCruise,
+    map,
+  } = values;
 
   let { t } = useTranslation("announcements");
 
@@ -83,12 +109,19 @@ const Announcements = ({
   const showAllAnnouncements = () => {
     return announcements.map((announcement, i) => {
       return (
-        <article key={i}>
+        <article key={i} className="mb-3">
           <Card announcement={announcement} />
-          <hr />
         </article>
       );
     });
+  };
+
+  const showLoadedAnnouncements = () => {
+    return loadedAnnouncements.map((announcement, i) => (
+      <article key={i} className="mb-3">
+        <Card announcement={announcement} />
+      </article>
+    ));
   };
 
   const showAllCategories = () => {
@@ -107,12 +140,156 @@ const Announcements = ({
     ));
   };
 
-  const showLoadedAnnouncements = () => {
-    return loadedAnnouncements.map((announcement, i) => (
-      <article key={i}>
-        <Card announcement={announcement} />
-      </article>
-    ));
+  const handleChange = (name) => (e) => {
+    let value;
+    const target = e.target;
+
+    if (target.type === "checkbox") {
+      value = target.checked;
+    } else {
+      value = target.value;
+    }
+
+    setValues({ ...values, [name]: value });
+  };
+
+  const pushParams = (e) => {
+    e.preventDefault();
+
+    router.push(`/announcements?${new URLSearchParams(values).toString()}`);
+  };
+
+  const filterForm = () => {
+    return (
+      <div
+        className="container border ml-1"
+        style={{ width: "100%", height: "auto" }}
+      >
+        <form onSubmit={pushParams} id="filterForm" className="mt-2">
+          {/* <div className="pb-5 text-center">
+            {showAllCategories()}
+            <br />
+            {showAllTags()}
+          </div> */}
+          <div className="form-group">
+            <div className="row mb-3">
+              <div className="col-md-12">
+                <input
+                  type="phrase"
+                  className="form-control"
+                  placeholder={t("Search phrase")}
+                  onChange={handleChange("phrase")}
+                />
+              </div>
+            </div>
+            <label className="ml-2">{t("Price per person")}</label>
+            <div className="row">
+              <div className="col-6">
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="from"
+                  value={priceFrom}
+                  min={0}
+                  max={10000}
+                  onChange={handleChange("priceFrom")}
+                />
+              </div>
+              <div className="col-6">
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="to"
+                  value={priceTo}
+                  min={0}
+                  max={10000}
+                  onChange={handleChange("priceTo")}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="ml-2">{t("Start date")}</label>
+            <div className="row">
+              <div className="col-6">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={dateStartFrom}
+                  onChange={handleChange("dateStartFrom")}
+                />
+              </div>
+              <div className="col-6">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={dateStartTo}
+                  onChange={handleChange("dateStartTo")}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="form-group">
+            <label className="ml-2">{t("End date")}</label>
+            <div className="row">
+              <div className="col-6">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={dateEndFrom}
+                  onChange={handleChange("dateEndFrom")}
+                />
+              </div>
+              <div className="col-6">
+                <input
+                  type="date"
+                  className="form-control"
+                  value={dateEndTo}
+                  onChange={handleChange("dateEndTo")}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="row ml-3 mb-1">
+            <input
+              type="checkbox"
+              value={lastMinute}
+              onChange={handleChange("lastMinute")}
+            />
+            <label htmlFor="lastMinute" className="ml-1 small">
+              {t("Last Minute")}
+            </label>
+          </div>
+          <div className="row ml-3 mb-1">
+            <input
+              type="checkbox"
+              value={tidalCruise}
+              onChange={handleChange("tidalCruise")}
+            />
+            <label htmlFor="lastMinute" className="ml-1 small">
+              {t("Tidal cruise")}
+            </label>
+          </div>
+          <div className="row ml-3">
+            <input type="checkbox" value={map} onChange={handleChange("map")} />
+            <label htmlFor="lastMinute" className="ml-1 small">
+              {t("Announcement with map")}
+            </label>
+          </div>
+          <div style={{ display: "flow-root" }} className="row">
+            <div className="float-right">
+              <button
+                type="submit"
+                className="btn btn-primary m-2"
+                form="filterForm"
+              >
+                {t("Search")}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
   };
 
   return (
@@ -123,28 +300,14 @@ const Announcements = ({
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">
-                <h1 className="display-4 font-weight-bold text-center">
+                <h1 className="display-4 font-weight-bold text-center mb-5">
                   {t("Announcements")}
                 </h1>
               </div>
-              <section>
-                <div className="pb-5 text-center">
-                  {showAllCategories()}
-                  <br />
-                  {showAllTags()}
-                </div>
-              </section>
             </header>
           </div>
           <div className="row">
-            <div className="col-xl-4">
-              <div
-                className="border"
-                style={{ width: "100%", height: "1200px" }}
-              >
-                <Search />
-              </div>
-            </div>
+            <div className="col-xl-4">{filterForm()}</div>
             <div className="col-xl-8">
               <div className="container-fluid">{showAllAnnouncements()}</div>
               <div className="container-fluid">{showLoadedAnnouncements()}</div>
@@ -157,10 +320,15 @@ const Announcements = ({
   );
 };
 
-export const getServerSideProps = async () => {
+export async function getServerSideProps(context) {
   let skip = 0;
-  let limit = 2;
-  return listAnnouncementsWithCategoriesAndTags(skip, limit).then((data) => {
+  let limit = 1;
+
+  return listAnnouncementsWithCategoriesAndTags(
+    skip,
+    limit,
+    context.query
+  ).then((data) => {
     if (data.error) {
       console.log(data.error);
     } else {
@@ -176,6 +344,6 @@ export const getServerSideProps = async () => {
       };
     }
   });
-};
+}
 
 export default withRouter(Announcements);

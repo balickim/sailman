@@ -39,5 +39,9 @@
   "error_Currency is required.": "Currency is required.",
   "Read more": "Read more",
   "Search": "Search",
-  "Announcement includes map": "Announcement includes map"
+  "Announcement includes map": "Announcement includes map",
+  "Search phrase": "Search phrase",
+  "From": "From",
+  "To": "To",
+  "Announcement with map": "Announcement with map"
 }
