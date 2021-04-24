@@ -21,35 +21,41 @@ const Header = (props) => {
     <>
       <Navbar color="light" light expand="md">
         <Link href="/">
-          <NavLink style={{ cursor: "pointer" }} className="navbar-brand">
+          <a
+            className="nav-link"
+            style={{ cursor: "pointer" }}
+            className="navbar-brand"
+          >
             Sailman
-          </NavLink>
+          </a>
         </Link>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
             <NavItem style={{ cursor: "pointer" }}>
               <Link href="/announcements">
-                <NavLink>{t("Announcements")}</NavLink>
+                <a className="nav-link">{t("Announcements")}</a>
               </Link>
             </NavItem>
 
             <>
               <NavItem style={{ cursor: "pointer" }}>
                 <Link href="/signup">
-                  <NavLink>{t("Signup")}</NavLink>
+                  <a className="nav-link">{t("Signup")}</a>
                 </Link>
               </NavItem>
               <NavItem style={{ cursor: "pointer" }}>
                 <Link href="/signin">
-                  <NavLink>{t("Signin")}</NavLink>
+                  <a className="nav-link">{t("Signin")}</a>
                 </Link>
               </NavItem>
             </>
 
             <NavItem>
               <Link href="/contact">
-                <NavLink style={{ cursor: "pointer" }}>{t("Contact")}</NavLink>
+                <a className="nav-link" style={{ cursor: "pointer" }}>
+                  {t("Contact")}
+                </a>
               </Link>
             </NavItem>
 
