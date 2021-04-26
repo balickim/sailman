@@ -12,21 +12,21 @@ const Index = () => {
         <>
           <Layout>
             <h2>Current locale: {locale}</h2>
+            <div>
+              <h2>All locales:</h2>
+              <nav>
+                <ul>
+                  {locales.map((loc) => (
+                    <li key={loc}>
+                      <Link href={router.asPath} locale={loc}>
+                        <a>{loc}</a>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </div>
           </Layout>
-          <div>
-            <h2>All locales:</h2>
-            <nav>
-              <ul>
-                {locales.map((loc) => (
-                  <li key={loc}>
-                    <Link href={router.asPath} locale={loc}>
-                      <a>{loc}</a>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </div>
         </>
       ) : null}
     </>

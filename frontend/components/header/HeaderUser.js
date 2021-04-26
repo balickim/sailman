@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useAuth } from "../components/auth/AuthProvider";
+import { useAuth } from "../auth/AuthProvider";
 import {
   Collapse,
   Navbar,
@@ -42,7 +42,7 @@ const Header = (props) => {
             </NavItem>
 
             <NavItem>
-              <Link href="/admin">
+              <Link href="/user">
                 <a className="nav-link" style={{ cursor: "pointer" }}>{`${
                   user.name
                 } ${t("Dashboard")}`}</a>
@@ -67,8 +67,15 @@ const Header = (props) => {
               </Link>
             </NavItem>
 
+            <NavItem>
+              <Link href="/user/crud/announcement">
+                <a className="nav-link" className="btn btn-primary text-light">
+                  {t("Add announcement")}
+                </a>
+              </Link>
+            </NavItem>
             {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
-              <NavItem>Admin</NavItem>
+              <NavItem>User</NavItem>
             ) : null}
           </Nav>
         </Collapse>

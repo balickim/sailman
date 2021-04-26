@@ -1,8 +1,10 @@
-import Header from "./Header";
-import HeaderUser from "./HeaderUser";
-import HeaderModerator from "./HeaderModerator";
-import HeaderAdmin from "./HeaderAdmin";
 import { useAuth } from "../components/auth/AuthProvider";
+
+import Header from "./header/Header";
+import HeaderUser from "./header/HeaderUser";
+import HeaderModerator from "./header/HeaderModerator";
+import HeaderAdmin from "./header/HeaderAdmin";
+
 import NProgress from "nprogress";
 import Router from "next/router";
 import FeedbackForm from "./form/FeedbackForm";
@@ -20,28 +22,28 @@ const Layout = ({ children }) => {
         <>
           <HeaderUser />
           <FeedbackForm />
-          {children}
+          <div className="container">{children}</div>
         </>
       );
     case "moderator":
       return (
         <>
           <HeaderModerator />
-          {children}
+          <div className="container">{children}</div>
         </>
       );
     case "admin":
       return (
         <>
           <HeaderAdmin />
-          {children}
+          <div className="container">{children}</div>
         </>
       );
     default:
       return (
         <>
           <Header />
-          {children}
+          <div className="container">{children}</div>
         </>
       );
   }
