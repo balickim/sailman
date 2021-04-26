@@ -142,7 +142,7 @@ exports.create = (req, res) => {
       " ",
       "..."
     );
-    announcement.slug = slugify(title).toLowerCase();
+    announcement.slug = slugify(title + " " + announcement._id).toLowerCase();
     announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
     announcement.mdesc = stripHtml(body.substr(0, 160)).result;
     announcement.postedBy = req.user._id;
