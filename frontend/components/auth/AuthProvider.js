@@ -34,22 +34,6 @@ export const AuthProvider = ({ children }) => {
     loadUserFromCookies();
   }, []);
 
-  const signin = (user) => {
-    return fetch(`${process.env.NEXT_PUBLIC_API}/signin`, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      credentials: "include",
-      body: JSON.stringify(user),
-    })
-      .then((response) => {
-        return response.json();
-      })
-      .catch((err) => console.error(err));
-  };
-
   const authenticate = (data, next) => {
     setUser(data.user);
     next();
@@ -83,7 +67,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         isAuthenticated: !!user,
         user,
-        signin,
         authenticate,
         updateUser,
         loading,

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 
 import { useAuth } from "../../components/auth/AuthProvider";
+import { signin } from "../../actions/auth";
 import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {
@@ -20,7 +21,7 @@ const SigninComponent = () => {
 
   const { email, password, error, loading, message, showForm } = values;
 
-  const { signin, authenticate, user } = useAuth();
+  const { authenticate, user } = useAuth();
 
   useEffect(() => {
     user && Router.push(`/`);
