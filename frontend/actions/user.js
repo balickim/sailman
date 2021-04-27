@@ -1,6 +1,3 @@
-import fetch from "isomorphic-fetch";
-import { handleResponse } from "./auth";
-
 export const userPublicProfile = (username) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/${username}`, {
     method: "GET",
@@ -19,11 +16,10 @@ export const getProfile = () => {
     method: "GET",
     headers: {
       Accept: "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -34,12 +30,11 @@ export const update = (user) => {
     method: "PUT",
     headers: {
       Accept: "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
     body: user,
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));

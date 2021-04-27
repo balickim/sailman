@@ -17,7 +17,6 @@
     "bootstrap": "^4.6.0",
     "dayjs": "^1.10.4",
     "html-react-parser": "^1.2.4",
-    "isomorphic-fetch": "^3.0.0",
     "leaflet": "^1.7.1",
     "leaflet.polylinemeasure": "^2.0.0",
     "next": "^10.1.3",

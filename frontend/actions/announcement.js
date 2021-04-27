@@ -1,18 +1,15 @@
-import fetch from "isomorphic-fetch";
 import queryString from "query-string";
-import { handleResponse } from "./auth";
 
 export const create = (announcement) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcement`, {
     method: "POST",
     headers: {
       Accept: "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
     body: announcement,
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -95,11 +92,10 @@ export const remove = (slug, user) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -118,12 +114,11 @@ export const update = (announcement, slug, user) => {
     method: "PUT",
     headers: {
       Accept: "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
     body: announcement,
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));

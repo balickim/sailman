@@ -1,21 +1,3 @@
-import fetch from "isomorphic-fetch";
-import Router from "next/router";
-
-export const handleResponse = (response) => {
-  if (response.status === 401) {
-    signout(() => {
-      Router.push({
-        pathname: "/signin",
-        query: {
-          message: "Session expired. Please sign in.",
-        },
-      });
-    });
-  } else {
-    return;
-  }
-};
-
 export const preSignup = (user) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/pre-signup`, {
     method: "POST",
@@ -83,7 +65,6 @@ export const loginWithGoogle = (user) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
-    credentials: "include",
     body: JSON.stringify(user),
   })
     .then((response) => {
@@ -98,8 +79,8 @@ export const signin = (user) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
     body: JSON.stringify(user),
   })
     .then((response) => {

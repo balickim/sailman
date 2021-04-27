@@ -11,7 +11,11 @@ const { sendEmailWithNodemailer } = require("../helpers/email");
 // helpers
 const { errorHandler } = require("../helpers/dbErrorHandler");
 const { response } = require("express");
-const { generateToken } = require("../helpers/token");
+const {
+  signAccessToken,
+  signRefreshToken,
+  verifyRefreshToken,
+} = require("../helpers/token");
 const e = require("express");
 
 exports.preSignup = (req, res) => {
@@ -97,23 +101,39 @@ exports.signin = (req, res) => {
     }
     const { _id, username, name, email, role } = user;
 
-    generateToken(res, user);
+    const accessToken = signAccessToken(user);
+    signRefreshToken(res, user);
 
     return res.json({
-      // token,
+      accessToken,
       user: { _id, username, name, email, role },
     });
   });
 };
 
+exports.refreshToken = async (req, res, next) => {
+  try {
+    const refreshToken = req.cookies.refreshToken || "";
+    if (!refreshToken) throw res.status(400);
+    const user = await verifyRefreshToken(res, refreshToken);
+
+    const accessToken = await signAccessToken(user);
+    // const refToken = await signRefreshToken(userId);
+    return res.json({ accessToken });
+  } catch (error) {
+    next(error);
+  }
+};
+
 exports.signout = (req, res) => {
-  res.clearCookie("token");
+  res.clearCookie("refreshToken");
+  // TO DO clear refreshToken in user model
   res.json({
     message: "Sign out success.",
   });
 };
 
-exports.authMiddleware = (req, res, next) => {
+exports.isAuthenticated = (req, res, next) => {
   const authUserId = req.user._id;
   User.findById({ _id: authUserId })
     .select("-photo -hashed_password")
@@ -265,9 +285,11 @@ exports.googleLogin = (req, res) => {
           if (user) {
             const { _id, email, name, role, username } = user;
 
-            generateToken(res, user);
+            const accessToken = signAccessToken(user);
+            signRefreshToken(res, user);
 
             return res.json({
+              accessToken,
               user: { _id, email, name, role, username },
             });
           } else {
@@ -284,9 +306,11 @@ exports.googleLogin = (req, res) => {
               }
               const { _id, email, name, role, username } = data;
 
-              generateToken(res, user);
+              const accessToken = signAccessToken(user);
+              signRefreshToken(res, user);
 
               return res.json({
+                accessToken,
                 user: { _id, email, name, role, username },
               });
             });

@@ -1,7 +1,19 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
+
 import { useRouter } from "next/router";
 
 const AuthContext = createContext({});
+
+const refreshToken = () => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/refresh-token`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    credentials: "include",
+  });
+};
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
@@ -11,24 +23,54 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
-      fetch(`${process.env.NEXT_PUBLIC_API}/user/me`, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-        },
-        credentials: "include",
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw Error(response.statusText);
+      let accessToken = localStorage.getItem("accessToken");
+
+      const originalFetch = fetch;
+      fetch = function () {
+        let self = this;
+        let args = arguments;
+        return originalFetch.apply(self, args).then(async function (data) {
+          if (data.status === 401) {
+            let response = await refreshToken();
+            // if status is 401 from token api return empty response to close recursion
+            if (response.status === 401) {
+              return {};
+            }
+            let res = await response.json();
+            let accessToken = res.accessToken;
+
+            localStorage.setItem("accessToken", accessToken);
+            console.log("Access token refreshed!");
+
+            args[1].headers.authorization = "Bearer " + accessToken; // swap old fetch authorization token for new
+            return fetch(...args); // recall old fetch
+          } else {
+            return data;
           }
-          return response;
+        });
+      };
+
+      if (accessToken) {
+        fetch(`${process.env.NEXT_PUBLIC_API}/user/me`, {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            authorization: "Bearer " + accessToken,
+          },
         })
-        .then((response) => response.json())
-        .then((data) => {
-          setUser(data);
-        })
-        .catch((err) => console.warn(err));
+          .then((response) => {
+            if (!response.ok) {
+              throw Error(response.statusText);
+            }
+            return response;
+          })
+          .then((response) => response.json())
+          .then((data) => {
+            setUser(data);
+          })
+          .catch((err) => err);
+      }
+
       setLoading(false);
     }
     loadUserFromCookies();
@@ -50,6 +92,7 @@ export const AuthProvider = ({ children }) => {
 
   const signout = () => {
     setUser(null);
+    localStorage.removeItem("accessToken");
     router.push("/");
 
     return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {

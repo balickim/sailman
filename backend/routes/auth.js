@@ -8,6 +8,7 @@ const {
   resetPassword,
   preSignup,
   googleLogin,
+  refreshToken,
 } = require("../controllers/auth");
 
 // validators
@@ -35,6 +36,9 @@ router.put(
   runValidation,
   resetPassword
 );
+
+router.post("/refresh-token", refreshToken);
+
 // google
 router.post("/google-login", googleLogin);
 

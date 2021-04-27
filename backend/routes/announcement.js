@@ -1,11 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const {
-  authMiddleware,
+  isAuthenticated,
   canUpdateDeleteAnnouncement,
   isAuthorized,
 } = require("../controllers/auth");
-const { verifyToken } = require("../helpers/token");
+const { verifyAccessToken } = require("../helpers/token");
 const {
   create,
   list,
@@ -19,7 +19,8 @@ const {
   listByUser,
 } = require("../controllers/announcement");
 
-router.post("/announcement", verifyToken, authMiddleware, create);
+// router.post("/announcement", verifyAccessToken, isAuthenticated, create);
+router.post("/announcement", verifyAccessToken, isAuthenticated, create);
 router.get("/announcements", list);
 router.post(
   "/announcements-categories-tags",
@@ -28,15 +29,15 @@ router.post(
 router.get("/announcement/:slug", read);
 router.delete(
   "/announcement/:slug",
-  verifyToken,
-  authMiddleware,
+  verifyAccessToken,
+  isAuthenticated,
   isAuthorized(["admin", "moderator"]),
   remove
 );
 router.put(
   "/announcement/:slug",
-  verifyToken,
-  authMiddleware,
+  verifyAccessToken,
+  isAuthenticated,
   isAuthorized(["admin", "moderator"]),
   update
 );
@@ -45,19 +46,19 @@ router.post("/announcements/related", listRelated);
 router.get("/announcements/search", listSearch);
 
 // auth user announcement crud
-// router.post("/user/announcement", verifyToken, authMiddleware, create);
+// router.post("/user/announcement", verifyAccessToken, isAuthenticated, create);
 router.get("/:username/announcements", listByUser);
 router.delete(
   "/user/announcement/:slug",
-  verifyToken,
-  authMiddleware,
+  verifyAccessToken,
+  isAuthenticated,
   canUpdateDeleteAnnouncement,
   remove
 );
 router.put(
   "/user/announcement/:slug",
-  verifyToken,
-  authMiddleware,
+  verifyAccessToken,
+  isAuthenticated,
   canUpdateDeleteAnnouncement,
   update
 );

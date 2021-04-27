@@ -1,5 +1,3 @@
-import fetch from "isomorphic-fetch";
-
 export const send = (data) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/contact`, {
     method: "POST",
@@ -21,8 +19,8 @@ export const sendFeedback = (data) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
     body: JSON.stringify(data),
   })
     .then((response) => {

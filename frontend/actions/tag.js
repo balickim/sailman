@@ -1,18 +1,14 @@
-import fetch from "isomorphic-fetch";
-import { handleResponse } from "./auth";
-
 export const create = (tag) => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag`, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
     body: JSON.stringify(tag),
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
@@ -44,11 +40,10 @@ export const removeTag = (slug) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
-    credentials: "include",
   })
     .then((response) => {
-      handleResponse(response);
       return response.json();
     })
     .catch((err) => console.error(err));
