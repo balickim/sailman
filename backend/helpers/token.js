@@ -38,11 +38,15 @@ exports.signRefreshToken = (res, user) => {
   };
   const token = jwt.sign({ _id: user._id }, secret, options);
 
-  User.findByIdAndUpdate(user._id, { refreshToken: token }, function (err) {
-    if (err) {
-      console.log(err);
+  User.findByIdAndUpdate(
+    user._id,
+    { $push: { refreshToken: token } },
+    function (err) {
+      if (err) {
+        console.log(err);
+      }
     }
-  });
+  );
 
   return res.cookie("refreshToken", token, {
     expires: new Date(Date.now() + expiration),
@@ -69,7 +73,12 @@ exports.verifyRefreshToken = (res, refreshToken) => {
                 error: "User not found",
               });
             }
-            if (refreshToken === user.refreshToken) return resolve(user);
+
+            let length = refreshToken.length;
+            for (let i = 0; i < length; i++) {
+              if (refreshToken === user.refreshToken[i]) return resolve(user);
+            }
+
             reject(err);
           });
       }

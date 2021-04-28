@@ -126,10 +126,28 @@ exports.refreshToken = async (req, res, next) => {
 };
 
 exports.signout = (req, res) => {
-  res.clearCookie("refreshToken");
-  // TO DO clear refreshToken in user model
-  res.json({
-    message: "Sign out success.",
+  const refreshToken = req.cookies.refreshToken || "";
+
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+    if (err) return reject("Unauthorized");
+    const userId = payload._id;
+
+    User.findByIdAndUpdate(
+      userId,
+      { $pull: { refreshToken: refreshToken } },
+      function (err) {
+        if (err) {
+          console.log(err);
+          res.json(err);
+        } else {
+          res.clearCookie("refreshToken");
+
+          res.json({
+            message: "Sign out success.",
+          });
+        }
+      }
+    );
   });
 };
 
