@@ -22,28 +22,44 @@ const Layout = ({ children }) => {
         <>
           <HeaderUser />
           <FeedbackForm />
-          <div className="container">{children}</div>
+          {children && (
+            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
+              {children}
+            </div>
+          )}
         </>
       );
     case "moderator":
       return (
         <>
           <HeaderModerator />
-          <div className="container">{children}</div>
+          {children && (
+            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
+              {children}
+            </div>
+          )}
         </>
       );
     case "admin":
       return (
         <>
           <HeaderAdmin />
-          <div className="container">{children}</div>
+          {children && (
+            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
+              {children}
+            </div>
+          )}
         </>
       );
     default:
       return (
         <>
           <Header />
-          <div className="container">{children}</div>
+          {children && (
+            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
+              {children}
+            </div>
+          )}
         </>
       );
   }

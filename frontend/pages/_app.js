@@ -1,7 +1,7 @@
-import "bootstrap/dist/css/bootstrap.min.css";
+import "../public/bootstrap.scss";
 import "nprogress/nprogress.css";
 import "react-quill/dist/quill.snow.css";
-import "../public/styles.css";
+import "../public/styles.scss";
 import "dayjs/locale/en";
 
 import { AuthProvider, ProtectRoute } from "../components/auth/AuthProvider";

@@ -1,34 +1,20 @@
 import Layout from "../components/Layout";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import useTranslation from "next-translate/useTranslation";
+
+import styles from "./index.module.scss";
 
 const Index = () => {
-  const { locale, locales } = useRouter();
-  const router = useRouter();
+  let { t } = useTranslation("home");
 
   return (
     <>
-      {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
-        <>
-          <Layout>
-            <h2>Current locale: {locale}</h2>
-            <div>
-              <h2>All locales:</h2>
-              <nav>
-                <ul>
-                  {locales.map((loc) => (
-                    <li key={loc}>
-                      <Link href={router.asPath} locale={loc}>
-                        <a>{loc}</a>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </div>
-          </Layout>
-        </>
-      ) : null}
+      <Layout />
+      <main>
+        <section className={`container-fluid ${styles.introduction}`}>
+          <h1 className="text-center mt-5">{t("Sailman project")}</h1>
+        </section>
+        <section className={`container-fluid ${styles.abousUs}`}></section>
+      </main>
     </>
   );
 };

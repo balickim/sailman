@@ -1,5 +1,5 @@
 import Image from "next/image";
-import styles from "./BackgroundImage.module.css";
+import styles from "./BackgroundImage.module.scss";
 
 const BackgroundImage = () => (
   <picture>

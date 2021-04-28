@@ -70,6 +70,56 @@ const FeedbackForm = () => {
 
   const feedbackForm = () => (
     <form onSubmit={feedbackSubmit}>
+      <div className="d-flex justify-content-center">
+        <a
+          className={`btn btn-secondary m-1`}
+          type="button"
+          onClick={() => {
+            setValues({
+              ...values,
+              value: 1,
+            });
+          }}
+        >
+          <Image
+            src="/images/sad_smiley_yellow_simple.svg"
+            height={60}
+            width={60}
+          />
+        </a>
+        <a
+          className={`btn btn-secondary m-1`}
+          type="button"
+          onClick={() => {
+            setValues({
+              ...values,
+              value: 2,
+            });
+          }}
+        >
+          <Image
+            src="/images/plain_smiley_yellow_simple.svg"
+            height={60}
+            width={60}
+          />
+        </a>
+        <a
+          className={`btn btn-secondary m-1`}
+          type="button"
+          onClick={() => {
+            setValues({
+              ...values,
+              value: 3,
+            });
+          }}
+        >
+          <Image
+            src="/images/smiling_smiley_yellow_simple.svg"
+            height={60}
+            width={60}
+          />
+        </a>
+      </div>
       <div className="row">
         <div className="col-md-8">
           <input
@@ -82,7 +132,7 @@ const FeedbackForm = () => {
         </div>
 
         <div className="col-md-4">
-          <button className="btn btn-block btn-outline-primary" type="submit">
+          <button className="btn btn-block btn-secondary" type="submit">
             {t("Submit")}
           </button>
         </div>
@@ -105,59 +155,8 @@ const FeedbackForm = () => {
         {t("Feedback")}
       </button>
       {values.showForm && (
-        <div className="container-fluid">
-          <div className="border border-info p-3 m-5">
-            <div className="d-flex justify-content-center">
-              <a
-                className={`btn btn-light m-1`}
-                type="button"
-                onClick={() => {
-                  setValues({
-                    ...values,
-                    value: 1,
-                  });
-                }}
-              >
-                <Image
-                  src="/images/sad_smiley_yellow_simple.svg"
-                  height={60}
-                  width={60}
-                />
-              </a>
-              <a
-                className={`btn btn-light m-1`}
-                type="button"
-                onClick={() => {
-                  setValues({
-                    ...values,
-                    value: 2,
-                  });
-                }}
-              >
-                <Image
-                  src="/images/plain_smiley_yellow_simple.svg"
-                  height={60}
-                  width={60}
-                />
-              </a>
-              <a
-                className={`btn btn-light m-1`}
-                type="button"
-                onClick={() => {
-                  setValues({
-                    ...values,
-                    value: 3,
-                  });
-                }}
-              >
-                <Image
-                  src="/images/smiling_smiley_yellow_simple.svg"
-                  height={60}
-                  width={60}
-                />
-              </a>
-            </div>
-
+        <div className="container">
+          <div className="border border-info p-3 m-5 bg-white">
             <div style={{ marginTop: "30px" }}>{feedbackForm()}</div>
             {values.sent && (
               <div className="pt-3">
