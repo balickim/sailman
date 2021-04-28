@@ -65,6 +65,7 @@ export const loginWithGoogle = (user) => {
       Accept: "application/json",
       "Content-Type": "application/json",
     },
+    credentials: "include",
     body: JSON.stringify(user),
   })
     .then((response) => {
@@ -79,8 +80,8 @@ export const signin = (user) => {
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
     },
+    credentials: "include",
     body: JSON.stringify(user),
   })
     .then((response) => {

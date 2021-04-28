@@ -3,9 +3,8 @@ const User = require("../models/user");
 
 exports.signAccessToken = (user) => {
   const secret = process.env.ACCESS_TOKEN_SECRET;
-  const expiration = 600000; // 10 minutes in ms
   const options = {
-    expiresIn: expiration,
+    expiresIn: "10m", // 10 minutes
   };
   const token = jwt.sign({ _id: user._id, role: user.role }, secret, options);
   return token;
