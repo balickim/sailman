@@ -77,6 +77,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const authenticate = (data, next) => {
+    localStorage.setItem("accessToken", data.accessToken);
     setUser(data.user);
     next();
   };
