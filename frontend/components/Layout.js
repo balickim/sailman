@@ -1,12 +1,7 @@
 import { useAuth } from "../components/auth/AuthProvider";
 
-import Header from "./header/Header";
-import HeaderUser from "./header/HeaderUser";
-import HeaderModerator from "./header/HeaderModerator";
-import HeaderAdmin from "./header/HeaderAdmin";
-
+import Header from "./Header";
 import Footer from "./Footer";
-
 import FeedbackForm from "./form/FeedbackForm";
 
 import NProgress from "nprogress";
@@ -26,7 +21,7 @@ const Layout = ({ children, wrap, footer }) => {
     case "user":
       return (
         <>
-          <HeaderUser />
+          <Header role={user?.role} />
           <FeedbackForm />
           {wrap && (
             <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
@@ -42,7 +37,7 @@ const Layout = ({ children, wrap, footer }) => {
     case "moderator":
       return (
         <>
-          <HeaderModerator />
+          <Header role={user?.role} />
           {wrap && (
             <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
               {children}
@@ -57,7 +52,7 @@ const Layout = ({ children, wrap, footer }) => {
     case "admin":
       return (
         <>
-          <HeaderAdmin />
+          <Header role={user?.role} />
           {wrap && (
             <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
               {children}
