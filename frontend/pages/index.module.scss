@@ -1,8 +1,29 @@
+@mixin padding {
+  padding-top: 7rem;
+  padding-bottom: 7rem;
+}
+
 .introduction {
   height: 100vh;
 }
 
-.abousUs {
+.aboutUs {
   background-color: #7fc9f6;
-  height: 500px;
+  position: relative;
+  background-size: cover;
+  @include padding;
+}
+
+.testimonials {
+  @include padding;
+}
+
+.services {
+  @include padding;
+}
+
+.callToAction {
+  position: relative;
+  background-color: #1c1c1c;
+  @include padding;
 }
