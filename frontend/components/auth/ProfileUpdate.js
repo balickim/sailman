@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { MDBSpinner } from "mdb-react-ui-kit";
 
-import { useAuth } from "../../components/auth/AuthProvider";
+import { useAuth } from "@components/auth/AuthProvider";
 
-import { getProfile, update } from "../../actions/user";
+import { getProfile, update } from "@actions/user";
 
 const ProfileUpdate = () => {
   const [values, setValues] = useState({

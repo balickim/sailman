@@ -3,8 +3,8 @@ import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-import { useAuth } from "../../components/auth/AuthProvider";
-import { signin } from "../../actions/auth";
+import { useAuth } from "@components/auth/AuthProvider";
+import { signin } from "@actions/auth";
 import LoginGoogle from "./LoginGoogle";
 
 const SigninComponent = () => {

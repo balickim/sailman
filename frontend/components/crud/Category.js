@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { create, getCategories, removeCategory } from "../../actions/category";
+
+import { create, getCategories, removeCategory } from "@actions/category";
 
 const Category = () => {
   const [values, setValues] = useState({

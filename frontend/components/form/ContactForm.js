@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { send } from "../../actions/form";
+
+import { send } from "@actions/form";
 
 const ContactForm = () => {
   const [values, setValues] = useState({

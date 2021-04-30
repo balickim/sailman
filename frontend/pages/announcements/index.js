@@ -1,13 +1,12 @@
 import Head from "next/head";
 import Link from "next/link";
 import { withRouter } from "next/router";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
-import Layout from "../../components/Layout";
-import Card from "../../components/announcement/Card";
-import { listAnnouncementsWithCategoriesAndTags } from "../../actions/announcement";
+import Layout from "@components/Layout";
+import Card from "@components/announcement/Card";
+import { listAnnouncementsWithCategoriesAndTags } from "@actions/announcement";
 import useTranslation from "next-translate/useTranslation";
-import Search from "../../components/announcement/Search";
 
 const Announcements = ({
   announcements,

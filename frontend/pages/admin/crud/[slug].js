@@ -1,6 +1,6 @@
-import Layout from "../../../components/Layout";
-import IsAuthorized from "../../../components/auth/IsAuthorized";
-import AnnouncementForm from "../../../components/crud/AnnouncementForm";
+import Layout from "@components/Layout";
+import IsAuthorized from "@components/auth/IsAuthorized";
+import AnnouncementForm from "@components/crud/AnnouncementForm";
 
 const Announcement = () => {
   return (

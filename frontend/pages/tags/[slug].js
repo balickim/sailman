@@ -1,8 +1,8 @@
 import Head from "next/head";
-import Layout from "../../components/Layout";
-import Card from "../../components/announcement/Card";
 
-import { singleTag } from "../../actions/tag";
+import Layout from "@components/Layout";
+import Card from "@components/announcement/Card";
+import { singleTag } from "@actions/tag";
 
 const Tag = ({ tag, announcements, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;

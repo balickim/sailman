@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { MapContainer, TileLayer } from "react-leaflet";
 
 import PolylineMeasurer from "./Leaflet.PolylineMeasure/PolylineMeasurer";
-import { getLatLngCenter } from "../../helpers/getLatLngCenter";
+import { getLatLngCenter } from "@helpers/getLatLngCenter";
 
 import "leaflet/dist/leaflet.css";
 import "leaflet.polylinemeasure/Leaflet.PolylineMeasure.css";

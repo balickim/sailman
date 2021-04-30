@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import useTranslation from "next-translate/useTranslation";
-
 import { useState } from "react";
 
-import { sendFeedback } from "../../actions/form";
+import { sendFeedback } from "@actions/form";
 
 const FeedbackForm = () => {
   const [values, setValues] = useState({

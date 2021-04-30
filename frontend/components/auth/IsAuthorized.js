@@ -1,6 +1,4 @@
-import { useEffect } from "react";
-import Router from "next/router";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { useAuth } from "@components/auth/AuthProvider";
 
 const IsAuthorized = ({ children, role }) => {
   const { user } = useAuth();

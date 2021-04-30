@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useState } from "react";
 
-import { listSearch } from "../../actions/announcement";
+import { listSearch } from "@actions/announcement";
 
 const Search = () => {
   const [values, setValues] = useState({

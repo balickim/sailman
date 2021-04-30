@@ -1,8 +1,8 @@
 import Head from "next/head";
-import Layout from "../../components/Layout";
-import Card from "../../components/announcement/Card";
 
-import { singleCategory } from "../../actions/category";
+import Layout from "@components/Layout";
+import Card from "@components/announcement/Card";
+import { singleCategory } from "@actions/category";
 
 const Category = ({ category, announcements, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;

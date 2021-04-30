@@ -1,8 +1,8 @@
 import Router from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
-import { preSignup } from "../../actions/auth";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { preSignup } from "@actions/auth";
+import { useAuth } from "@components/auth/AuthProvider";
 
 const SignupComponent = () => {
   let { t } = useTranslation("common");

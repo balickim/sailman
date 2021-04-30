@@ -2,9 +2,9 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 
-import { list, remove } from "../../actions/announcement";
+import { list, remove } from "@actions/announcement";
 
-import { useAuth } from "../../components/auth/AuthProvider";
+import { useAuth } from "@components/auth/AuthProvider";
 
 const AnnouncementRead = ({ username }) => {
   const [announcements, setAnnouncements] = useState([]);

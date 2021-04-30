@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { withRouter } from "next/router";
 
-import Layout from "../../../../components/Layout";
-import { signup } from "../../../../actions/auth";
+import Layout from "@components/Layout";
+import { signup } from "@actions/auth";
 
 const ActivateAccount = ({ router }) => {
   const [values, setValues] = useState({

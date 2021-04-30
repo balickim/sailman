@@ -1,4 +1,4 @@
-import Layout from "../components/Layout";
+import Layout from "@components/Layout";
 import useTranslation from "next-translate/useTranslation";
 
 import styles from "./index.module.scss";

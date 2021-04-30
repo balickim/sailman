@@ -1,8 +1,8 @@
 import { useState } from "react";
 import useTranslation from "next-translate/useTranslation";
 
-import Layout from "../../../components/Layout";
-import { forgotPassword } from "../../../actions/auth";
+import Layout from "@components/Layout";
+import { forgotPassword } from "@actions/auth";
 
 const ForgotPassword = () => {
   let { t } = useTranslation("common");

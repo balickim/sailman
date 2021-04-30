@@ -1,5 +1,5 @@
-import Layout from "../../components/Layout";
-import ProfileUpdate from "../../components/auth/ProfileUpdate";
+import Layout from "@components/Layout";
+import ProfileUpdate from "@components/auth/ProfileUpdate";
 
 const UserProfileUpdate = () => {
   return (

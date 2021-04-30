@@ -1,7 +1,7 @@
-import Layout from "../../../components/Layout";
-import IsAuthorized from "../../../components/auth/IsAuthorized";
-import Category from "../../../components/crud/Category";
-import Tag from "../../../components/crud/Tag";
+import Layout from "@components/Layout";
+import IsAuthorized from "@components/auth/IsAuthorized";
+import Category from "@components/crud/Category";
+import Tag from "@components/crud/Tag";
 
 const CategoryTag = () => {
   return (

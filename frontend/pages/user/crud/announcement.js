@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
-import Layout from "../../../components/Layout";
-import AnnouncementForm from "../../../components/crud/AnnouncementForm";
+import Layout from "@components/Layout";
+import AnnouncementForm from "@components/crud/AnnouncementForm";
 
 const Announcement = () => {
   let { t } = useTranslation("announcements");

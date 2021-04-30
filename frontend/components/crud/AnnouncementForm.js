@@ -5,17 +5,17 @@ import { MDBSpinner } from "mdb-react-ui-kit";
 import Image from "next/image";
 import { withRouter, useRouter } from "next/router";
 
-import { getCategories } from "../../actions/category";
-import { getTags } from "../../actions/tag";
-import { update, singleAnnouncement } from "../../actions/announcement";
-import { create } from "../../actions/announcement";
-import { useAuth } from "../../components/auth/AuthProvider";
+import { getCategories } from "@actions/category";
+import { getTags } from "@actions/tag";
+import { update, singleAnnouncement } from "@actions/announcement";
+import { create } from "@actions/announcement";
+import { useAuth } from "@components/auth/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   loading: () => <MDBSpinner />,
   ssr: false,
 });
-import { QuillModules, QuillFormats } from "../../helpers/quill";
+import { QuillModules, QuillFormats } from "@helpers/quill";
 
 const Map = dynamic(() => import("../map/Map"), {
   loading: () => <MDBSpinner />,

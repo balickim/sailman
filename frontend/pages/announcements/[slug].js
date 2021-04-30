@@ -6,12 +6,12 @@ import { MDBSpinner } from "mdb-react-ui-kit";
 import dayjs from "dayjs";
 import parseToHTML from "html-react-parser";
 
-import Layout from "../../components/Layout";
+import Layout from "@components/Layout";
 
-import { singleAnnouncement, listRelated } from "../../actions/announcement";
-import SmallCard from "../../components/announcement/SmallCard";
+import { singleAnnouncement, listRelated } from "@actions/announcement";
+import SmallCard from "@components/announcement/SmallCard";
 
-const Map = dynamic(() => import("../../components/map/Map"), {
+const Map = dynamic(() => import("@components/map/Map"), {
   loading: () => <MDBSpinner />,
   ssr: false,
 });

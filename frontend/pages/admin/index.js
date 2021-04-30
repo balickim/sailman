@@ -1,5 +1,5 @@
-import Layout from "../../components/Layout";
-import IsAuthorized from "../../components/auth/IsAuthorized";
+import Layout from "@components/Layout";
+import IsAuthorized from "@components/auth/IsAuthorized";
 import Link from "next/link";
 
 const AdminIndex = () => {

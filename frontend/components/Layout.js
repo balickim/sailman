@@ -1,4 +1,4 @@
-import { useAuth } from "../components/auth/AuthProvider";
+import { useAuth } from "@components/auth/AuthProvider";
 
 import Header from "./Header";
 import Footer from "./Footer";

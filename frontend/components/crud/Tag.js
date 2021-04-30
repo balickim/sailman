@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { create, getTags, removeTag } from "../../actions/tag";
+
+import { create, getTags, removeTag } from "@actions/tag";
 
 const Tag = () => {
   const [values, setValues] = useState({
