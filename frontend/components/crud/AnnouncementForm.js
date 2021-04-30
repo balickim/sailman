@@ -1,7 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Spinner } from "reactstrap";
+import { MDBSpinner } from "mdb-react-ui-kit";
 import Image from "next/image";
 import { withRouter, useRouter } from "next/router";
 
@@ -12,13 +12,13 @@ import { create } from "../../actions/announcement";
 import { useAuth } from "../../components/auth/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
-  loading: () => <Spinner />,
+  loading: () => <MDBSpinner />,
   ssr: false,
 });
 import { QuillModules, QuillFormats } from "../../helpers/quill";
 
 const Map = dynamic(() => import("../map/Map"), {
-  loading: () => <Spinner />,
+  loading: () => <MDBSpinner />,
   ssr: false,
 });
 
@@ -234,7 +234,7 @@ const AnnouncementForm = ({ router }) => {
             type="checkbox"
             onChange={handleCategoryToggle(c._id)}
             checked={findOutCategory(c._id)}
-            className="mr-2"
+            className="me-2"
           />
           <label className="form-check-label">{c.name}</label>
         </li>
@@ -251,7 +251,7 @@ const AnnouncementForm = ({ router }) => {
             type="checkbox"
             onChange={handleTagToggle(t._id)}
             checked={findOutTag(t._id)}
-            className="mr-2"
+            className="me-2"
           />
           <label className="form-check-label">{t.name}</label>
         </li>
@@ -531,7 +531,7 @@ const AnnouncementForm = ({ router }) => {
           <hr />
           <input
             type="checkbox"
-            className="mr-1"
+            className="me-1"
             checked={lastMinute}
             onChange={handleChange("lastMinute")}
           />
@@ -547,7 +547,7 @@ const AnnouncementForm = ({ router }) => {
           <hr />
           <input
             type="checkbox"
-            className="mr-1"
+            className="me-1"
             checked={tidalCruise}
             onChange={handleChange("tidalCruise")}
           />
@@ -571,7 +571,7 @@ const AnnouncementForm = ({ router }) => {
           {showSuccess()}
         </div>
       </div>
-      <div className="sticky float-right mb-4">
+      <div className="sticky float-end mb-4">
         <button
           type="submit"
           className="btn btn-primary  "

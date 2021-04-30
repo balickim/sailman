@@ -34,7 +34,7 @@ const Category = () => {
           onDoubleClick={() => deleteConfirm(c.slug)}
           title="Double click to delete"
           key={i}
-          className="btn btn-outline-primary mr-1 ml-1 mt-3"
+          className="btn btn-outline-primary me-1 ms-1 mt-3"
         >
           {c.name}
         </button>

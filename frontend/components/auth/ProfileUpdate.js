@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Spinner } from "reactstrap";
+import { MDBSpinner } from "mdb-react-ui-kit";
 
 import { useAuth } from "../../components/auth/AuthProvider";
 
@@ -174,7 +174,7 @@ const ProfileUpdate = () => {
 
   const showLoading = () => (
     <div style={{ display: loading ? "" : "none" }}>
-      <Spinner color="primary" />
+      <MDBSpinner />
     </div>
   );
 

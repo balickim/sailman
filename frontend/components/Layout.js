@@ -17,69 +17,21 @@ const Layout = ({ children, wrap, footer }) => {
 
   const { user } = useAuth();
 
-  switch (user?.role) {
-    case "user":
-      return (
-        <>
-          <Header role={user?.role} />
-          <FeedbackForm />
-          {wrap && (
-            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
-              {children}
-            </div>
-          )}
+  return (
+    <>
+      <Header role={user?.role} />
+      <FeedbackForm />
+      {wrap && (
+        <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
+          {children}
+        </div>
+      )}
 
-          {!wrap && children}
+      {!wrap && children}
 
-          {footer && <Footer />}
-        </>
-      );
-    case "moderator":
-      return (
-        <>
-          <Header role={user?.role} />
-          {wrap && (
-            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
-              {children}
-            </div>
-          )}
-
-          {!wrap && children}
-
-          {footer && <Footer />}
-        </>
-      );
-    case "admin":
-      return (
-        <>
-          <Header role={user?.role} />
-          {wrap && (
-            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
-              {children}
-            </div>
-          )}
-
-          {!wrap && children}
-
-          {footer && <Footer />}
-        </>
-      );
-    default:
-      return (
-        <>
-          <Header />
-          {wrap && (
-            <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
-              {children}
-            </div>
-          )}
-
-          {!wrap && children}
-
-          {footer && <Footer />}
-        </>
-      );
-  }
+      {footer && <Footer />}
+    </>
+  );
 };
 
 export default Layout;

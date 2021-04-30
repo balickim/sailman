@@ -1,4 +1,4 @@
-import "../public/bootstrap.scss";
+import "../public/mdb-react-ui-kit.scss";
 import "nprogress/nprogress.css";
 import "react-quill/dist/quill.snow.css";
 import "../public/styles.scss";
@@ -16,6 +16,14 @@ function MyApp({ Component, pageProps }) {
       <ProtectRoute>
         <Head>
           <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link
+            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+            rel="stylesheet"
+          />
+          <link
+            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+            rel="stylesheet"
+          />
         </Head>
         <BackgroundImage />
         <Component {...pageProps} />

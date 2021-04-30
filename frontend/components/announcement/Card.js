@@ -30,13 +30,13 @@ const Card = ({ announcement }) => {
       </section>
       <div className="row">
         <div className="col-3">
-          <section>
+          <section className="ms-3">
             <Image
               width={"200px"}
               height={"200px"}
               src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
               alt={announcement.title}
-              className="img img-fluid pt-3 ml-3"
+              className="img img-fluid pt-3"
             />
           </section>
         </div>
@@ -69,7 +69,7 @@ const Card = ({ announcement }) => {
             </div>
 
             <div>{parseToHTML(announcement.excerpt)}</div>
-            <div className="row float-right mr-3">
+            <div className="float-end">
               {announcement.lastMinute === true && (
                 <Image
                   src="/images/clock.svg"
@@ -77,7 +77,7 @@ const Card = ({ announcement }) => {
                   height={"40px"}
                   alt="clock"
                   title={t("Last Minute")}
-                  className="mr-2"
+                  className="me-2"
                 />
               )}
               {announcement.tidalCruise === true && (
@@ -87,7 +87,7 @@ const Card = ({ announcement }) => {
                   height={"40px"}
                   alt="tide"
                   title={t("Tidal cruise")}
-                  className="mr-1"
+                  className="me-1"
                 />
               )}
               {announcement.route && (
@@ -111,7 +111,7 @@ const Card = ({ announcement }) => {
           <a>{announcement.postedBy.username}</a>
         </Link>{" "}
         | {dayjs(announcement.updatedAt).format("D MMMM, YYYY HH:MM")}
-        <div className="float-right">
+        <div className="float-end">
           {showAnnouncementCategories(announcement)}
           {showAnnouncementTags(announcement)}
         </div>

@@ -2,13 +2,17 @@ import { useAuth } from "./auth/AuthProvider";
 
 import { useState } from "react";
 import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  Nav,
-  NavItem,
-  NavLink,
-} from "reactstrap";
+  MDBNavbar,
+  MDBNavbarToggler,
+  MDBContainer,
+  MDBCollapse,
+  MDBNavbarNav,
+  MDBNavbarItem,
+  MDBNavbarLink,
+  MDBNavbarBrand,
+  MDBBtn,
+  MDBIcon,
+} from "mdb-react-ui-kit";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
@@ -16,131 +20,140 @@ const Header = ({ role }) => {
   const { signout, user } = useAuth();
   const { t } = useTranslation("common");
 
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
+  const [show, setShow] = useState(false);
 
   return (
-    <>
-      <Navbar color="light" light expand="md">
+    <MDBNavbar expand="lg" light bgColor="white" className="p-3">
+      <MDBContainer fluid>
         <Link href="/">
-          <a
-            className="nav-link"
-            style={{ cursor: "pointer" }}
-            className="navbar-brand"
-          >
-            Sailman
+          <a>
+            <MDBNavbarBrand>Sailman</MDBNavbarBrand>
           </a>
         </Link>
-        <NavbarToggler onClick={toggle} />
-        <Collapse isOpen={isOpen} navbar>
-          <Nav className="mr-auto" navbar>
-            <NavItem style={{ cursor: "pointer" }}>
+        <MDBNavbarToggler
+          type="button"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+          onClick={() => setShow(!show)}
+        >
+          <MDBIcon icon="bars" fas />
+        </MDBNavbarToggler>
+        <MDBCollapse navbar show={show}>
+          <MDBNavbarNav className="mb-2 mb-lg-0">
+            <MDBNavbarItem>
               <Link href="/announcements">
-                <a className="nav-link">{t("Announcements")}</a>
-              </Link>
-            </NavItem>
-
-            {/* -------------------------------------------------------------- USER -------------------------------------------------------------- */}
-            {role === "user" && (
-              <>
-                <NavItem>
-                  <Link href="/user">
-                    <a className="nav-link" style={{ cursor: "pointer" }}>{`${
-                      user.name
-                    } ${t("Dashboard")}`}</a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <a
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => signout(() => Router.replace(`/signin`))}
-                  >
-                    {t("Signout")}
-                  </a>
-                </NavItem>
-              </>
-            )}
-            {/* -------------------------------------------------------------- USER -------------------------------------------------------------- */}
-
-            {/* -------------------------------------------------------------- MODERATOR -------------------------------------------------------------- */}
-            {role === "moderator" && (
-              <>
-                <NavItem>
-                  <Link href="/admin">
-                    <a className="nav-link" style={{ cursor: "pointer" }}>{`${
-                      user.name
-                    } ${t("Dashboard")}`}</a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <a
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => signout(() => Router.replace(`/signin`))}
-                  >
-                    {t("Signout")}
-                  </a>
-                </NavItem>
-              </>
-            )}
-            {/* -------------------------------------------------------------- MODERATOR -------------------------------------------------------------- */}
-
-            {/* -------------------------------------------------------------- ADMIN -------------------------------------------------------------- */}
-            {role === "admin" && (
-              <>
-                <NavItem>
-                  <Link href="/admin">
-                    <a className="nav-link" style={{ cursor: "pointer" }}>{`${
-                      user.name
-                    } ${t("Dashboard")}`}</a>
-                  </Link>
-                </NavItem>
-                <NavItem>
-                  <a
-                    className="nav-link"
-                    style={{ cursor: "pointer" }}
-                    onClick={() => signout(() => Router.replace(`/signin`))}
-                  >
-                    {t("Signout")}
-                  </a>
-                </NavItem>
-              </>
-            )}
-            {/* -------------------------------------------------------------- ADMIN -------------------------------------------------------------- */}
-
-            {/* -------------------------------------------------------------- NOT LOGGED IN -------------------------------------------------------------- */}
-            {!role && (
-              <>
-                <NavItem style={{ cursor: "pointer" }}>
-                  <Link href="/signup">
-                    <a className="nav-link">{t("Signup")}</a>
-                  </Link>
-                </NavItem>
-                <NavItem style={{ cursor: "pointer" }}>
-                  <Link href="/signin">
-                    <a className="nav-link">{t("Signin")}</a>
-                  </Link>
-                </NavItem>
-              </>
-            )}
-            {/* -------------------------------------------------------------- NOT LOGGED IN -------------------------------------------------------------- */}
-
-            <NavItem>
-              <Link href="/contact">
-                <a className="nav-link" style={{ cursor: "pointer" }}>
-                  {t("Contact")}
+                <a>
+                  <MDBNavbarLink>{t("Announcements")}</MDBNavbarLink>
                 </a>
               </Link>
-            </NavItem>
-          </Nav>
-        </Collapse>
+            </MDBNavbarItem>
 
-        {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
-          <NavItem>{role ?? "Not logged in"}</NavItem>
-        ) : null}
-      </Navbar>
-    </>
+            {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- USER -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
+            {role === "user" && (
+              <>
+                <MDBNavbarItem>
+                  <Link href="/user">
+                    <a>
+                      <MDBNavbarLink>{`${user.name} ${t(
+                        "Dashboard"
+                      )}`}</MDBNavbarLink>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <Link href="/contact">
+                    <a>
+                      <MDBNavbarLink>{t("Contact")}</MDBNavbarLink>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <Link href="/user/crud/announcement">
+                    <a>
+                      <MDBBtn>{t("Add announcement")}</MDBBtn>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+              </>
+            )}
+            {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- USER -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
+
+            {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- MODERATOR -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
+            {role === "moderator" && (
+              <>
+                <MDBNavbarItem>
+                  <Link href="/admin">
+                    <a>
+                      <MDBNavbarLink>{`${user.name} ${t(
+                        "Dashboard"
+                      )}`}</MDBNavbarLink>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+              </>
+            )}
+            {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- MODERATOR -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
+
+            {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- ADMIN -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
+            {role === "admin" && (
+              <>
+                <MDBNavbarItem>
+                  <Link href="/admin">
+                    <a>
+                      <MDBNavbarLink>{`${user.name} ${t(
+                        "Dashboard"
+                      )}`}</MDBNavbarLink>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+              </>
+            )}
+            {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- ADMIN -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
+
+            {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- NOT LOGGED IN -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
+            {!role && (
+              <>
+                <MDBNavbarItem>
+                  <Link href="/signup">
+                    <a>
+                      <MDBBtn>{t("Signup")}</MDBBtn>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <Link href="/signin">
+                    <a>
+                      <MDBBtn>{t("Signin")}</MDBBtn>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <Link href="/contact">
+                    <a>
+                      <MDBNavbarLink>{t("Contact")}</MDBNavbarLink>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+              </>
+            )}
+            {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- NOT LOGGED IN -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
+          </MDBNavbarNav>
+
+          {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- LOGGED IN -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
+          {role && (
+            <>
+              <MDBBtn onClick={() => signout(() => Router.replace(`/signin`))}>
+                {t("Signout")}
+              </MDBBtn>
+            </>
+          )}
+          {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- LOGGED IN -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
+          {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
+            <>{role ?? "Not logged in"}</>
+          ) : null}
+        </MDBCollapse>
+      </MDBContainer>
+    </MDBNavbar>
   );
 };
 

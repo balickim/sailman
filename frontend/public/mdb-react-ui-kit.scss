@@ -7,4 +7,5 @@ $success: #3a4615;
 $info: #c9d0ad;
 
 // ------------------------ OVERRIDE ------------------------ //
-@import "node_modules/bootstrap/scss/bootstrap";
+@import "/node_modules/mdb-react-ui-kit/dist/scss/mdb.core.scss";
+@import "/node_modules/mdb-react-ui-kit/dist/scss/mdb.free.scss";

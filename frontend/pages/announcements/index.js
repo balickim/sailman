@@ -127,7 +127,7 @@ const Announcements = ({
   const showAllCategories = () => {
     return categories.map((c, i) => (
       <Link href={`/categories/${c.slug}`} key={i}>
-        <a className="btn btn-primary mr-1 ml-1 mt-3">{c.name}</a>
+        <a className="btn btn-primary me-1 ms-1 mt-3">{c.name}</a>
       </Link>
     ));
   };
@@ -135,7 +135,7 @@ const Announcements = ({
   const showAllTags = () => {
     return tags.map((t, i) => (
       <Link href={`/tags/${t.slug}`} key={i}>
-        <a className="btn btn-outline-primary mr-1 ml-1 mt-3">{t.name}</a>
+        <a className="btn btn-outline-primary me-1 ms-1 mt-3">{t.name}</a>
       </Link>
     ));
   };
@@ -162,7 +162,7 @@ const Announcements = ({
   const filterForm = () => {
     return (
       <div
-        className="container border ml-1"
+        className="container border ms-1"
         style={{ width: "100%", height: "auto" }}
       >
         <form onSubmit={pushParams} id="filterForm" className="mt-2">
@@ -182,7 +182,7 @@ const Announcements = ({
                 />
               </div>
             </div>
-            <label className="ml-2">{t("Price per person")}</label>
+            <label className="ms-2">{t("Price per person")}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -209,7 +209,7 @@ const Announcements = ({
             </div>
           </div>
           <div className="form-group">
-            <label className="ml-2">{t("Start date")}</label>
+            <label className="ms-2">{t("Start date")}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -230,7 +230,7 @@ const Announcements = ({
             </div>
           </div>
           <div className="form-group">
-            <label className="ml-2">{t("End date")}</label>
+            <label className="ms-2">{t("End date")}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -250,42 +250,40 @@ const Announcements = ({
               </div>
             </div>
           </div>
-          <div className="row ml-3 mb-1">
+          <div className="row">
             <input
               type="checkbox"
               value={lastMinute}
               onChange={handleChange("lastMinute")}
             />
-            <label htmlFor="lastMinute" className="ml-1 small">
+            <label htmlFor="lastMinute" className="ms-1 small">
               {t("Last Minute")}
             </label>
           </div>
-          <div className="row ml-3 mb-1">
+          <div className="row">
             <input
               type="checkbox"
               value={tidalCruise}
               onChange={handleChange("tidalCruise")}
             />
-            <label htmlFor="lastMinute" className="ml-1 small">
+            <label htmlFor="lastMinute" className="ms-1 small">
               {t("Tidal cruise")}
             </label>
           </div>
-          <div className="row ml-3">
+          <div className="row">
             <input type="checkbox" value={map} onChange={handleChange("map")} />
-            <label htmlFor="lastMinute" className="ml-1 small">
+            <label htmlFor="lastMinute" className="ms-1 small">
               {t("Announcement with map")}
             </label>
           </div>
-          <div style={{ display: "flow-root" }} className="row">
-            <div className="float-right">
-              <button
-                type="submit"
-                className="btn btn-primary m-2"
-                form="filterForm"
-              >
-                {t("Search")}
-              </button>
-            </div>
+          <div className="row">
+            <button
+              type="submit"
+              className="btn btn-primary mb-3 mt-3"
+              form="filterForm"
+            >
+              {t("Search")}
+            </button>
           </div>
         </form>
       </div>

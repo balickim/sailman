@@ -6,7 +6,7 @@ const Announcement = () => {
   let { t } = useTranslation("announcements");
 
   return (
-    <Layout>
+    <Layout footer={false}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12 pt-5 pb-5">

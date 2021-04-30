@@ -54,7 +54,7 @@ const AnnouncementRead = ({ username }) => {
     } else if ((user && user.role === "admin") || user.role === "moderator") {
       return (
         <Link href={`/admin/crud/${announcement.slug}`}>
-          <a className="ml-2 btn btn-sm btn-warning">Update</a>
+          <a className="ms-2 btn btn-sm btn-warning">Update</a>
         </Link>
       );
     }

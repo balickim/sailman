@@ -6,7 +6,7 @@ const Announcements = () => {
   const { user } = useAuth();
   const username = user && user.username;
   return (
-    <Layout>
+    <Layout footer={false}>
       <div className="container">
         <div className="row">
           <div className="col-md-12 pt-5 pb-5">

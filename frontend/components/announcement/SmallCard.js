@@ -27,7 +27,7 @@ const SmallCard = ({ announcement }) => {
       </div>
       <div className="card-body">
         <div>
-          <div className="mark ml-1 pt-2 pb-2">
+          <div className="mark ms-1 pt-2 pb-2">
             Posted by{" "}
             <Link href={`/profile/${announcement.postedBy.username}`}>
               <a>{announcement.postedBy.username}</a>

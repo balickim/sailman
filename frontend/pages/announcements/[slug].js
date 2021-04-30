@@ -2,7 +2,7 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { Spinner } from "reactstrap";
+import { MDBSpinner } from "mdb-react-ui-kit";
 import dayjs from "dayjs";
 import parseToHTML from "html-react-parser";
 
@@ -12,7 +12,7 @@ import { singleAnnouncement, listRelated } from "../../actions/announcement";
 import SmallCard from "../../components/announcement/SmallCard";
 
 const Map = dynamic(() => import("../../components/map/Map"), {
-  loading: () => <Spinner />,
+  loading: () => <MDBSpinner />,
   ssr: false,
 });
 
@@ -73,14 +73,14 @@ const SingleAnnouncement = ({ announcement, query }) => {
   const showAnnouncementCategories = (announcement) =>
     announcement.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
-        <a className="btn btn-primary mr-1 ml-1 mt-3 ">{c.name}</a>
+        <a className="btn btn-primary me-1 ms-1 mt-3 ">{c.name}</a>
       </Link>
     ));
 
   const showAnnouncementTags = (announcement) =>
     announcement.tags.map((t, i) => (
       <Link key={i} href={`/tags/${t.slug}`}>
-        <a className="btn btn-outline-primary mr-1 ml-1 mt-3 ">{t.name}</a>
+        <a className="btn btn-outline-primary me-1 ms-1 mt-3 ">{t.name}</a>
       </Link>
     ));
 

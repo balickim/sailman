@@ -143,7 +143,7 @@ const FeedbackForm = () => {
   return (
     <>
       <button
-        className="btn btn-info float-right"
+        className="btn btn-info float-end"
         type="button"
         onClick={() => {
           setValues({
