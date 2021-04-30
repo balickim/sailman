@@ -1,11 +1,11 @@
 import Layout from "../../components/Layout";
-import Admin from "../../components/auth/Admin";
+import IsAuthorized from "../../components/auth/IsAuthorized";
 import Link from "next/link";
 
 const AdminIndex = () => {
   return (
-    <Layout>
-      <Admin>
+    <Layout footer={false}>
+      <IsAuthorized role={["admin", "moderator"]}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">
@@ -16,13 +16,6 @@ const AdminIndex = () => {
                 <li className="list-group-item">
                   <Link href="/admin/crud/category-tag">
                     <a>Create category or tag</a>
-                  </Link>
-                </li>
-              </ul>
-              <ul className="list-group">
-                <li className="list-group-item">
-                  <Link href="/admin/crud/announcement">
-                    <a>Create announcement</a>
                   </Link>
                 </li>
               </ul>
@@ -44,7 +37,7 @@ const AdminIndex = () => {
             <div className="col-md-8">right</div>
           </div>
         </div>
-      </Admin>
+      </IsAuthorized>
     </Layout>
   );
 };

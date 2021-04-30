@@ -1,11 +1,11 @@
 import Layout from "../../../components/Layout";
-import Admin from "../../../components/auth/Admin";
+import IsAuthorized from "../../../components/auth/IsAuthorized";
 import AnnouncementRead from "../../../components/crud/AnnouncementRead";
 
 const Announcements = () => {
   return (
-    <Layout>
-      <Admin>
+    <Layout footer={false}>
+      <IsAuthorized role={["admin", "moderator"]}>
         <div className="container">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">
@@ -16,7 +16,7 @@ const Announcements = () => {
             </div>
           </div>
         </div>
-      </Admin>
+      </IsAuthorized>
     </Layout>
   );
 };

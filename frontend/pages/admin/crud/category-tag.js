@@ -1,12 +1,12 @@
 import Layout from "../../../components/Layout";
-import Admin from "../../../components/auth/Admin";
+import IsAuthorized from "../../../components/auth/IsAuthorized";
 import Category from "../../../components/crud/Category";
 import Tag from "../../../components/crud/Tag";
 
 const CategoryTag = () => {
   return (
-    <Layout>
-      <Admin>
+    <Layout footer={false}>
+      <IsAuthorized role={["admin", "moderator"]}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">
@@ -20,7 +20,7 @@ const CategoryTag = () => {
             </div>
           </div>
         </div>
-      </Admin>
+      </IsAuthorized>
     </Layout>
   );
 };

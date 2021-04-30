@@ -1,22 +1,22 @@
 import Layout from "../../../components/Layout";
-import Admin from "../../../components/auth/Admin";
-import AnnouncementUpdate from "../../../components/crud/AnnouncementUpdate";
+import IsAuthorized from "../../../components/auth/IsAuthorized";
+import AnnouncementForm from "../../../components/crud/AnnouncementForm";
 
 const Announcement = () => {
   return (
-    <Layout>
-      <Admin>
+    <Layout footer={false}>
+      <IsAuthorized role={["admin", "moderator"]}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">
               <h2>Update announcement</h2>
             </div>
             <div className="col-md-12">
-              <AnnouncementUpdate />
+              <AnnouncementForm />
             </div>
           </div>
         </div>
-      </Admin>
+      </IsAuthorized>
     </Layout>
   );
 };
