@@ -2,17 +2,17 @@ import Image from "next/image";
 import styles from "./BackgroundImage.module.scss";
 
 const BackgroundImage = () => (
-  <picture>
+  <div>
     <div className={styles.bgWrap}>
       <Image
-        alt="Mountains"
+        alt="Background image"
         src="/images/pexels-tony-cowen.jpg"
         layout="fill"
         objectFit="cover"
         quality={100}
       />
     </div>
-  </picture>
+  </div>
 );
 
 export default BackgroundImage;

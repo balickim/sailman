@@ -56,11 +56,11 @@ const Header = ({ role }) => {
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
-                  <MDBBtn rounded>
-                    <Link href="/user/crud/announcement">
-                      <a className="text-white">{t("Add announcement")}</a>
-                    </Link>
-                  </MDBBtn>
+                  <Link href="/user/crud/announcement">
+                    <a className="text-white">
+                      <MDBBtn rounded>{t("Add announcement")}</MDBBtn>
+                    </a>
+                  </Link>
                 </MDBNavbarItem>
               </>
             )}
@@ -98,18 +98,18 @@ const Header = ({ role }) => {
             {!role && (
               <>
                 <MDBNavbarItem>
-                  <MDBBtn rounded>
-                    <Link href="/signup">
-                      <a className="text-white">{t("Signup")}</a>
-                    </Link>
-                  </MDBBtn>
+                  <Link href="/signup">
+                    <a className="text-white">
+                      <MDBBtn rounded>{t("Signup")}</MDBBtn>
+                    </a>
+                  </Link>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
-                  <MDBBtn rounded>
-                    <Link href="/signin">
-                      <a className="text-white">{t("Signin")}</a>
-                    </Link>
-                  </MDBBtn>
+                  <Link href="/signin">
+                    <a className="text-white">
+                      <MDBBtn rounded>{t("Signin")}</MDBBtn>
+                    </a>
+                  </Link>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <div className="nav-link">
