@@ -15,8 +15,9 @@ const convertBreadcrumb = (string) => {
 const Breadcrumbs = () => {
   const router = useRouter();
   const [breadcrumbs, setBreadcrumbs] = useState(null);
+  const LOCALE = "common";
 
-  const { t } = useTranslation("common");
+  const { t } = useTranslation(LOCALE);
 
   useEffect(() => {
     if (router) {
@@ -56,7 +57,12 @@ const Breadcrumbs = () => {
                     t(
                       breadcrumb.breadcrumb.charAt(0).toUpperCase() +
                         breadcrumb.breadcrumb.slice(1)
-                    )
+                    ).startsWith(LOCALE)
+                      ? breadcrumb.breadcrumb
+                      : t(
+                          breadcrumb.breadcrumb.charAt(0).toUpperCase() +
+                            breadcrumb.breadcrumb.slice(1)
+                        )
                   )}
                 </a>
               </li>
@@ -70,7 +76,12 @@ const Breadcrumbs = () => {
                       t(
                         breadcrumb.breadcrumb.charAt(0).toUpperCase() +
                           breadcrumb.breadcrumb.slice(1)
-                      )
+                      ).startsWith(LOCALE)
+                        ? breadcrumb.breadcrumb
+                        : t(
+                            breadcrumb.breadcrumb.charAt(0).toUpperCase() +
+                              breadcrumb.breadcrumb.slice(1)
+                          )
                     )}
                   </a>
                 </Link>

@@ -17,3 +17,15 @@ body {
   position: sticky;
   bottom: 0;
 }
+
+.breadcrumb > li:not(:first-child) {
+  margin-left: 5px;
+}
+
+.breadcrumb > li:after {
+  content: "  /";
+}
+
+.breadcrumb > li:last-child:after {
+  content: "";
+}
