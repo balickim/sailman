@@ -1,12 +1,12 @@
 import Head from "next/head";
-import Link from "next/link";
-import { withRouter } from "next/router";
+import useTranslation from "next-translate/useTranslation";
 import { useState } from "react";
+import { withRouter } from "next/router";
+import Link from "next/link";
 
 import Layout from "@components/Layout";
 import Card from "@components/announcement/Card";
 import { listAnnouncementsWithCategoriesAndTags } from "@actions/announcement";
-import useTranslation from "next-translate/useTranslation";
 
 const Announcements = ({
   announcements,
@@ -105,12 +105,30 @@ const Announcements = ({
     );
   };
 
+  const chunkArray = (arr, chunkSize) => {
+    let chunked = [];
+    for (let i = 0, j = arr.length; i < j; i += chunkSize) {
+      chunked.push(arr.slice(i, i + chunkSize));
+    }
+    return chunked;
+  };
+
   const showAllAnnouncements = () => {
-    return announcements.map((announcement, i) => {
+    let cols = 2;
+    const chunkedArray = chunkArray(announcements, cols);
+    cols = 12 / cols;
+
+    return chunkedArray.map((announcement, i) => {
       return (
-        <article key={i} className="mb-3">
-          <Card announcement={announcement} />
-        </article>
+        <div key={i} className="row">
+          <article className={`mb-3 col-lg-${cols}`} key={announcement[0]._id}>
+            <Card announcement={announcement[0]} />
+          </article>
+
+          <article className={`mb-3 col-lg-${cols}`} key={announcement[1]._id}>
+            <Card announcement={announcement[1]} />
+          </article>
+        </div>
       );
     });
   };
@@ -160,10 +178,7 @@ const Announcements = ({
 
   const filterForm = () => {
     return (
-      <div
-        className="container border ms-1"
-        style={{ width: "100%", height: "auto" }}
-      >
+      <div className="container border mb-3" style={{ overflow: "hidden" }}>
         <form onSubmit={pushParams} id="filterForm" className="mt-2">
           {/* <div className="pb-5 text-center">
             {showAllCategories()}
@@ -171,8 +186,8 @@ const Announcements = ({
             {showAllTags()}
           </div> */}
           <div className="form-group">
-            <div className="row mb-3">
-              <div className="col-md-12">
+            <div className="mb-3">
+              <div>
                 <input
                   type="phrase"
                   className="form-control"
@@ -250,39 +265,51 @@ const Announcements = ({
             </div>
           </div>
           <div className="row">
-            <input
-              type="checkbox"
-              value={lastMinute}
-              onChange={handleChange("lastMinute")}
-            />
-            <label htmlFor="lastMinute" className="ms-1 small">
-              {t("Last Minute")}
-            </label>
-          </div>
-          <div className="row">
-            <input
-              type="checkbox"
-              value={tidalCruise}
-              onChange={handleChange("tidalCruise")}
-            />
-            <label htmlFor="lastMinute" className="ms-1 small">
-              {t("Tidal cruise")}
-            </label>
-          </div>
-          <div className="row">
-            <input type="checkbox" value={map} onChange={handleChange("map")} />
-            <label htmlFor="lastMinute" className="ms-1 small">
-              {t("Announcement with map")}
-            </label>
-          </div>
-          <div className="row">
-            <button
-              type="submit"
-              className="btn btn-primary mb-3 mt-3"
-              form="filterForm"
-            >
-              {t("Search")}
-            </button>
+            <div className="col-10">
+              <div>
+                <input
+                  id="lastMinute"
+                  type="checkbox"
+                  value={lastMinute}
+                  onChange={handleChange("lastMinute")}
+                />
+                <label htmlFor="lastMinute" className="ms-1 small">
+                  {t("Last Minute")}
+                </label>
+              </div>
+              <div>
+                <input
+                  id="tidalCruise"
+                  type="checkbox"
+                  value={tidalCruise}
+                  onChange={handleChange("tidalCruise")}
+                />
+                <label htmlFor="tidalCruise" className="ms-1 small">
+                  {t("Tidal cruise")}
+                </label>
+              </div>
+              <div>
+                <input
+                  id="withMap"
+                  type="checkbox"
+                  value={map}
+                  onChange={handleChange("map")}
+                />
+                <label htmlFor="withMap" className="ms-1 small">
+                  {t("Announcement with map")}
+                </label>
+              </div>
+            </div>
+
+            <div className="col-2">
+              <button
+                type="submit"
+                className="btn btn-primary m-3 float-end"
+                form="filterForm"
+              >
+                {t("Search")}
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -297,19 +324,17 @@ const Announcements = ({
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">
-                <h1 className="display-4 font-weight-bold text-center mb-5">
+                <h1 className="font-weight-bold text-start mb-5">
                   {t("Announcements")}
                 </h1>
               </div>
             </header>
           </div>
-          <div className="row">
-            <div className="col-xl-4">{filterForm()}</div>
-            <div className="col-xl-8">
-              <div className="container-fluid">{showAllAnnouncements()}</div>
-              <div className="container-fluid">{showLoadedAnnouncements()}</div>
-              <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
-            </div>
+          <div>
+            <div>{filterForm()}</div>
+            <div>{showAllAnnouncements()}</div>
+            <div className="container-fluid">{showLoadedAnnouncements()}</div>
+            <div className="text-center pt-5 pb-5">{loadMoreButton()}</div>
           </div>
         </main>
       </Layout>
@@ -319,7 +344,7 @@ const Announcements = ({
 
 export async function getServerSideProps(context) {
   let skip = 0;
-  let limit = 1;
+  let limit = 4;
 
   return listAnnouncementsWithCategoriesAndTags(
     skip,

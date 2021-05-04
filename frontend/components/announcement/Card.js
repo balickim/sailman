@@ -1,8 +1,7 @@
-import dayjs from "dayjs";
 import Image from "next/image";
-import Link from "next/link";
-import parseToHTML from "html-react-parser";
 import useTranslation from "next-translate/useTranslation";
+import dayjs from "dayjs";
+import Link from "next/link";
 
 const Card = ({ announcement }) => {
   let { t } = useTranslation("announcements");
@@ -22,88 +21,71 @@ const Card = ({ announcement }) => {
     ));
 
   return (
-    <div className="card">
-      <section>
-        <div className="card-header">
-          <h3>{announcement.title}</h3>
+    <div className="card border">
+      <div className="row card-text">
+        <div className="col-xxl-3 text-center">
+          <Image
+            width={"200px"}
+            height={"200px"}
+            src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
+            alt={announcement.title}
+            className="img img-fluid pt-1 ms-3"
+          />
         </div>
-      </section>
-      <div className="row">
-        <div className="col-3">
-          <section className="ms-3">
-            <Image
-              width={"200px"}
-              height={"200px"}
-              src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
-              alt={announcement.title}
-              className="img img-fluid pt-3"
-            />
-          </section>
-        </div>
-        <div className="col-9 card-text">
-          <section>
-            <div className="row" style={{}}>
-              <div className="col-6">
-                <strong>Od:</strong> {announcement.startDate}
-              </div>
-              <div className="col-6">
-                <strong>Do:</strong> {announcement.endDate}
-              </div>
+        <div className="col-xxl-9">
+          <div className="ms-3">
+            <div>
+              <h2>{announcement.title}</h2>
             </div>
-            <div className="row">
-              <div className="col-6">
-                <strong>Dni:</strong> {announcement.days}
-              </div>
-              <div className="col-6">
-                <strong>Cena:</strong>{" "}
-                {announcement.price + " " + announcement.currency} za osobę
-              </div>
+            <div>
+              <strong>Termin:</strong> {announcement.startDate} -{" "}
+              {announcement.endDate} ({announcement.days} dni)
             </div>
-            <div className="row">
-              <div className="col-6">
-                <strong>Zawarte:</strong> {announcement.includedInPrice}
-              </div>
-              <div className="col-6">
-                <strong>Jacht:</strong> {announcement.yacht}
-              </div>
+            <div>
+              <strong>Cena:</strong>{" "}
+              {announcement.price + " " + announcement.currency} za osobę
             </div>
-
-            <div>{parseToHTML(announcement.excerpt)}</div>
-            <div className="float-end">
-              {announcement.lastMinute === true && (
-                <Image
-                  src="/images/clock.svg"
-                  width={"40px"}
-                  height={"40px"}
-                  alt="clock"
-                  title={t("Last Minute")}
-                  className="me-2"
-                />
-              )}
-              {announcement.tidalCruise === true && (
-                <Image
-                  src="/images/tide.svg"
-                  width={"40px"}
-                  height={"40px"}
-                  alt="tide"
-                  title={t("Tidal cruise")}
-                  className="me-1"
-                />
-              )}
-              {announcement.route && (
-                <Image
-                  src="/images/map.svg"
-                  width={"48px"}
-                  height={"48px"}
-                  alt="map"
-                  title={t("Announcement includes map")}
-                />
-              )}
-              <Link href={`/announcements/${announcement.slug}`}>
-                <a className="btn btn-primary m-2">{t("Read more")}</a>
-              </Link>
+            <div>
+              <strong>Jacht: </strong> {announcement.yacht}
             </div>
-          </section>
+            <div>
+              <strong>Zawarte: </strong> {announcement.includedInPrice}
+            </div>
+          </div>
+          <div className="float-end">
+            {announcement.lastMinute === true && (
+              <Image
+                src="/images/clock.svg"
+                width={"40px"}
+                height={"40px"}
+                alt="clock"
+                title={t("Last Minute")}
+                className="me-2"
+              />
+            )}
+            {announcement.tidalCruise === true && (
+              <Image
+                src="/images/tide.svg"
+                width={"40px"}
+                height={"40px"}
+                alt="tide"
+                title={t("Tidal cruise")}
+                className="me-1"
+              />
+            )}
+            {announcement.route && announcement.route.length > 0 && (
+              <Image
+                src="/images/map.svg"
+                width={"48px"}
+                height={"48px"}
+                alt="map"
+                title={t("Announcement includes map")}
+              />
+            )}
+            <Link href={`/announcements/${announcement.slug}`}>
+              <a className="btn btn-primary m-2">{t("Read more")}</a>
+            </Link>
+          </div>
         </div>
       </div>
       <div className="card-footer text-muted">
