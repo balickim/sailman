@@ -4,7 +4,7 @@ import AnnouncementRead from "@components/crud/AnnouncementRead";
 
 const Announcements = () => {
   return (
-    <Layout footer={false}>
+    <Layout footer={false} breadcrumbs={false}>
       <IsAuthorized role={["admin", "moderator"]}>
         <div className="container">
           <div className="row">

@@ -4,7 +4,7 @@ import AnnouncementForm from "@components/crud/AnnouncementForm";
 
 const Announcement = () => {
   return (
-    <Layout footer={false}>
+    <Layout footer={false} breadcrumbs={false}>
       <IsAuthorized role={["admin", "moderator"]}>
         <div className="container-fluid">
           <div className="row">

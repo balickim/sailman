@@ -7,7 +7,7 @@ const Announcement = () => {
   let { t } = useTranslation("announcements");
 
   return (
-    <Layout footer={false}>
+    <Layout footer={false} breadcrumbs={false}>
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-12 pt-5 pb-5">

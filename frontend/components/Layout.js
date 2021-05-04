@@ -12,9 +12,10 @@ Router.onRouteChangeStart = (url) => NProgress.start();
 Router.onRouteChangeComplete = (url) => NProgress.done();
 Router.onRouteChangeError = (url) => NProgress.done();
 
-const Layout = ({ children, wrap, footer }) => {
+const Layout = ({ children, wrap, footer, breadcrumbs }) => {
   wrap = wrap ?? true;
   footer = footer ?? true;
+  breadcrumbs = breadcrumbs ?? true;
 
   const { user } = useAuth();
 
@@ -24,9 +25,7 @@ const Layout = ({ children, wrap, footer }) => {
       <FeedbackForm />
       {wrap && (
         <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
-          <small style={{ fontSize: "12px" }}>
-            <Breadcrumbs />
-          </small>
+          {breadcrumbs && <Breadcrumbs />}
           {children}
         </div>
       )}

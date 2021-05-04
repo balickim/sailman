@@ -40,37 +40,19 @@ const Breadcrumbs = () => {
   }
 
   return (
-    <nav aria-label="breadcrumbs">
-      <ol className="breadcrumb">
-        <li>
-          <Link href="/">
-            <a>{t("Home").toUpperCase()}</a>
-          </Link>
-        </li>
-        {breadcrumbs.map((breadcrumb, i) => {
-          const length = breadcrumbs.length;
-          if (length === i + 1) {
-            return (
-              <li key={breadcrumb.href}>
-                <a>
-                  {convertBreadcrumb(
-                    t(
-                      breadcrumb.breadcrumb.charAt(0).toUpperCase() +
-                        breadcrumb.breadcrumb.slice(1)
-                    ).startsWith(LOCALE)
-                      ? breadcrumb.breadcrumb
-                      : t(
-                          breadcrumb.breadcrumb.charAt(0).toUpperCase() +
-                            breadcrumb.breadcrumb.slice(1)
-                        )
-                  )}
-                </a>
-              </li>
-            );
-          } else {
-            return (
-              <li key={breadcrumb.href}>
-                <Link href={breadcrumb.href}>
+    <small style={{ fontSize: "12px" }}>
+      <nav aria-label="breadcrumbs">
+        <ol className="breadcrumb">
+          <li>
+            <Link href="/">
+              <a>{t("Home").toUpperCase()}</a>
+            </Link>
+          </li>
+          {breadcrumbs.map((breadcrumb, i) => {
+            const length = breadcrumbs.length;
+            if (length === i + 1) {
+              return (
+                <li key={breadcrumb.href}>
                   <a>
                     {convertBreadcrumb(
                       t(
@@ -84,13 +66,33 @@ const Breadcrumbs = () => {
                           )
                     )}
                   </a>
-                </Link>
-              </li>
-            );
-          }
-        })}
-      </ol>
-    </nav>
+                </li>
+              );
+            } else {
+              return (
+                <li key={breadcrumb.href}>
+                  <Link href={breadcrumb.href}>
+                    <a>
+                      {convertBreadcrumb(
+                        t(
+                          breadcrumb.breadcrumb.charAt(0).toUpperCase() +
+                            breadcrumb.breadcrumb.slice(1)
+                        ).startsWith(LOCALE)
+                          ? breadcrumb.breadcrumb
+                          : t(
+                              breadcrumb.breadcrumb.charAt(0).toUpperCase() +
+                                breadcrumb.breadcrumb.slice(1)
+                            )
+                      )}
+                    </a>
+                  </Link>
+                </li>
+              );
+            }
+          })}
+        </ol>
+      </nav>
+    </small>
   );
 };
 

@@ -103,7 +103,7 @@ const SingleAnnouncement = ({ announcement, query }) => {
             <div className="container">
               <h2 className="pb-3 text-center pt-3">{announcement.title}</h2>
               <section>
-                {announcement.route && (
+                {announcement.route && announcement.route.length > 0 && (
                   <div
                     className="border"
                     style={{ width: "auto", height: "400px" }}
@@ -129,7 +129,7 @@ const SingleAnnouncement = ({ announcement, query }) => {
                 <div className="row">
                   Pływowy: {announcement.tidalCruise === false ? "tak" : "nie"}
                 </div>
-                <div className="col-md-12 lead mt-3">
+                <div className="col-md-12 lead mt-3 text-break">
                   {parseToHTML(announcement.body)}
                 </div>
               </section>
