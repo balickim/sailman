@@ -1,6 +1,12 @@
 .ql-editor {
   min-height: 200px;
 }
+.ql-align-center {
+  text-align: center; // clone quill classes for renderHTML
+}
+.ql-align-right {
+  text-align: right; // clone quill classes for renderHTML
+}
 
 .featured-image {
   width: 100%;
@@ -17,11 +23,9 @@
 .breadcrumb > li:not(:first-child) {
   margin-left: 5px;
 }
-
 .breadcrumb > li:after {
   content: "  /";
 }
-
 .breadcrumb > li:last-child:after {
   content: "";
 }
