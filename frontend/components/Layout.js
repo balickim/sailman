@@ -24,9 +24,9 @@ const Layout = ({ children, wrap, footer }) => {
       <FeedbackForm />
       {wrap && (
         <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
-          <div className="small">
+          <small style={{ fontSize: "12px" }}>
             <Breadcrumbs />
-          </div>
+          </small>
           {children}
         </div>
       )}

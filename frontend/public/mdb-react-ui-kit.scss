@@ -6,6 +6,9 @@ $secondary: #7fc9f6;
 $success: #3a4615;
 $info: #c9d0ad;
 
+// font
+$font-size-base: 0.9rem;
+
 // ------------------------ OVERRIDE ------------------------ //
 @import "/node_modules/mdb-react-ui-kit/dist/scss/mdb.core.scss";
 @import "/node_modules/mdb-react-ui-kit/dist/scss/mdb.free.scss";
