@@ -3,15 +3,6 @@ import useTranslation from "next-translate/useTranslation";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-const convertBreadcrumb = (string) => {
-  return string
-    .replace(/-/g, " ")
-    .replace(/oe/g, "ö")
-    .replace(/ae/g, "ä")
-    .replace(/ue/g, "ü")
-    .toUpperCase();
-};
-
 const Breadcrumbs = () => {
   const router = useRouter();
   const [breadcrumbs, setBreadcrumbs] = useState(null);
@@ -39,6 +30,36 @@ const Breadcrumbs = () => {
     return null;
   }
 
+  const validateObjectId = (id) => {
+    let bool = false;
+    if (id.length === 24) bool = /[a-f]+/.test(id);
+    return bool;
+  };
+
+  const convertBreadcrumb = (string) => {
+    let cleanString =
+      string.match(/\w+=\w+/g) === null
+        ? string
+        : string.substring(0, string.indexOf("?")); // delete url parameters from breadcrumb
+
+    let cleanStringArray = cleanString.split("-");
+
+    const isLastPartMongoObjectId = validateObjectId(cleanStringArray.pop());
+    cleanString = isLastPartMongoObjectId
+      ? cleanStringArray.join("-")
+      : cleanString; // if something contains mongodb objectId at the end then delete that id
+
+    const upperCaseString =
+      cleanString.charAt(0).toUpperCase() + cleanString.slice(1);
+    let translation = t(upperCaseString);
+
+    if (translation.startsWith(LOCALE)) {
+      translation = cleanString.charAt(0).toUpperCase() + cleanString.slice(1);
+    } // if there is no translation
+
+    return translation.replace(/-/g, " ").toUpperCase();
+  };
+
   return (
     <small style={{ fontSize: "12px" }}>
       <nav aria-label="breadcrumbs">
@@ -53,38 +74,14 @@ const Breadcrumbs = () => {
             if (length === i + 1) {
               return (
                 <li key={breadcrumb.href}>
-                  <a>
-                    {convertBreadcrumb(
-                      t(
-                        breadcrumb.breadcrumb.charAt(0).toUpperCase() +
-                          breadcrumb.breadcrumb.slice(1)
-                      ).startsWith(LOCALE)
-                        ? breadcrumb.breadcrumb
-                        : t(
-                            breadcrumb.breadcrumb.charAt(0).toUpperCase() +
-                              breadcrumb.breadcrumb.slice(1)
-                          )
-                    )}
-                  </a>
+                  <a>{convertBreadcrumb(breadcrumb.breadcrumb)}</a>
                 </li>
               );
             } else {
               return (
                 <li key={breadcrumb.href}>
                   <Link href={breadcrumb.href}>
-                    <a>
-                      {convertBreadcrumb(
-                        t(
-                          breadcrumb.breadcrumb.charAt(0).toUpperCase() +
-                            breadcrumb.breadcrumb.slice(1)
-                        ).startsWith(LOCALE)
-                          ? breadcrumb.breadcrumb
-                          : t(
-                              breadcrumb.breadcrumb.charAt(0).toUpperCase() +
-                                breadcrumb.breadcrumb.slice(1)
-                            )
-                      )}
-                    </a>
+                    <a>{convertBreadcrumb(breadcrumb.breadcrumb)}</a>
                   </Link>
                 </li>
               );
