@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const swaggerUi = require("swagger-ui-express");
+const openApiJson = require("./routes/openapi.json");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
@@ -48,6 +50,7 @@ app.use("/api", userRoutes);
 app.use("/api", categoryRoutes);
 app.use("/api", tagRoutes);
 app.use("/api", formRoutes);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiJson));
 
 // port
 const port = process.env.PORT || 8000;
