@@ -44,7 +44,7 @@ const ResetPassword = ({ router }) => {
 
   const passwordResetForm = () => (
     <form onSubmit={handleSubmit}>
-      <div className="form-group pt-5">
+      <div className="form-group pt-2">
         <input
           type="password"
           onChange={(e) =>
@@ -57,27 +57,28 @@ const ResetPassword = ({ router }) => {
         />
       </div>
       <div>
-        <button className="btn btn-primary">{t("Change password")}</button>
+        <button className="btn btn-primary mt-3">{t("Change password")}</button>
       </div>
     </form>
   );
 
   return (
-    <Layout>
-      <div className="container mt-4">
+    <Layout breadcrumbs={false} footer={false}>
+      <div className="container">
         <h2>{t("Password reset")}</h2>
         <hr />
+        {passwordResetForm()}
         {showError()}
         {showMessage()}
-        {passwordResetForm()}
       </div>
     </Layout>
   );
 };
 
-export const getServerSideProps = async () => {
+export const getStaticPaths = async () => {
   return {
-    props: {},
+    paths: [], //indicates that no page needs be created at build time
+    fallback: "blocking", //indicates the type of fallback
   };
 };
 

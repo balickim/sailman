@@ -44,7 +44,7 @@ const ForgotPassword = () => {
 
   const passwordForgotForm = () => (
     <form onSubmit={handleSubmit}>
-      <div className="form-group pt-5">
+      <div className="form-group pt-2">
         <input
           type="email"
           onChange={handleChange("email")}
@@ -55,13 +55,13 @@ const ForgotPassword = () => {
         />
       </div>
       <div>
-        <button className="btn btn-primary">{t("Submit")}</button>
+        <button className="btn btn-primary mt-3">{t("Submit")}</button>
       </div>
     </form>
   );
 
   return (
-    <Layout>
+    <Layout breadcrumbs={false} footer={false}>
       <div className="container mt-4">
         <h2>{t("Password reset")}</h2>
         <hr />

@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import useTranslation from "next-translate/useTranslation";
 import { withRouter } from "next/router";
 
 import Layout from "@components/Layout";
 import { signup } from "@actions/auth";
 
 const ActivateAccount = ({ router }) => {
+  let { t } = useTranslation("common");
+
   const [values, setValues] = useState({
     token: "",
     error: "",
@@ -44,23 +47,30 @@ const ActivateAccount = ({ router }) => {
     });
   };
 
-  const showLoading = () => (loading ? <h2>Loading...</h2> : "");
+  const showLoading = () => (loading ? <h2>...</h2> : "");
 
   return (
-    <Layout>
-      <div className="container">
+    <Layout footer={false} breadcrumbs={false}>
+      <div className="container pt-5">
         {showLoading()}
         {error && error}
         {success &&
-          "You have successfully activated your account. Please signin."}
+          t("You have successfully activated your account. Please signin.")}
         {showButton && (
           <button className="btn btn-outline-primary" onClick={clickSubmit}>
-            Activate Account
+            {t("Activate Account")}
           </button>
         )}
       </div>
     </Layout>
   );
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [], //indicates that no page needs be created at build time
+    fallback: "blocking", //indicates the type of fallback
+  };
 };
 
 export default withRouter(ActivateAccount);
