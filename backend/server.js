@@ -1,10 +1,9 @@
 const express = require("express");
-const morgan = require("morgan");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
+const morgan = require("morgan");
 const swaggerUi = require("swagger-ui-express");
-const openApiJson = require("./routes/openapi.json");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
@@ -16,13 +15,14 @@ const userRoutes = require("./routes/user");
 const categoryRoutes = require("./routes/category");
 const tagRoutes = require("./routes/tag");
 const formRoutes = require("./routes/form");
+const openApiJson = require("./routes/openapi.json");
 
 // app
 const app = express();
 
 // database
 mongoose
-  .connect(process.env.DATABASE_LOCAL, {
+  .connect(process.env.DATABASE, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -34,9 +34,7 @@ mongoose
   });
 
 // cors
-// if (process.env.NODE_ENV === "production") {
 app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
-// }
 
 // middleware
 app.use(cookieParser());

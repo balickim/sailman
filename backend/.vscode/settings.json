@@ -3,6 +3,7 @@
         "delim",
         "mdesc",
         "mtitle",
+        "openapi",
         "signin",
         "signout"
     ]
