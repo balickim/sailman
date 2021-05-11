@@ -22,5 +22,9 @@
   "Login with Google": "Zaloguj z Google",
   "Name": "Imię",
   "Account verification email sent. Expires in 10 minutes.": "Wysłano E-mail z linkiem aktywacyjnym. Link wygasa za 10 minut.",
-  "Password reset email sent successfully. Expires in 10 minutes.": "Wysłano E-mail z linkiem resetującym hasło. Link wygasa za 10 minut."
+  "Password reset email sent successfully. Expires in 10 minutes.": "Wysłano E-mail z linkiem resetującym hasło. Link wygasa za 10 minut.",
+  "Contact form": "Formularz kontaktowy",
+  "Message": "Wiadomość",
+  "Sent": "Wysłano",
+  "Thank you for contacting us.": "Dziękujemy za wysłanie wiadomości."
 }

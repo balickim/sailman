@@ -1,14 +1,17 @@
 import { useState } from "react";
+import useTranslation from "next-translate/useTranslation";
 
 import { send } from "@actions/form";
 
 const ContactForm = () => {
+  let { t } = useTranslation("common");
+
   const [values, setValues] = useState({
     message: "",
     name: "",
     email: "",
     sent: false,
-    buttonText: "Send Message",
+    buttonText: t("Submit"),
     success: false,
     error: false,
   });
@@ -17,7 +20,7 @@ const ContactForm = () => {
 
   const clickSubmit = (e) => {
     e.preventDefault();
-    setValues({ ...values, buttonText: "Sending..." });
+    setValues({ ...values, buttonText: "..." });
     send({ name, email, message }).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
@@ -28,7 +31,7 @@ const ContactForm = () => {
           name: "",
           email: "",
           message: "",
-          buttonText: "Sent",
+          buttonText: t("Sent"),
           success: data.success,
         });
       }
@@ -41,13 +44,15 @@ const ContactForm = () => {
       [name]: e.target.value,
       error: false,
       success: false,
-      buttonText: "Send Message",
+      buttonText: t("Submit"),
     });
   };
 
   const showSuccessMessage = () =>
     success && (
-      <div className="alert alert-info">Thank you for contacting us.</div>
+      <div className="alert alert-info">
+        {t("Thank you for contacting us.")}
+      </div>
     );
 
   const showErrorMessage = () => (
@@ -63,7 +68,7 @@ const ContactForm = () => {
     return (
       <form onSubmit={clickSubmit} className="pb-5">
         <div className="form-group">
-          <label className="lead">Message</label>
+          <label className="lead">{t("Message")}</label>
           <textarea
             onChange={handleChange("message")}
             type="text"
@@ -75,7 +80,7 @@ const ContactForm = () => {
         </div>
 
         <div className="form-group">
-          <label className="lead">Name</label>
+          <label className="lead">{t("Name")}</label>
           <input
             type="text"
             onChange={handleChange("name")}
@@ -86,7 +91,7 @@ const ContactForm = () => {
         </div>
 
         <div className="form-group">
-          <label className="lead">Email</label>
+          <label className="lead">{t("E-mail")}</label>
           <input
             type="email"
             onChange={handleChange("email")}
@@ -96,7 +101,7 @@ const ContactForm = () => {
           />
         </div>
 
-        <div>
+        <div className="pt-3">
           <button className="btn btn-primary">{buttonText}</button>
         </div>
       </form>
@@ -105,6 +110,8 @@ const ContactForm = () => {
 
   return (
     <>
+      <h2>{t("Contact form")}</h2>
+      <hr />
       {showSuccessMessage()}
       {showErrorMessage()}
       {contactForm()}
