@@ -34,8 +34,10 @@ mongoose
     console.log(err);
   });
 
+require("./helpers/seed");
+
 // cors
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
 
 // middleware
 app.use(cookieParser());
