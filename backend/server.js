@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const swaggerUi = require("swagger-ui-express");
 const mongoose = require("mongoose");
+const mongoSanitize = require("express-mongo-sanitize");
 
 require("dotenv").config();
 
@@ -34,12 +35,19 @@ mongoose
   });
 
 // cors
-app.use(cors({ origin: process.env.CLIENT_URL, credentials: true }));
+app.use(cors({ origin: true, credentials: true }));
 
 // middleware
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use(bodyParser.json({ limit: "10mb" }));
+
+// mongo sanitization
+app.use(
+  mongoSanitize({
+    replaceWith: "_",
+  })
+);
 
 // routes middleware
 app.use("/api", announcementRoutes);
