@@ -22,7 +22,7 @@ const Layout = ({ children, wrap, footer, breadcrumbs }) => {
   return (
     <>
       <Header role={user?.role} />
-      <FeedbackForm />
+      {user?.role === "user" && <FeedbackForm />}
       {wrap && (
         <div className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
           {breadcrumbs && <Breadcrumbs />}

@@ -9,7 +9,6 @@ const BackgroundImage = () => (
         src="/images/pexels-tony-cowen.jpg"
         layout="fill"
         objectFit="cover"
-        quality={100}
       />
     </div>
   </div>

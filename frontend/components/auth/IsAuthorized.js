@@ -5,8 +5,6 @@ const IsAuthorized = ({ children, role }) => {
 
   const appRolesList = ["user", "moderator", "admin"];
 
-  console.log("%cIsAuthorized.js line:10 role", "color: #007acc;", role);
-
   if (role && appRolesList.some((v) => role.includes(v))) {
     if (role.includes(user?.role)) {
       return <>{children}</>;
