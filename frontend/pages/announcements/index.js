@@ -121,13 +121,23 @@ const Announcements = ({
     return chunkedArray.map((announcement, i) => {
       return (
         <div key={i} className="row">
-          <article className={`mb-3 col-lg-${cols}`} key={announcement[0]._id}>
-            <Card announcement={announcement[0]} />
-          </article>
+          {announcement[0] && (
+            <article
+              className={`mb-3 col-lg-${cols}`}
+              key={announcement[0]._id}
+            >
+              <Card announcement={announcement[0]} />
+            </article>
+          )}
 
-          <article className={`mb-3 col-lg-${cols}`} key={announcement[1]._id}>
-            <Card announcement={announcement[1]} />
-          </article>
+          {announcement[1] && (
+            <article
+              className={`mb-3 col-lg-${cols}`}
+              key={announcement[1]._id}
+            >
+              <Card announcement={announcement[1]} />
+            </article>
+          )}
         </div>
       );
     });
