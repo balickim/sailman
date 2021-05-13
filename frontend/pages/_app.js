@@ -12,23 +12,25 @@ import BackgroundImage from "@components/BackgroundImage";
 // This default export is required in a new `pages/_app.js` file.
 function MyApp({ Component, pageProps }) {
   return (
-    <AuthProvider>
-      <ProtectRoute>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <link
-            href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
-            rel="stylesheet"
-          />
-          <link
-            href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-            rel="stylesheet"
-          />
-        </Head>
-        <BackgroundImage />
-        <Component {...pageProps} />
-      </ProtectRoute>
-    </AuthProvider>
+    <>
+      <BackgroundImage />
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link
+          href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
+          rel="stylesheet"
+        />
+        <link
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+          rel="stylesheet"
+        />
+      </Head>
+      <AuthProvider>
+        <ProtectRoute>
+          <Component {...pageProps} />
+        </ProtectRoute>
+      </AuthProvider>
+    </>
   );
 }
 
