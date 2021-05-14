@@ -5,7 +5,7 @@
     "*": ["common"],
     "/": ["home"],
     "/announcements": ["announcements"],
-    "/user/crud/announcement": ["announcements"],
-    "/user/crud/[slug]": ["announcements"]
+    "/user/manage/announcement": ["announcements"],
+    "/user/manage/[slug]": ["announcements"]
   }
 }

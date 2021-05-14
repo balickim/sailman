@@ -1,18 +1,15 @@
 import Layout from "@components/Layout";
 import IsAuthorized from "@components/auth/IsAuthorized";
-import AnnouncementForm from "@components/crud/AnnouncementForm";
+import AnnouncementRead from "@components/manage/AnnouncementRead";
 
-const Announcement = () => {
+const Announcements = () => {
   return (
     <Layout footer={false} breadcrumbs={false}>
       <IsAuthorized role={["admin", "moderator"]}>
-        <div className="container-fluid">
+        <div className="container">
           <div className="row">
-            <div className="col-md-12 pt-5 pb-5">
-              <h2>Update announcement</h2>
-            </div>
             <div className="col-md-12">
-              <AnnouncementForm />
+              <AnnouncementRead />
             </div>
           </div>
         </div>
@@ -21,4 +18,4 @@ const Announcement = () => {
   );
 };
 
-export default Announcement;
+export default Announcements;

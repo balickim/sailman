@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
+import useTranslation from "next-translate/useTranslation";
 
 import { list, remove } from "@actions/announcement";
 
@@ -11,6 +12,8 @@ const AnnouncementRead = ({ username }) => {
   const [message, setMessage] = useState("");
 
   const { user } = useAuth();
+
+  const { t } = useTranslation("common");
 
   useEffect(() => {
     loadAnnouncements();
@@ -47,13 +50,13 @@ const AnnouncementRead = ({ username }) => {
   const showUpdateButton = (announcement) => {
     if (user && user.role === "user") {
       return (
-        <Link href={`/user/crud/${announcement.slug}`}>
+        <Link href={`/user/manage/${announcement.slug}`}>
           <a className="btn btn-sm btn-warning">Update</a>
         </Link>
       );
     } else if ((user && user.role === "admin") || user.role === "moderator") {
       return (
-        <Link href={`/admin/crud/${announcement.slug}`}>
+        <Link href={`/admin/manage/${announcement.slug}`}>
           <a className="ms-2 btn btn-sm btn-warning">Update</a>
         </Link>
       );
@@ -91,6 +94,9 @@ const AnnouncementRead = ({ username }) => {
 
   return (
     <>
+      <div className="col-md-12 pt-5 pb-5">
+        <h2>{t("Manage announcements")}</h2>
+      </div>
       <div className="row">
         <div className="col-md-12">
           {message && <div className="alert alert-warning">{message}</div>}

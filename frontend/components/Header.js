@@ -56,7 +56,7 @@ const Header = ({ role }) => {
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
-                  <Link href="/user/crud/announcement">
+                  <Link href="/user/manage/announcement">
                     <a className="text-white">
                       <MDBBtn rounded>{t("Add announcement")}</MDBBtn>
                     </a>

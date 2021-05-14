@@ -10,7 +10,7 @@ const BackgroundImage = () => (
         layout="fill"
         objectFit="cover"
         quality={100}
-        loading="eager"
+        priority={true}
       />
     </div>
   </>
