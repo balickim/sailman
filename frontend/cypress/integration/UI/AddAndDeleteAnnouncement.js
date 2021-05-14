@@ -1,13 +1,13 @@
 describe("Add and delete accouncement", () => {
   it("Adds new announcement with basic title and body", () => {
-    cy.visit("/")
+    cy.visit("/");
 
-    cy.request('POST', 'localhost:8000/api/signin', {
-      email: Cypress.env('BOT_EMAIL'),
-      password: Cypress.env('BOT_PASS'),
-    })
+    cy.request("POST", "localhost:8000/api/signin", {
+      email: Cypress.env("BOT_EMAIL"),
+      password: Cypress.env("BOT_PASS"),
+    });
 
-    cy.visit("/user/crud/announcement")
+    cy.visit("/user/manage/announcement");
 
     cy.get("div.col-md-4")
       .children()
@@ -30,9 +30,7 @@ describe("Add and delete accouncement", () => {
           .type("Testowe ogłoszenie bota")
           .should("have.value", "Testowe ogłoszenie bota");
         cy.get("div[class=form-group]");
-        cy.get(
-          'div[class="ql-editor ql-blank"]'
-        ).type(
+        cy.get('div[class="ql-editor ql-blank"]').type(
           "wololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololowololo",
           { delay: 10 }
         );
@@ -41,10 +39,10 @@ describe("Add and delete accouncement", () => {
   });
 
   it("Goes to Announcements and checks if newly created ann exists", () => {
-    cy.request('POST', 'localhost:8000/api/signin', {
-      email: Cypress.env('BOT_EMAIL'),
-      password: Cypress.env('BOT_PASS'),
-    })
+    cy.request("POST", "localhost:8000/api/signin", {
+      email: Cypress.env("BOT_EMAIL"),
+      password: Cypress.env("BOT_PASS"),
+    });
 
     cy.contains("Announcements").click();
     cy.location("href").should("eq", "http://localhost:3000/announcements");
@@ -61,17 +59,17 @@ describe("Add and delete accouncement", () => {
   });
 
   it("Deletes newly created announcement", () => {
-    cy.request('POST', 'localhost:8000/api/signin', {
-      email: Cypress.env('BOT_EMAIL'),
-      password: Cypress.env('BOT_PASS'),
-    })
+    cy.request("POST", "localhost:8000/api/signin", {
+      email: Cypress.env("BOT_EMAIL"),
+      password: Cypress.env("BOT_PASS"),
+    });
 
     cy.contains("bot Dashboard").click();
     cy.location("href").should("eq", "http://localhost:3000/user");
     cy.get("div.col-md-4").children().eq(2).children().first().click();
     cy.location("href").should(
       "eq",
-      "http://localhost:3000/user/crud/announcements"
+      "http://localhost:3000/user/manage/announcements"
     );
     cy.contains("Delete").click();
     cy.on("window:alert", (str) => {

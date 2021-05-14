@@ -1,18 +1,22 @@
+import useTranslation from "next-translate/useTranslation";
+
 import Layout from "@components/Layout";
 import IsAuthorized from "@components/auth/IsAuthorized";
-import AnnouncementRead from "@components/crud/AnnouncementRead";
+import AnnouncementForm from "@components/manage/AnnouncementForm";
 
-const Announcements = () => {
+const Announcement = () => {
+  let { t } = useTranslation("announcements");
+
   return (
-    <Layout footer={false} breadcrumbs={false}>
+    <Layout footer={false}>
       <IsAuthorized role={["admin", "moderator"]}>
-        <div className="container">
+        <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">
-              <h2>Manage announcements</h2>
+              <h2>{t("Edit announcement")}</h2>
             </div>
             <div className="col-md-12">
-              <AnnouncementRead />
+              <AnnouncementForm />
             </div>
           </div>
         </div>
@@ -21,4 +25,4 @@ const Announcements = () => {
   );
 };
 
-export default Announcements;
+export default Announcement;

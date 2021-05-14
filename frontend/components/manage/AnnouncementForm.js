@@ -473,10 +473,10 @@ const AnnouncementForm = ({ router }) => {
   const additionalInfo = () => {
     return (
       <>
-        <div className="form-group pb-2">
+        <div className="form-group pb-2 mt-3">
           <h5>{t("Featured image")}</h5>
           <hr />
-          <div className="d-flex justify-content-center mb-3">
+          <div className="d-flex justify-content-center">
             {router.query.slug && body && (
               <Image
                 src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${router.query.slug}`}
@@ -486,7 +486,7 @@ const AnnouncementForm = ({ router }) => {
               />
             )}
           </div>
-          <small className="text-muted">{t("Max size 1mb")} </small>
+          <small className="text-muted me-2">{t("Max size 1mb")} </small>
           <label className="btn btn-outline-info">
             {t("Upload featured image")}
             <input
@@ -510,7 +510,7 @@ const AnnouncementForm = ({ router }) => {
           </div>
         </div>
 
-        <div>
+        <div className="mt-3">
           <h5>{t("Categories")}*</h5>
           <hr />
           <ul style={{ maxHeight: "200px", overflowY: "scroll" }}>
@@ -571,7 +571,7 @@ const AnnouncementForm = ({ router }) => {
           {showSuccess()}
         </div>
       </div>
-      <div className="sticky float-end mb-4">
+      <div className="float-end mb-4">
         <button
           type="submit"
           className="btn btn-primary  "
