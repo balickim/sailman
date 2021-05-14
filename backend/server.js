@@ -28,6 +28,8 @@ mongoose
     useNewUrlParser: true,
     useCreateIndex: true,
     useFindAndModify: false,
+    user: process.env.DATABASE_USER,
+    pass: process.env.DATABASE_PWD,
   })
   .then(() => console.log("Database connected"))
   .catch((err) => {
