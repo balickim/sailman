@@ -124,7 +124,7 @@ const FeedbackForm = () => {
           <input
             type="textarea"
             className="form-control"
-            placeholder={t("(Optional) What should we change?")}
+            placeholder={t("feedback_msg")}
             value={message}
             onChange={handleChange}
           />

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
-
 import { useRouter } from "next/router";
+import Error from "next/error";
 
 const AuthContext = createContext({});
 
@@ -33,7 +33,8 @@ export const AuthProvider = ({ children }) => {
           if (data.status === 401) {
             let response = await refreshToken();
             // if status is 401 from token api return empty response to close recursion
-            if (response.status === 401) {
+            if (response.status === 401 || response.status === 400) {
+              localStorage.removeItem("accessToken");
               return {};
             }
             let res = await response.json();
@@ -125,7 +126,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => useContext(AuthContext);
 
 export const ProtectRoute = ({ children }) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated } = useAuth();
   const router = useRouter();
 
   const AllowPathsList = [
@@ -140,11 +141,8 @@ export const ProtectRoute = ({ children }) => {
     "/announcements/[slug]",
   ];
 
-  if (
-    loading ||
-    (!isAuthenticated && AllowPathsList.indexOf(router.pathname) === -1)
-  ) {
-    return <p>Access denied</p>;
+  if (!isAuthenticated && AllowPathsList.indexOf(router.pathname) === -1) {
+    return <Error statusCode={403} title="Access denied" />;
   }
   return children;
 };

@@ -1,6 +1,8 @@
 import Router from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
+import { MDBSpinner } from "mdb-react-ui-kit";
+
 import { preSignup } from "@actions/auth";
 import { useAuth } from "@components/auth/AuthProvider";
 
@@ -40,7 +42,7 @@ const SignupComponent = () => {
           email: "",
           password: "",
           loading: false,
-          message: t("Account verification email sent. Expires in 10 minutes."),
+          message: t("email_sent"),
           showForm: false,
         });
       }
@@ -52,11 +54,21 @@ const SignupComponent = () => {
   };
 
   const showLoading = () =>
-    loading ? <div className="alert alert-info">Loading...</div> : "";
+    loading ? (
+      <div className="text-center">
+        <MDBSpinner color="primary" />
+      </div>
+    ) : (
+      ""
+    );
   const showError = () =>
-    error ? <div className="alert alert-danger">{error}</div> : "";
+    error ? <div className="alert alert-danger text-center">{error}</div> : "";
   const showMessage = () =>
-    message ? <div className="alert alert-info">{message}</div> : "";
+    message ? (
+      <div className="alert alert-info text-center">{message}</div>
+    ) : (
+      ""
+    );
 
   const signupForm = () => {
     return (
@@ -90,7 +102,7 @@ const SignupComponent = () => {
               placeholder={t("Password")}
             ></input>
           </div>
-          <div>
+          <div className="pt-2">
             <button className="btn btn-primary">{t("Signup")}</button>
           </div>
         </form>
@@ -100,9 +112,9 @@ const SignupComponent = () => {
   return (
     <>
       {showError()}
-      {showLoading()}
       {showMessage()}
       {showForm && signupForm()}
+      {showLoading()}
     </>
   );
 };

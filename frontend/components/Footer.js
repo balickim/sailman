@@ -1,5 +1,7 @@
 import useTranslation from "next-translate/useTranslation";
 
+import packageJson from "../package.json";
+
 const Layout = () => {
   let { t } = useTranslation("common");
 
@@ -133,7 +135,7 @@ const Layout = () => {
           </div>
         </div>
         <div className="float-end">
-          <p>Version: 0.2.0</p>
+          <p>Version: {packageJson.version}</p>
         </div>
       </footer>
     </>

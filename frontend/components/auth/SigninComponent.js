@@ -2,6 +2,7 @@ import Router from "next/router";
 import useTranslation from "next-translate/useTranslation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { MDBSpinner } from "mdb-react-ui-kit";
 
 import { useAuth } from "@components/auth/AuthProvider";
 import { signin } from "@actions/auth";
@@ -52,11 +53,21 @@ const SigninComponent = () => {
   };
 
   const showLoading = () =>
-    loading ? <div className="alert alert-info">Loading...</div> : "";
+    loading ? (
+      <div className="text-center">
+        <MDBSpinner color="primary" />
+      </div>
+    ) : (
+      ""
+    );
   const showError = () =>
-    error ? <div className="alert alert-danger">{error}</div> : "";
+    error ? <div className="alert alert-danger text-center">{error}</div> : "";
   const showMessage = () =>
-    message ? <div className="alert alert-info">{message}</div> : "";
+    message ? (
+      <div className="alert alert-info text-center">{message}</div>
+    ) : (
+      ""
+    );
 
   const signinForm = () => {
     return (
@@ -81,7 +92,7 @@ const SigninComponent = () => {
               placeholder={t("Password")}
             ></input>
           </div>
-          <div>
+          <div className="pt-2">
             <button className="btn btn-primary">{t("Signin")}</button>
           </div>
           <div>
@@ -96,13 +107,13 @@ const SigninComponent = () => {
   return (
     <>
       {showError()}
-      {showLoading()}
       {showMessage()}
       {showForm && signinForm()}
       <hr />
       <h2>{t("OR")}</h2>
       <hr />
       <LoginGoogle buttonText={t("Login with Google")} />
+      {showLoading()}
     </>
   );
 };

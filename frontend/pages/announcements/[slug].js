@@ -12,7 +12,7 @@ import { singleAnnouncement, listRelated } from "@actions/announcement";
 import SmallCard from "@components/announcement/SmallCard";
 
 const Map = dynamic(() => import("@components/map/Map"), {
-  loading: () => <MDBSpinner />,
+  loading: () => <MDBSpinner color="primary" />,
   ssr: false,
 });
 

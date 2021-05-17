@@ -174,7 +174,7 @@ const ProfileUpdate = () => {
 
   const showLoading = () => (
     <div style={{ display: loading ? "" : "none" }}>
-      <MDBSpinner />
+      <MDBSpinner color="primary" />
     </div>
   );
 

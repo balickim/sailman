@@ -1,4 +1,5 @@
 import { useAuth } from "@components/auth/AuthProvider";
+import Error from "next/error";
 
 const IsAuthorized = ({ children, role }) => {
   const { user } = useAuth();
@@ -10,7 +11,7 @@ const IsAuthorized = ({ children, role }) => {
       return <>{children}</>;
     }
   }
-  return <p>Not authorized</p>;
+  return <Error statusCode={401} title="Not authorized" />;
 };
 
 export default IsAuthorized;
