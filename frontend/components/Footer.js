@@ -133,7 +133,7 @@ const Layout = () => {
           </div>
         </div>
         <div className="float-end">
-          <p>Version: 0.2.0</p>
+          <p>Version: 0.2.1</p>
         </div>
       </footer>
     </>

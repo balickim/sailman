@@ -28,9 +28,7 @@ const ForgotPassword = () => {
       } else {
         setValues({
           ...values,
-          message: t(
-            "Password reset email sent successfully. Expires in 10 minutes."
-          ),
+          message: t("email_reset_sent"),
           email: "",
         });
       }

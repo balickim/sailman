@@ -12,13 +12,13 @@ import { create } from "@actions/announcement";
 import { useAuth } from "@components/auth/AuthProvider";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
-  loading: () => <MDBSpinner />,
+  loading: () => <MDBSpinner color="primary" />,
   ssr: false,
 });
 import { QuillModules, QuillFormats } from "@helpers/quill";
 
 const Map = dynamic(() => import("../map/Map"), {
-  loading: () => <MDBSpinner />,
+  loading: () => <MDBSpinner color="primary" />,
   ssr: false,
 });
 

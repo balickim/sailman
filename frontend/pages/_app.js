@@ -13,7 +13,6 @@ import BackgroundImage from "@components/BackgroundImage";
 function MyApp({ Component, pageProps }) {
   return (
     <>
-      <BackgroundImage />
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link
@@ -27,6 +26,7 @@ function MyApp({ Component, pageProps }) {
       </Head>
       <AuthProvider>
         <ProtectRoute>
+          <BackgroundImage />
           <Component {...pageProps} />
         </ProtectRoute>
       </AuthProvider>
