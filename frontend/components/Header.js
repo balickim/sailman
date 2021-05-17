@@ -10,6 +10,11 @@ import {
   MDBNavbarItem,
   MDBBtn,
   MDBIcon,
+  MDBDropdown,
+  MDBDropdownMenu,
+  MDBDropdownToggle,
+  MDBDropdownItem,
+  MDBDropdownLink,
 } from "mdb-react-ui-kit";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
@@ -38,7 +43,9 @@ const Header = ({ role }) => {
           <MDBNavbarNav className="mb-2 mb-lg-0">
             <MDBNavbarItem>
               <div className="nav-link">
-                <Link href="/announcements">{t("Announcements")}</Link>
+                <Link href="/announcements">
+                  {t("Announcements").toUpperCase()}
+                </Link>
               </div>
             </MDBNavbarItem>
 
@@ -47,12 +54,7 @@ const Header = ({ role }) => {
               <>
                 <MDBNavbarItem>
                   <div className="nav-link">
-                    <Link href="/user">{`${user.name} ${t("Dashboard")}`}</Link>
-                  </div>
-                </MDBNavbarItem>
-                <MDBNavbarItem>
-                  <div className="nav-link">
-                    <Link href="/contact">{t("Contact")}</Link>
+                    <Link href="/contact">{t("Contact").toUpperCase()}</Link>
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
@@ -67,39 +69,24 @@ const Header = ({ role }) => {
             {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- USER -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
 
             {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- MODERATOR -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
-            {role === "moderator" && (
-              <>
-                <MDBNavbarItem>
-                  <div className="nav-link">
-                    <Link href="/admin">
-                      {`${user.name} ${t("Dashboard")}`}
-                    </Link>
-                  </div>
-                </MDBNavbarItem>
-              </>
-            )}
+            {role === "moderator" && <>{/*  */}</>}
             {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- MODERATOR -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
 
             {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- ADMIN -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
-            {role === "admin" && (
-              <>
-                <MDBNavbarItem>
-                  <div className="nav-link">
-                    <Link href="/admin">
-                      {`${user.name} ${t("Dashboard")}`}
-                    </Link>
-                  </div>
-                </MDBNavbarItem>
-              </>
-            )}
+            {role === "admin" && <>{/*  */}</>}
             {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- ADMIN -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
 
             {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- NOT LOGGED IN -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
             {!role && (
               <>
                 <MDBNavbarItem>
+                  <div className="nav-link">
+                    <Link href="/contact">{t("Contact").toUpperCase()}</Link>
+                  </div>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
                   <Link href="/signup">
-                    <a className="text-white">
+                    <a className="text-white me-1">
                       <MDBBtn rounded>{t("Signup")}</MDBBtn>
                     </a>
                   </Link>
@@ -111,11 +98,6 @@ const Header = ({ role }) => {
                     </a>
                   </Link>
                 </MDBNavbarItem>
-                <MDBNavbarItem>
-                  <div className="nav-link">
-                    <Link href="/contact">{t("Contact")}</Link>
-                  </div>
-                </MDBNavbarItem>
               </>
             )}
             {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- NOT LOGGED IN -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
@@ -123,19 +105,29 @@ const Header = ({ role }) => {
 
           {/* ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ -------------------------------------------------------------- LOGGED IN -------------------------------------------------------------- ᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯᐯ */}
           {role && (
-            <>
-              <MDBBtn
-                rounded
-                onClick={() => signout(() => Router.replace(`/signin`))}
-              >
-                {t("Signout")}
-              </MDBBtn>
-            </>
+            <div className="ms-auto">
+              <MDBNavbarNav>
+                <MDBNavbarItem>
+                  <Link href={`/${role}`}>
+                    <a className="text-white me-1">
+                      <MDBBtn rounded>
+                        <div className="row text-nowrap">{t("my_account")}</div>
+                      </MDBBtn>
+                    </a>
+                  </Link>
+                </MDBNavbarItem>
+                <MDBNavbarItem>
+                  <MDBBtn
+                    rounded
+                    onClick={() => signout(() => Router.replace(`/signin`))}
+                  >
+                    {t("Signout")}
+                  </MDBBtn>
+                </MDBNavbarItem>
+              </MDBNavbarNav>
+            </div>
           )}
           {/* ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ -------------------------------------------------------------- LOGGED IN -------------------------------------------------------------- ᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱᐱ */}
-          {process.env.NEXT_PUBLIC_NODE_ENV === "development" ? (
-            <>{role ?? "Not logged in"}</>
-          ) : null}
         </MDBCollapse>
       </MDBContainer>
     </MDBNavbar>
