@@ -1,0 +1,15 @@
+.loader {
+  position: absolute;
+  bottom: 0;
+  border-top: 2px solid;
+  width: 100px;
+  height: 0px;
+  display: block;
+  transition: 0.27s all linear;
+}
+
+.inputWrapper {
+  overflow: hidden;
+  display: block;
+  position: relative;
+}

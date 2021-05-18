@@ -6,7 +6,7 @@ import { MDBSpinner } from "mdb-react-ui-kit";
 
 import { useAuth } from "@components/auth/AuthProvider";
 import { signin } from "@actions/auth";
-import LoginGoogle from "./LoginGoogle";
+import LoginGoogle from "@components/auth/LoginGoogle";
 
 const SigninComponent = () => {
   let { t } = useTranslation("common");
@@ -38,11 +38,7 @@ const SigninComponent = () => {
         setValues({ ...values, error: data.error, loading: false });
       } else {
         authenticate(data, () => {
-          if ((user && user.role === "admin") || user.role === "moderator") {
-            Router.push(`/admin`);
-          } else {
-            Router.push(`/user`);
-          }
+          Router.push("/");
         });
       }
     });

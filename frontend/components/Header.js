@@ -1,4 +1,4 @@
-import { useAuth } from "./auth/AuthProvider";
+import { useAuth } from "@components/auth/AuthProvider";
 
 import { useState } from "react";
 import {
@@ -10,17 +10,13 @@ import {
   MDBNavbarItem,
   MDBBtn,
   MDBIcon,
-  MDBDropdown,
-  MDBDropdownMenu,
-  MDBDropdownToggle,
-  MDBDropdownItem,
-  MDBDropdownLink,
 } from "mdb-react-ui-kit";
+import Image from "next/image";
 import Link from "next/link";
 import useTranslation from "next-translate/useTranslation";
 
 const Header = ({ role }) => {
-  const { signout, user } = useAuth();
+  const { signout } = useAuth();
   const { t } = useTranslation("common");
 
   const [show, setShow] = useState(false);
@@ -28,9 +24,20 @@ const Header = ({ role }) => {
   return (
     <MDBNavbar expand="lg" light bgColor="white" className="p-3">
       <MDBContainer fluid>
-        <div className="navbar-brand">
-          <Link href="/">Sailman</Link>
-        </div>
+        <Link href="/">
+          <a>
+            <div className="navbar-brand">
+              <Image
+                src="/images/logo.png"
+                alt="living by sail logo"
+                width="135"
+                height="40"
+                priority={true}
+              />
+            </div>
+          </a>
+        </Link>
+
         <MDBNavbarToggler
           type="button"
           aria-expanded="false"
