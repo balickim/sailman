@@ -32,7 +32,7 @@ export const AuthProvider = ({ children }) => {
         return originalFetch.apply(self, args).then(async function (data) {
           if (data.status === 401) {
             let response = await refreshToken();
-            // if status is 401 from token api return empty response to close recursion
+            // if status is 401 or 400 from token api return empty response to close recursion
             if (response.status === 401 || response.status === 400) {
               localStorage.removeItem("accessToken");
               return {};
@@ -41,7 +41,6 @@ export const AuthProvider = ({ children }) => {
             let accessToken = res.accessToken;
 
             localStorage.setItem("accessToken", accessToken);
-            console.log("Access token refreshed!");
 
             args[1].headers.authorization = "Bearer " + accessToken; // swap old fetch authorization token for new
             return fetch(...args); // recall old fetch
@@ -96,15 +95,10 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
     localStorage.removeItem("accessToken");
     router.push("/");
-
     return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {
       method: "GET",
       credentials: "include",
-    })
-      .then((response) => {
-        console.log("signout success");
-      })
-      .catch((err) => console.log(err));
+    }).catch((err) => console.log(err));
   };
 
   return (

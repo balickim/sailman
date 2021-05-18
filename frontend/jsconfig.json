@@ -5,7 +5,9 @@
       "@components/*": ["components/*"],
       "@actions/*": ["actions/*"],
       "@public/*": ["public/*"],
-      "@helpers/*": ["helpers/*"]
+      "@helpers/*": ["helpers/*"],
+      "@pages/*": ["pages/*"],
+      "@root/*": ["*"]
     }
   }
 }

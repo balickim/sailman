@@ -1,6 +1,6 @@
 import useTranslation from "next-translate/useTranslation";
 
-import packageJson from "../package.json";
+import packageJson from "@root/package.json";
 
 const Layout = () => {
   let { t } = useTranslation("common");

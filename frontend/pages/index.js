@@ -1,7 +1,7 @@
-import Layout from "@components/Layout";
 import useTranslation from "next-translate/useTranslation";
 
-import styles from "./index.module.scss";
+import Layout from "@components/Layout";
+import styles from "@pages/index.module.scss";
 
 const Index = () => {
   let { t } = useTranslation("home");

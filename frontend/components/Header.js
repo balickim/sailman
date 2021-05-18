@@ -1,4 +1,4 @@
-import { useAuth } from "./auth/AuthProvider";
+import { useAuth } from "@components/auth/AuthProvider";
 
 import { useState } from "react";
 import {
