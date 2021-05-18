@@ -4,6 +4,17 @@ import dynamic from "next/dynamic";
 import { MDBSpinner } from "mdb-react-ui-kit";
 import Image from "next/image";
 import { withRouter, useRouter } from "next/router";
+import {
+  MDBBtn,
+  MDBModal,
+  MDBModalDialog,
+  MDBModalContent,
+  MDBModalHeader,
+  MDBModalTitle,
+  MDBModalBody,
+  MDBModalFooter,
+} from "mdb-react-ui-kit";
+import Link from "next/link";
 
 import { getCategories } from "@actions/category";
 import { getTags } from "@actions/tag";
@@ -53,9 +64,13 @@ const AnnouncementForm = ({ router }) => {
   const [seedRoutes, setSeedRoutes] = useState();
   const [currentRoutes, setCurrentRoutes] = useState();
 
+  const [modal, setModal] = useState(false);
+  const [modalLoading, setModalLoading] = useState(false);
+
   const [values, setValues] = useState({
     error: "",
     success: "",
+    responseData: "",
     title: "",
     startDate: "",
     endDate: "",
@@ -72,6 +87,7 @@ const AnnouncementForm = ({ router }) => {
   const {
     error,
     success,
+    responseData,
     title,
     startDate,
     endDate,
@@ -277,79 +293,102 @@ const AnnouncementForm = ({ router }) => {
     </div>
   );
 
-  const publishAnnouncement = (e) => {
+  const toggleShow = () => setModal(!modal);
+
+  const cleanAllState = (e) => {
     e.preventDefault();
+
+    setValues({
+      ...values,
+      title: "",
+      startDate: "",
+      endDate: "",
+      days: "",
+      price: "",
+      currency: "pln",
+      includedInPrice: "",
+      yacht: "",
+      lastMinute: false,
+      tidalCruise: false,
+      photo: "",
+      responseData: "",
+    });
+    setBody("");
+    setCheckedCategory([]);
+    setCheckedTag([]);
+    setSeedRoutes({});
+    setModalLoading(false);
+    setModal(false);
+    // zero out everything for user to add new one
+  };
+
+  const publishOrEditAnnouncement = async (e) => {
+    e.preventDefault();
+
+    setModalLoading(true);
+    await toggleShow();
 
     const allRoutes = [];
 
     if (currentRoutes) {
-      currentRoutes.map((element) => {
+      await currentRoutes.map((element) => {
         allRoutes.push(element.circleCoords);
       });
     }
 
     if (seedRoutes) {
-      seedRoutes.map((element) => {
+      await seedRoutes.map((element) => {
         allRoutes.push(element);
       });
     }
 
-    let formData = new FormData();
-    formData.append("title", values.title);
-    formData.append("body", body);
-    formData.append("startDate", startDate);
-    formData.append("endDate", endDate);
-    formData.append("days", days);
-    formData.append("price", price);
-    formData.append("includedInPrice", includedInPrice);
-    formData.append("yacht", yacht);
-    formData.append("lastMinute", lastMinute);
-    formData.append("tidalCruise", tidalCruise);
-    formData.append("language", locale);
-    formData.append("currency", currency);
-    formData.append("categories", checkedCategory);
-    formData.append("tags", checkedTag);
-    formData.append("allRoutes", JSON.stringify(allRoutes));
+    let formData = await new FormData();
+    await formData.append("title", values.title);
+    await formData.append("body", body);
+    await formData.append("startDate", startDate);
+    await formData.append("endDate", endDate);
+    await formData.append("days", days);
+    await formData.append("price", price);
+    await formData.append("includedInPrice", includedInPrice);
+    await formData.append("yacht", yacht);
+    await formData.append("lastMinute", lastMinute);
+    await formData.append("tidalCruise", tidalCruise);
+    await formData.append("language", locale);
+    await formData.append("currency", currency);
+    await formData.append("categories", checkedCategory);
+    await formData.append("tags", checkedTag);
+    await formData.append("allRoutes", JSON.stringify(allRoutes));
     if (photo) {
       // prevent photo from overwriting with empty
-      formData.append("photo", photo);
+      await formData.append("photo", photo);
     }
 
     if (!router.query.slug) {
       create(formData).then((data) => {
         if (data.error) {
-          setValues({ ...values, error: data.error });
+          setValues({ ...values, error: data.error, success: "" });
+          setModalLoading(false);
         } else {
+          setModalLoading(false);
           setValues({
             ...values,
-            title: "",
-            startDate: "",
-            endDate: "",
-            days: "",
-            price: "",
-            currency: "pln",
-            includedInPrice: "",
-            yacht: "",
-            lastMinute: false,
-            tidalCruise: false,
-            photo: "",
             error: "",
+            responseData: data,
             success: t("create_success", { title: data.title }),
           });
-          setBody("");
-          setCategories([]);
-          setTags([]);
-          // zero out everything for user to add new one immediately
         }
       });
     } else if (router.query.slug) {
       update(formData, router.query.slug, user).then((data) => {
         if (data.error) {
-          setValues({ ...values, error: data.error });
+          setValues({ ...values, error: data.error, success: "" });
+          setModalLoading(false);
         } else {
+          setModalLoading(false);
           setValues({
             ...values,
             error: "",
+            responseData: data,
             success: t("update_success", { title: data.title }),
           });
         }
@@ -359,7 +398,7 @@ const AnnouncementForm = ({ router }) => {
 
   const mainForm = () => {
     return (
-      <form onSubmit={publishAnnouncement} id="announcementForm">
+      <form onSubmit={publishOrEditAnnouncement} id="announcementForm">
         <div className="form-group">
           <label className="text-muted">{t("Title")}*</label>
           <input
@@ -542,7 +581,7 @@ const AnnouncementForm = ({ router }) => {
           </label>
         </div>
 
-        <div>
+        <div className="mt-4">
           <h5>{t("Tidal cruise")}</h5>
           <hr />
           <input
@@ -560,29 +599,77 @@ const AnnouncementForm = ({ router }) => {
   };
 
   return (
-    <div className="container-fluid pb-3">
-      <div className="row">
-        <div className="col-xl-8">{mainForm()}</div>
-        <div className="col-xl-4">{additionalInfo()}</div>
-      </div>
-      <div>
-        <div className="pt-3">
-          {showError()}
-          {showSuccess()}
+    <>
+      <div className="container-fluid pb-3">
+        <div className="row">
+          <div className="col-xl-8">{mainForm()}</div>
+          <div className="col-xl-4">{additionalInfo()}</div>
+        </div>
+        <div className="float-end mb-4">
+          <button
+            type="submit"
+            className="btn btn-primary  "
+            form="announcementForm"
+          >
+            {router.query.slug
+              ? t("Edit announcement")
+              : t("Publish announcement")}
+          </button>
         </div>
       </div>
-      <div className="float-end mb-4">
-        <button
-          type="submit"
-          className="btn btn-primary  "
-          form="announcementForm"
-        >
-          {router.query.slug
-            ? t("Edit announcement")
-            : t("Publish announcement")}
-        </button>
-      </div>
-    </div>
+      <MDBModal tabIndex="-1" show={modal} getOpenState={(e) => setModal(e)}>
+        <MDBModalDialog centered>
+          <MDBModalContent>
+            <MDBModalHeader>
+              <MDBModalTitle>
+                {router.query.slug
+                  ? t("Edit announcement")
+                  : t("Publish announcement")}
+              </MDBModalTitle>
+              <MDBBtn
+                className="btn-close"
+                color="none"
+                onClick={toggleShow}
+              ></MDBBtn>
+            </MDBModalHeader>
+            <MDBModalBody>
+              <div>
+                {modalLoading && (
+                  <div className="d-flex justify-content-center">
+                    <MDBSpinner
+                      color="primary"
+                      role="status"
+                      style={{ width: "3rem", height: "3rem" }}
+                    />
+                  </div>
+                )}
+                {showError()}
+                {showSuccess()}
+              </div>
+            </MDBModalBody>
+            <MDBModalFooter>
+              {responseData && success && (
+                <>
+                  <MDBBtn onClick={cleanAllState}>{t("add_new")}</MDBBtn>
+
+                  <Link href={`/announcements/${responseData.slug}`}>
+                    <a>
+                      <MDBBtn>{t("see")}</MDBBtn>
+                    </a>
+                  </Link>
+                  <Link href={`/user/manage/${responseData.slug}`}>
+                    <a>
+                      <MDBBtn>{t("edit")}</MDBBtn>
+                    </a>
+                  </Link>
+                </>
+              )}
+              {error && <MDBBtn onClick={toggleShow}>{t("close")}</MDBBtn>}
+            </MDBModalFooter>
+          </MDBModalContent>
+        </MDBModalDialog>
+      </MDBModal>
+    </>
   );
 };
 
