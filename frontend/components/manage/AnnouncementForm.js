@@ -21,6 +21,7 @@ import { getTags } from "@actions/tag";
 import { update, singleAnnouncement } from "@actions/announcement";
 import { create } from "@actions/announcement";
 import { useAuth } from "@components/auth/AuthProvider";
+import LimitedInput from "@components/helpers/LimitedInput";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   loading: () => <MDBSpinner color="primary" />,
@@ -401,11 +402,11 @@ const AnnouncementForm = ({ router }) => {
       <form onSubmit={publishOrEditAnnouncement} id="announcementForm">
         <div className="form-group">
           <label className="text-muted">{t("Title")}*</label>
-          <input
+          <LimitedInput
             type="text"
-            className="form-control"
             value={title}
             onChange={handleChange("title")}
+            limit={70}
           />
         </div>
 
@@ -470,14 +471,13 @@ const AnnouncementForm = ({ router }) => {
             </select>
           </div>
         </div>
-
         <div className="form-group">
           <label className="text-muted">
             {t("What's included in the price")}*
           </label>
-          <input
+          <LimitedInput
             type="text"
-            className="form-control"
+            limit={120}
             value={includedInPrice}
             onChange={handleChange("includedInPrice")}
           />
@@ -487,9 +487,9 @@ const AnnouncementForm = ({ router }) => {
           <label className="text-muted">
             {t("The yacht and its description")}*
           </label>
-          <input
+          <LimitedInput
             type="text"
-            className="form-control"
+            limit={120}
             value={yacht}
             onChange={handleChange("yacht")}
           />

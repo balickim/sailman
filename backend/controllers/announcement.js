@@ -346,6 +346,12 @@ exports.update = (req, res) => {
         });
       }
 
+      if (title.length > 70) {
+        return res.status(400).json({
+          error: "Title is too long.",
+        });
+      }
+
       if (!body || body.length < 100) {
         return res.status(400).json({
           error: "Content must be at least 100 characters.",
@@ -404,6 +410,18 @@ exports.update = (req, res) => {
       if (!currency || !currency.length) {
         return res.status(400).json({
           error: "Currency is required.",
+        });
+      }
+
+      if (includedInPrice.length > 120) {
+        return res.status(400).json({
+          error: "Included in price field is too long.",
+        });
+      }
+
+      if (yacht.length > 120) {
+        return res.status(400).json({
+          error: "Yacht info field is too long.",
         });
       }
 
