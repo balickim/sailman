@@ -1,7 +1,7 @@
-import "@public/mdb-react-ui-kit.scss";
+import "@public/styles/mdb-react-ui-kit.scss";
 import "nprogress/nprogress.css";
 import "react-quill/dist/quill.snow.css";
-import "@public/styles.scss";
+import "@public/styles/styles.scss";
 import "dayjs/locale/en";
 
 import { AuthProvider, ProtectRoute } from "@components/auth/AuthProvider";
@@ -14,7 +14,14 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        <meta name="description" content="Description" />
+        <meta name="keywords" content="Keywords" />
+        <meta name="theme-color" content="#317EFB" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -32,7 +39,7 @@ function MyApp({ Component, pageProps }) {
           sizes="16x16"
           href="/favicon-16x16.png"
         />
-        <link rel="manifest" href="/site.webmanifest"></link>
+        <link rel="manifest" href="/manifest.json" />
         <link
           href="https://use.fontawesome.com/releases/v5.15.1/css/all.css"
           rel="stylesheet"
