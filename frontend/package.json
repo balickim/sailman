@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -20,6 +20,7 @@
     "leaflet.polylinemeasure": "^2.0.0",
     "mdb-react-ui-kit": "^1.0.0-beta3",
     "next": "^10.2.0",
+    "next-pwa": "^5.2.21",
     "next-translate": "^1.0.5",
     "nprogress": "^0.2.0",
     "query-string": "^6.14.1",
