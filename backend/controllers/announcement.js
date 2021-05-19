@@ -10,11 +10,11 @@ const slugify = require("slugify");
 const { stripHtml } = require("string-strip-html");
 const _ = require("lodash");
 const sanitizeHtml = require("sanitize-html");
-const { sanitizeHtmlOptions } = require("../helpers/sanitizeHtmlOptions");
+const sharp = require("sharp");
 
 // helpers
 const { errorHandler } = require("../helpers/dbErrorHandler");
-const { smartTrim } = require("../helpers/announcement");
+const { sanitizeHtmlOptions } = require("../helpers/sanitizeHtmlOptions");
 
 // JS
 const fs = require("fs");
@@ -22,7 +22,7 @@ const fs = require("fs");
 exports.create = (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
-  form.parse(req, (err, fields, files) => {
+  form.parse(req, async (err, fields, files) => {
     if (err) {
       return res.status(400).json({
         error: "Image could not upload.",
@@ -145,14 +145,16 @@ exports.create = (req, res) => {
     let arrayOfTags = tags && tags.split(",");
 
     if (files.photo) {
-      if (files.photo.size > 10000000) {
+      if (files.photo.size > 1000000) {
         return res.status(400).json({
           error: "Image size is too big. Max size is 1mb.",
         });
       }
 
-      announcement.photo.data = fs.readFileSync(files.photo.path);
-      announcement.photo.contentType = files.photo.type;
+      const data = await sharp(files.photo.path).resize(200).webp().toBuffer();
+
+      announcement.photo.data = data;
+      announcement.photo.contentType = "image/webp";
     }
 
     announcement.save((err, result) => {
@@ -301,7 +303,7 @@ exports.update = (req, res) => {
     let form = new formidable.IncomingForm();
     form.keepExtensions = true;
 
-    form.parse(req, (err, fields, files) => {
+    form.parse(req, async (err, fields, files) => {
       if (err) {
         return res.status(400).json({
           error: "Image could not upload.",
@@ -470,14 +472,18 @@ exports.update = (req, res) => {
       }
 
       if (files.photo) {
-        if (files.photo.size > 10000000) {
+        if (files.photo.size > 1000000) {
           return res.status(400).json({
             error: "Image size is too big. Max size is 1mb.",
           });
         }
+        const data = await sharp(files.photo.path)
+          .resize(200)
+          .webp()
+          .toBuffer();
 
-        oldAnnouncement.photo.data = fs.readFileSync(files.photo.path);
-        oldAnnouncement.photo.contentType = files.photo.type;
+        oldAnnouncement.photo.data = data;
+        oldAnnouncement.photo.contentType = "image/webp";
       }
 
       oldAnnouncement.save((err, result) => {

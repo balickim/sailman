@@ -47,5 +47,6 @@
   "see": "See",
   "edit": "Edit",
   "add_new": "Add new",
-  "close": "Close"
+  "close": "Close",
+  "file_too_big": "Picture is bigger than 1mb!"
 }

@@ -190,8 +190,12 @@ const AnnouncementForm = ({ router }) => {
     const target = e.target;
 
     if (name === "photo") {
-      value = target.files[0];
-      setRenderedPhoto(URL.createObjectURL(value));
+      if (target.files[0].size <= 1000000) {
+        value = target.files[0];
+        setRenderedPhoto(URL.createObjectURL(value));
+      } else {
+        alert(t("file_too_big"));
+      }
     } else if (target.type === "checkbox") {
       value = target.checked;
     } else {
@@ -534,15 +538,15 @@ const AnnouncementForm = ({ router }) => {
               <Image
                 src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${router.query.slug}`}
                 alt={title}
-                width={300}
-                height={300}
+                width={200}
+                height={"100%"}
+                unoptimized={true}
               />
             )}
             {renderedPhoto && (
               <div
                 style={{
-                  width: "300px",
-                  height: "300px",
+                  width: "200px",
                 }}
               >
                 <img

@@ -26,6 +26,7 @@
     "nodemailer": "^6.5.0",
     "nodemon": "^2.0.7",
     "sanitize-html": "^2.3.3",
+    "sharp": "^0.28.2",
     "shortid": "^2.2.16",
     "slugify": "^1.4.7",
     "string-strip-html": "^8.2.3",
