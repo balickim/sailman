@@ -1,6 +1,5 @@
 import dayjs from "dayjs";
 import Link from "next/link";
-import parseToHTML from "html-react-parser";
 
 const SmallCard = ({ announcement }) => {
   return (
@@ -22,7 +21,7 @@ const SmallCard = ({ announcement }) => {
               <h5 className="card-title">{announcement.title}</h5>
             </a>
           </Link>
-          <div className="card-text">{parseToHTML(announcement.excerpt)}</div>
+          <div className="card-text">{announcement.mdesc}</div>
         </section>
       </div>
       <div className="card-body">

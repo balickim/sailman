@@ -1,10 +1,10 @@
 import useTranslation from "next-translate/useTranslation";
 import { useState, useEffect } from "react";
 import dynamic from "next/dynamic";
-import { MDBSpinner } from "mdb-react-ui-kit";
 import Image from "next/image";
 import { withRouter, useRouter } from "next/router";
 import {
+  MDBSpinner,
   MDBBtn,
   MDBModal,
   MDBModalDialog,
@@ -22,6 +22,7 @@ import { update, singleAnnouncement } from "@actions/announcement";
 import { create } from "@actions/announcement";
 import { useAuth } from "@components/auth/AuthProvider";
 import LimitedInput from "@components/helpers/LimitedInput";
+import useExitPrompt from "@components/helpers/useExitPrompt.js";
 
 const ReactQuill = dynamic(() => import("react-quill"), {
   loading: () => <MDBSpinner color="primary" />,
@@ -68,6 +69,10 @@ const AnnouncementForm = ({ router }) => {
   const [modal, setModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
 
+  const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
+
+  const [renderedPhoto, setRenderedPhoto] = useExitPrompt("");
+
   const [values, setValues] = useState({
     error: "",
     success: "",
@@ -112,6 +117,10 @@ const AnnouncementForm = ({ router }) => {
     if (router.query.slug) {
       initAnnouncement();
     }
+
+    return () => {
+      setShowExitPrompt(false);
+    };
   }, [router]);
 
   const initAnnouncement = () => {
@@ -182,11 +191,14 @@ const AnnouncementForm = ({ router }) => {
 
     if (name === "photo") {
       value = target.files[0];
+      setRenderedPhoto(URL.createObjectURL(value));
     } else if (target.type === "checkbox") {
       value = target.checked;
     } else {
       value = target.value;
     }
+
+    setShowExitPrompt(true);
 
     setValues({ ...values, [name]: value, error: "" });
   };
@@ -317,9 +329,9 @@ const AnnouncementForm = ({ router }) => {
     setBody("");
     setCheckedCategory([]);
     setCheckedTag([]);
-    setSeedRoutes({});
     setModalLoading(false);
     setModal(false);
+    setShowExitPrompt(false);
     // zero out everything for user to add new one
   };
 
@@ -371,6 +383,7 @@ const AnnouncementForm = ({ router }) => {
           setModalLoading(false);
         } else {
           setModalLoading(false);
+          setShowExitPrompt(false);
           setValues({
             ...values,
             error: "",
@@ -386,6 +399,7 @@ const AnnouncementForm = ({ router }) => {
           setModalLoading(false);
         } else {
           setModalLoading(false);
+          setShowExitPrompt(false);
           setValues({
             ...values,
             error: "",
@@ -515,14 +529,32 @@ const AnnouncementForm = ({ router }) => {
         <div className="form-group pb-2 mt-3">
           <h5>{t("Featured image")}</h5>
           <hr />
-          <div className="d-flex justify-content-center">
-            {router.query.slug && body && (
+          <div className="d-flex justify-content-center mb-1">
+            {router.query.slug && !renderedPhoto && (
               <Image
                 src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${router.query.slug}`}
                 alt={title}
                 width={300}
                 height={300}
               />
+            )}
+            {renderedPhoto && (
+              <div
+                style={{
+                  width: "300px",
+                  height: "300px",
+                }}
+              >
+                <img
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                  }}
+                  src={renderedPhoto}
+                  alt={title}
+                />
+              </div>
             )}
           </div>
           <small className="text-muted me-2">{t("Max size 1mb")} </small>
@@ -600,23 +632,6 @@ const AnnouncementForm = ({ router }) => {
 
   return (
     <>
-      <div className="container-fluid pb-3">
-        <div className="row">
-          <div className="col-xl-8">{mainForm()}</div>
-          <div className="col-xl-4">{additionalInfo()}</div>
-        </div>
-        <div className="float-end mb-4">
-          <button
-            type="submit"
-            className="btn btn-primary  "
-            form="announcementForm"
-          >
-            {router.query.slug
-              ? t("Edit announcement")
-              : t("Publish announcement")}
-          </button>
-        </div>
-      </div>
       <MDBModal tabIndex="-1" show={modal} getOpenState={(e) => setModal(e)}>
         <MDBModalDialog centered>
           <MDBModalContent>
@@ -626,11 +641,6 @@ const AnnouncementForm = ({ router }) => {
                   ? t("Edit announcement")
                   : t("Publish announcement")}
               </MDBModalTitle>
-              <MDBBtn
-                className="btn-close"
-                color="none"
-                onClick={toggleShow}
-              ></MDBBtn>
             </MDBModalHeader>
             <MDBModalBody>
               <div>
@@ -650,16 +660,20 @@ const AnnouncementForm = ({ router }) => {
             <MDBModalFooter>
               {responseData && success && (
                 <>
-                  <MDBBtn onClick={cleanAllState}>{t("add_new")}</MDBBtn>
+                  {!router.query.slug && (
+                    <>
+                      <MDBBtn onClick={cleanAllState}>{t("add_new")}</MDBBtn>
 
+                      <Link href={`/user/manage/${responseData.slug}`}>
+                        <a>
+                          <MDBBtn>{t("edit")}</MDBBtn>
+                        </a>
+                      </Link>
+                    </>
+                  )}
                   <Link href={`/announcements/${responseData.slug}`}>
                     <a>
                       <MDBBtn>{t("see")}</MDBBtn>
-                    </a>
-                  </Link>
-                  <Link href={`/user/manage/${responseData.slug}`}>
-                    <a>
-                      <MDBBtn>{t("edit")}</MDBBtn>
                     </a>
                   </Link>
                 </>
@@ -669,6 +683,23 @@ const AnnouncementForm = ({ router }) => {
           </MDBModalContent>
         </MDBModalDialog>
       </MDBModal>
+      <div className="container-fluid pb-3">
+        <div className="row">
+          <div className="col-xl-8">{mainForm()}</div>
+          <div className="col-xl-4">{additionalInfo()}</div>
+        </div>
+        <div className="float-end mb-4">
+          <button
+            type="submit"
+            className="btn btn-primary  "
+            form="announcementForm"
+          >
+            {router.query.slug
+              ? t("Edit announcement")
+              : t("Publish announcement")}
+          </button>
+        </div>
+      </div>
     </>
   );
 };
