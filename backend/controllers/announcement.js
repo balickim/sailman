@@ -136,12 +136,6 @@ exports.create = (req, res) => {
     announcement.tidalCruise = tidalCruise;
     announcement.language = language;
     announcement.route = JSON.parse(allRoutes);
-    announcement.excerpt = smartTrim(
-      sanitizeHtml(body, sanitizeHtmlOptions),
-      320,
-      " ",
-      "..."
-    );
     announcement.slug = slugify(title + " " + announcement._id).toLowerCase();
     announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
     announcement.mdesc = stripHtml(body.substr(0, 160)).result;
@@ -201,9 +195,7 @@ exports.list = (req, res) => {
     .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username profile")
-    .select(
-      "_id, title slug excerpt categories tags postedBy createdAt updatedAt"
-    )
+    .select("_id, title slug categories tags postedBy createdAt updatedAt")
     .exec((err, data) => {
       if (err) {
         return res.json({
@@ -230,7 +222,7 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
     .skip(skip)
     .limit(limit)
     .select(
-      "_id, title startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise route slug excerpt categories tags postedBy createdAt updatedAt"
+      "_id, title startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise route slug categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -426,12 +418,6 @@ exports.update = (req, res) => {
       }
 
       if (body) {
-        oldAnnouncement.excerpt = smartTrim(
-          sanitizeHtml(body, sanitizeHtmlOptions),
-          320,
-          " ",
-          "..."
-        );
         oldAnnouncement.mdesc = stripHtml(body.substr(0, 160)).result;
       }
 
@@ -528,7 +514,7 @@ exports.listRelated = (req, res) => {
   Announcement.find({ _id: { $ne: _id }, categories: { $in: categories } })
     .limit(limit)
     .populate("postedBy", "_id name username profile")
-    .select("title slug excerpt postedBy createdAt updatedAt")
+    .select("title slug mdesc postedBy createdAt updatedAt")
     .exec((err, announcements) => {
       if (err) {
         return res.status(400).json({

@@ -18,7 +18,7 @@ const UserProfile = ({ user, announcements, query }) => {
     });
   };
 
-  const DOMAIN = process.env.NEXT_PUBLIC_DOMAIN;
+  const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
   const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
 
