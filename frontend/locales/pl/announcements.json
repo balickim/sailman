@@ -47,5 +47,6 @@
   "see": "Zobacz",
   "edit": "Edytuj",
   "add_new": "Dodaj kolejne",
-  "close": "Zamknij"
+  "close": "Zamknij",
+  "file_too_big": "Obrazek ma rozmiar powyżej 1mb!"
 }

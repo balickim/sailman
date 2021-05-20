@@ -26,10 +26,11 @@ const Card = ({ announcement }) => {
         <div className="col-xxl-3 text-center">
           <Image
             width={"200px"}
-            height={"200px"}
+            height={"100%"}
             src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
             alt={announcement.title}
             className="img img-fluid pt-1 ms-3"
+            unoptimized={true}
           />
         </div>
         <div className="col-xxl-9">
