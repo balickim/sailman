@@ -60,7 +60,7 @@ const Card = ({ announcement }) => {
                 width={"40px"}
                 height={"40px"}
                 alt="clock"
-                title={t("Last Minute")}
+                title={t("last_minute")}
                 className="me-2"
               />
             )}
@@ -70,7 +70,7 @@ const Card = ({ announcement }) => {
                 width={"40px"}
                 height={"40px"}
                 alt="tide"
-                title={t("Tidal cruise")}
+                title={t("tidal_cruise")}
                 className="me-1"
               />
             )}

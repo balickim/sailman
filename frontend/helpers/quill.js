@@ -4,7 +4,7 @@ export const QuillModules = {
     ["bold", "italic", "underline", "strike"],
     [{ align: ["", "right", "center"] }],
     [{ list: "ordered" }, { list: "bullet" }],
-    ["link", "image"],
+    ["link"],
     ["clean"],
   ],
 };
@@ -19,5 +19,4 @@ export const QuillFormats = [
   "list",
   "bullet",
   "link",
-  "image",
 ];

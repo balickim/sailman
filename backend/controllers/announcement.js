@@ -3,6 +3,7 @@ const Announcement = require("../models/announcement");
 const Category = require("../models/category");
 const Tag = require("../models/tag");
 const User = require("../models/user");
+const Gallery = require("../models/gallery");
 
 // imports
 const formidable = require("formidable");
@@ -20,7 +21,7 @@ const { sanitizeHtmlOptions } = require("../helpers/sanitizeHtmlOptions");
 const fs = require("fs");
 
 exports.create = (req, res) => {
-  let form = new formidable.IncomingForm();
+  let form = new formidable.IncomingForm({ multiples: true });
   form.keepExtensions = true;
   form.parse(req, async (err, fields, files) => {
     if (err) {
@@ -157,10 +158,28 @@ exports.create = (req, res) => {
       announcement.photo.contentType = "image/webp";
     }
 
+    let gallery;
+    if (files.gallery && files.gallery.length) {
+      gallery = await addGallery(files.gallery);
+    }
+
     announcement.save((err, result) => {
       if (err) {
         return res.status(400).json({
           error: errorHandler(err),
+        });
+      }
+      if (files.gallery) {
+        Announcement.findByIdAndUpdate(
+          result._id,
+          { $push: { galleries: gallery._id } },
+          { new: true }
+        ).exec((err, result) => {
+          if (err) {
+            return res.status(400).json({
+              error: errorHandler(err),
+            });
+          }
         });
       }
       Announcement.findByIdAndUpdate(
@@ -300,7 +319,7 @@ exports.update = (req, res) => {
       });
     }
 
-    let form = new formidable.IncomingForm();
+    let form = new formidable.IncomingForm({ multiples: true });
     form.keepExtensions = true;
 
     form.parse(req, async (err, fields, files) => {
@@ -486,6 +505,20 @@ exports.update = (req, res) => {
         oldAnnouncement.photo.contentType = "image/webp";
       }
 
+      let gallery;
+      if (files.gallery) {
+        if (oldAnnouncement.galleries.length > 0) {
+          await Gallery.deleteOne({
+            _id: oldAnnouncement.galleries[0],
+          });
+        }
+        gallery = await addGallery(files.gallery);
+      }
+
+      if (gallery) {
+        oldAnnouncement.galleries = gallery._id;
+      }
+
       oldAnnouncement.save((err, result) => {
         if (err) {
           return res.status(400).json({
@@ -510,6 +543,42 @@ exports.photo = (req, res) => {
       }
       res.set("Content-Type", announcement.photo.contentType);
       return res.send(announcement.photo.data);
+    });
+};
+
+exports.galleryCount = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+  Announcement.findOne({ slug })
+    .populate("galleries", "_id data contentType")
+    .select("galleries")
+    .exec((err, result) => {
+      if (err) {
+        return res.json({
+          error: errorHandler(err),
+        });
+      }
+      if (!result.galleries[0]) {
+        return res.json({ size: 0 });
+      } else {
+        return res.json({ size: result.galleries[0].data.length });
+      }
+    });
+};
+
+exports.gallery = (req, res) => {
+  const slug = req.params.slug.toLowerCase();
+  const index = req.params.index ?? 0;
+  Announcement.findOne({ slug })
+    .populate("galleries", "_id data contentType")
+    .select("galleries")
+    .exec((err, result) => {
+      if (err) {
+        return res.json({
+          error: errorHandler(err),
+        });
+      }
+      res.set("Content-Type", result.galleries[0].contentType);
+      return res.send(result.galleries[0].data[index]);
     });
 };
 
@@ -575,4 +644,37 @@ exports.listByUser = (req, res) => {
         res.json(data);
       });
   });
+};
+
+const addGallery = async (files) => {
+  let gallery = new Gallery();
+
+  if (files && files.length) {
+    const length = files.length;
+
+    if (length > 10) {
+      return res.status(400).json({
+        error: "There is more than 10 images.",
+      });
+    }
+
+    for (let i = 0; i < length; i++) {
+      if (files[i].size > 1000000) {
+        return res.status(400).json({
+          error:
+            "At least one of the images from the gallery is too big. Max size is 1mb.",
+        });
+      }
+      gallery.data[i] = await sharp(files[i].path)
+        .resize(1000, null, {
+          withoutEnlargement: true,
+        })
+        .webp()
+        .toBuffer();
+    }
+    gallery.contentType = "image/webp";
+
+    await gallery.save();
+  }
+  return gallery;
 };

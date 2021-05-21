@@ -54,6 +54,7 @@ const AnnouncementForm = ({ router }) => {
 
   let { t } = useTranslation("announcements");
   const { locale } = useRouter();
+  const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
 
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
@@ -69,9 +70,8 @@ const AnnouncementForm = ({ router }) => {
   const [modal, setModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
 
-  const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
-
-  const [renderedPhoto, setRenderedPhoto] = useExitPrompt("");
+  const [renderedPhoto, setRenderedPhoto] = useState("");
+  const [gallery, setGallery] = useState([]);
 
   const [values, setValues] = useState({
     error: "",
@@ -195,6 +195,27 @@ const AnnouncementForm = ({ router }) => {
         setRenderedPhoto(URL.createObjectURL(value));
       } else {
         alert(t("file_too_big"));
+      }
+    } else if (name === "gallery") {
+      let safeToSave = true;
+      const length = target.files.length;
+
+      if (length > 10) {
+        safeToSave = false;
+        alert(t("too_many_images"));
+      }
+
+      for (let i = 0; i < length; i++) {
+        if (target.files[i].size <= 1000000) {
+          value = target.files[i];
+        } else {
+          safeToSave = false;
+          alert(t("file_too_big"));
+        }
+      }
+
+      if (safeToSave) {
+        setGallery(target.files);
       }
     } else if (target.type === "checkbox") {
       value = target.checked;
@@ -379,6 +400,13 @@ const AnnouncementForm = ({ router }) => {
       // prevent photo from overwriting with empty
       await formData.append("photo", photo);
     }
+    if (gallery) {
+      // prevent gallery from overwriting with empty
+      const length = gallery.length;
+      for (let i = 0; i < length; i++) {
+        await formData.append("gallery", gallery[i]);
+      }
+    }
 
     if (!router.query.slug) {
       create(formData).then((data) => {
@@ -531,7 +559,7 @@ const AnnouncementForm = ({ router }) => {
     return (
       <>
         <div className="form-group pb-2 mt-3">
-          <h5>{t("Featured image")}</h5>
+          <h5>{t("featured_image")}</h5>
           <hr />
           <div className="d-flex justify-content-center mb-1">
             {router.query.slug && !renderedPhoto && (
@@ -561,9 +589,9 @@ const AnnouncementForm = ({ router }) => {
               </div>
             )}
           </div>
-          <small className="text-muted me-2">{t("Max size 1mb")} </small>
+          <small className="text-muted me-2">{t("max_image_size_1mb")}</small>
           <label className="btn btn-outline-info">
-            {t("Upload featured image")}
+            {t("upload_featured_image")}
             <input
               onChange={handleChange("photo")}
               type="file"
@@ -573,7 +601,24 @@ const AnnouncementForm = ({ router }) => {
           </label>
         </div>
 
-        <div className="form-group">
+        <div className="form-group pb-2 mt-3">
+          <h5>{t("gallery")}</h5>
+          <hr />
+          <small className="text-muted me-2">
+            {t("max_images", { count: 10 })}
+          </small>
+          - <small className="text-muted me-2">{t("max_image_size_1mb")}</small>
+          <label className="btn ">
+            <input
+              onChange={handleChange("gallery")}
+              type="file"
+              accept="image/*"
+              multiple
+            />
+          </label>
+        </div>
+
+        <div className="form-group mt-3">
           <h5>{t("Cruise map (Optional)")}</h5>
           <hr />
           <div className="border" style={{ width: "auto", height: "400px" }}>
@@ -602,7 +647,7 @@ const AnnouncementForm = ({ router }) => {
         </div>
 
         <div className="mb-2">
-          <h5>{t("Last Minute")}</h5>
+          <h5>{t("last_minute")}</h5>
           <hr />
           <input
             type="checkbox"
@@ -611,14 +656,12 @@ const AnnouncementForm = ({ router }) => {
             onChange={handleChange("lastMinute")}
           />
           <label htmlFor="lastMinute" className="small">
-            {t(
-              "Tick if less than a month left until the trip and the price has been reduced"
-            )}
+            {t("last_minute_message")}
           </label>
         </div>
 
         <div className="mt-4">
-          <h5>{t("Tidal cruise")}</h5>
+          <h5>{t("tidal_cruise")}</h5>
           <hr />
           <input
             type="checkbox"
@@ -627,7 +670,7 @@ const AnnouncementForm = ({ router }) => {
             onChange={handleChange("tidalCruise")}
           />
           <label htmlFor="tidalCruise" className="small">
-            {t("Check if the voyage is tidal")}
+            {t("tidal_cruise_message")}
           </label>
         </div>
       </>

@@ -70,17 +70,12 @@ exports.sanitizeHtmlOptions = {
     "th",
     "thead",
     "tr",
-    "img",
   ],
   disallowedTagsMode: "discard",
-  allowedAttributes: {
-    img: ["src"],
-  },
   allowedClasses: {
     "*": ["ql-align-center", "ql-align-right"], //allow react quill classes
   },
   selfClosing: [
-    "img",
     "br",
     "hr",
     "area",

@@ -8,7 +8,11 @@ import parseToHTML from "html-react-parser";
 
 import Layout from "@components/Layout";
 
-import { singleAnnouncement, listRelated } from "@actions/announcement";
+import {
+  singleAnnouncement,
+  listRelated,
+  getGalleryCount,
+} from "@actions/announcement";
 import SmallCard from "@components/announcement/SmallCard";
 
 const Map = dynamic(() => import("@components/map/Map"), {
@@ -16,7 +20,11 @@ const Map = dynamic(() => import("@components/map/Map"), {
   ssr: false,
 });
 
-const SingleAnnouncement = ({ announcement, query }) => {
+const ImageGallery = dynamic(() => import("react-image-gallery"), {
+  loading: () => <MDBSpinner color="primary" />,
+});
+
+const SingleAnnouncement = ({ announcement, gallery, query }) => {
   const [related, setRelated] = useState([]);
 
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;
@@ -102,6 +110,9 @@ const SingleAnnouncement = ({ announcement, query }) => {
           <article>
             <div className="container">
               <h2 className="pb-3 text-center pt-3">{announcement.title}</h2>
+              {gallery && gallery.length > 0 && (
+                <ImageGallery items={gallery} />
+              )}
               <section>
                 {announcement.route && announcement.route.length > 0 && (
                   <div
@@ -171,13 +182,22 @@ const SingleAnnouncement = ({ announcement, query }) => {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  return singleAnnouncement(query.slug).then((data) => {
-    if (data.error) {
-      return console.log("ERROR " + data.error);
-    } else {
-      return { props: { announcement: data, query } };
+  const gallery = [];
+
+  const announcement = await singleAnnouncement(query.slug);
+
+  let count = await getGalleryCount(query.slug);
+
+  if (count && count.size > 0) {
+    for (let i = 0; i < count.size; i++) {
+      let original = `${process.env.NEXT_PUBLIC_API}/announcement/${query.slug}/gallery/${i}/`;
+      gallery.push({ original, thumbnail: original });
     }
-  });
+  }
+
+  return {
+    props: { announcement: announcement, gallery: gallery, query },
+  };
 };
 
 export default SingleAnnouncement;
