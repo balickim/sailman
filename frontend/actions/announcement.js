@@ -60,6 +60,20 @@ export const listRelated = (announcement) => {
     .catch((err) => console.log(err));
 };
 
+export const getGalleryCount = (slug) => {
+  return fetch(`${process.env.NEXT_PUBLIC_API}/announcement/${slug}/gallery`, {
+    method: "GET",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+  })
+    .then((response) => {
+      return response.json();
+    })
+    .catch((err) => console.log(err));
+};
+
 export const list = (username) => {
   let listAnnouncementEndpoint;
 

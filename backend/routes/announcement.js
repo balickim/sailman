@@ -17,6 +17,8 @@ const {
   listRelated,
   listSearch,
   listByUser,
+  gallery,
+  galleryCount,
 } = require("../controllers/announcement");
 
 // router.post("/announcement", verifyAccessToken, isAuthenticated, create);
@@ -42,6 +44,8 @@ router.put(
   update
 );
 router.get("/announcement/photo/:slug", photo);
+router.get("/announcement/:slug/gallery", galleryCount);
+router.get("/announcement/:slug/gallery/:index", gallery);
 router.post("/announcements/related", listRelated);
 router.get("/announcements/search", listSearch);
 

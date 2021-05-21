@@ -1,7 +1,10 @@
 import "@public/styles/mdb-react-ui-kit.scss";
-import "nprogress/nprogress.css";
-import "react-quill/dist/quill.snow.css";
 import "@public/styles/styles.scss";
+
+import "nprogress/nprogress.css";
+import "react-image-gallery/styles/scss/image-gallery.scss";
+import "react-quill/dist/quill.snow.css";
+
 import "dayjs/locale/en";
 
 import { AuthProvider, ProtectRoute } from "@components/auth/AuthProvider";
@@ -9,7 +12,6 @@ import Head from "next/head";
 
 import BackgroundImage from "@components/BackgroundImage";
 
-// This default export is required in a new `pages/_app.js` file.
 function MyApp({ Component, pageProps }) {
   return (
     <>

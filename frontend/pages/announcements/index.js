@@ -284,7 +284,7 @@ const Announcements = ({
                   onChange={handleChange("lastMinute")}
                 />
                 <label htmlFor="lastMinute" className="ms-1 small">
-                  {t("Last Minute")}
+                  {t("last_minute")}
                 </label>
               </div>
               <div>
@@ -295,7 +295,7 @@ const Announcements = ({
                   onChange={handleChange("tidalCruise")}
                 />
                 <label htmlFor="tidalCruise" className="ms-1 small">
-                  {t("Tidal cruise")}
+                  {t("tidal_cruise")}
                 </label>
               </div>
               <div>

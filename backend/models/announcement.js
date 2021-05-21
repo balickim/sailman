@@ -78,6 +78,7 @@ const announcementSchema = new mongoose.Schema(
     },
     categories: [{ type: ObjectId, ref: "Category", require: true }],
     tags: [{ type: ObjectId, ref: "Tag", require: true }],
+    galleries: [{ type: ObjectId, ref: "Gallery" }],
     postedBy: {
       type: ObjectId,
       ref: "User",
