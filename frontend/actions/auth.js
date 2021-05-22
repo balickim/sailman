@@ -1,91 +1,91 @@
-export const preSignup = (user) => {
+export const preSignup = user => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/pre-signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(user),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const signup = (user) => {
+export const signup = user => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/signup`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(user),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const forgotPassword = (email) => {
+export const forgotPassword = email => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/forgot-password`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(email),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const resetPassword = (resetInfo) => {
+export const resetPassword = resetInfo => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/reset-password`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(resetInfo),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const loginWithGoogle = (user) => {
+export const loginWithGoogle = user => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/google-login`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
     body: JSON.stringify(user),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const signin = (user) => {
+export const signin = user => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/signin`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
     body: JSON.stringify(user),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };

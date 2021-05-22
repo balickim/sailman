@@ -1,13 +1,13 @@
-import { useAuth } from "@components/auth/AuthProvider";
-import Error from "next/error";
+import { useAuth } from '@components/auth/AuthProvider';
+import Error from 'next/error';
 
-const IsAuthorized = ({ children, role }) => {
+const IsAuthorized = ({ children, userRole }) => {
   const { user } = useAuth();
 
-  const appRolesList = ["user", "moderator", "admin"];
+  const appRolesList = ['user', 'moderator', 'admin'];
 
-  if (role && appRolesList.some((v) => role.includes(v))) {
-    if (role.includes(user?.role)) {
+  if (userRole && appRolesList.some(v => userRole.includes(v))) {
+    if (userRole.includes(user?.role)) {
       return <>{children}</>;
     }
   }

@@ -4,11 +4,11 @@ function rad2degr(rad) {
 function degr2rad(degr) {
   return (degr * Math.PI) / 180;
 }
-export const getLatLngCenter = (latLngInDegr) => {
+export const getLatLngCenter = latLngInDegr => {
   let coords = [];
 
-  latLngInDegr.map((element) => {
-    element.map((el) => {
+  latLngInDegr.map(element => {
+    element.map(el => {
       coords.push(el);
     });
   });
@@ -18,8 +18,8 @@ export const getLatLngCenter = (latLngInDegr) => {
   let sumZ = 0;
 
   for (let i = 0; i < coords.length; i++) {
-    let lat = degr2rad(coords[i]["lat"]);
-    let lng = degr2rad(coords[i]["lng"]);
+    let lat = degr2rad(coords[i]['lat']);
+    let lng = degr2rad(coords[i]['lng']);
     // sum of cartesian coordinates
     sumX += Math.cos(lat) * Math.cos(lng);
     sumY += Math.cos(lat) * Math.sin(lng);

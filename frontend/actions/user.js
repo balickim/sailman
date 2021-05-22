@@ -1,41 +1,41 @@
-export const userPublicProfile = (username) => {
+export const userPublicProfile = username => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/${username}`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Accept: "application/json",
+      Accept: 'application/json',
     },
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 export const getProfile = () => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/profile`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Accept: "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const update = (user) => {
+export const update = user => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/user/update`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
     body: user,
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };

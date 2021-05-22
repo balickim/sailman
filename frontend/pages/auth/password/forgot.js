@@ -1,59 +1,57 @@
-import { useState } from "react";
-import useTranslation from "next-translate/useTranslation";
+import { useState } from 'react';
+import useTranslation from 'next-translate/useTranslation';
 
-import Layout from "@components/Layout";
-import { forgotPassword } from "@actions/auth";
+import Layout from '@components/Layout';
+import { forgotPassword } from '@actions/auth';
 
 const ForgotPassword = () => {
-  let { t } = useTranslation("common");
+  let { t } = useTranslation('common');
 
   const [values, setValues] = useState({
-    email: "",
-    message: "",
-    error: "",
+    email: '',
+    message: '',
+    error: '',
   });
 
   const { email, message, error } = values;
 
-  const handleChange = (name) => (e) => {
-    setValues({ ...values, message: "", error: "", [name]: e.target.value });
+  const handleChange = name => e => {
+    setValues({ ...values, message: '', error: '', [name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
-    setValues({ ...values, message: "", error: "" });
-    forgotPassword({ email }).then((data) => {
+    setValues({ ...values, message: '', error: '' });
+    forgotPassword({ email }).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({
           ...values,
-          message: t("email_reset_sent"),
-          email: "",
+          message: t('email_reset_sent'),
+          email: '',
         });
       }
     });
   };
 
-  const showError = () =>
-    error ? <div className="alert alert-danger">{error}</div> : "";
-  const showMessage = () =>
-    message ? <div className="alert alert-success">{message}</div> : "";
+  const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '');
+  const showMessage = () => (message ? <div className="alert alert-success">{message}</div> : '');
 
   const passwordForgotForm = () => (
     <form onSubmit={handleSubmit}>
       <div className="form-group pt-2">
         <input
           type="email"
-          onChange={handleChange("email")}
+          onChange={handleChange('email')}
           className="form-control"
           value={email}
-          placeholder={t("E-mail")}
+          placeholder={t('E-mail')}
           required
         />
       </div>
       <div>
-        <button className="btn btn-primary mt-3">{t("Submit")}</button>
+        <button className="btn btn-primary mt-3">{t('Submit')}</button>
       </div>
     </form>
   );
@@ -61,7 +59,7 @@ const ForgotPassword = () => {
   return (
     <Layout breadcrumbs={false} footer={false}>
       <div className="container mt-4">
-        <h2>{t("Password reset")}</h2>
+        <h2>{t('Password reset')}</h2>
         <hr />
         {showError()}
         {showMessage()}

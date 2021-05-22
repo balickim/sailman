@@ -1,7 +1,7 @@
 {
   "baseUrl": "http://localhost:3000",
   "env": {
-    "SERVER_ADDRESS":"http://localhost:8000",
+    "SERVER_ADDRESS": "http://localhost:8000",
     "BOT_EMAIL": "cedita1415@684hh.com",
     "BOT_PASS": "boterer"
   }

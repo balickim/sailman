@@ -1,21 +1,21 @@
-import Link from "next/link";
-import { useState } from "react";
+import Link from 'next/link';
+import { useState } from 'react';
 
-import { listSearch } from "@actions/announcement";
+import { listSearch } from '@actions/announcement';
 
 const Search = () => {
   const [values, setValues] = useState({
     search: undefined,
     results: [],
     searched: false,
-    message: "",
+    message: '',
   });
 
   const { search, results, searched, message } = values;
 
-  const searchSubmit = (e) => {
+  const searchSubmit = e => {
     e.preventDefault();
-    listSearch({ search }).then((data) => {
+    listSearch({ search }).then(data => {
       setValues({
         ...values,
         results: data,
@@ -25,7 +25,7 @@ const Search = () => {
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setValues({
       ...values,
       search: e.target.value,
@@ -77,7 +77,7 @@ const Search = () => {
     <div className="container-fluid">
       <div className="pt-3 pb-5">{searchForm()}</div>
       {searched && (
-        <div style={{ marginTop: "-120px", marginBottom: "-80px" }}>
+        <div style={{ marginTop: '-120px', marginBottom: '-80px' }}>
           {searchedAnnouncements(results)}
         </div>
       )}

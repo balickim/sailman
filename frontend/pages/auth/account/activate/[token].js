@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
-import useTranslation from "next-translate/useTranslation";
-import { withRouter } from "next/router";
+import { useState, useEffect } from 'react';
+import useTranslation from 'next-translate/useTranslation';
+import { withRouter } from 'next/router';
 
-import Layout from "@components/Layout";
-import { signup } from "@actions/auth";
+import Layout from '@components/Layout';
+import { signup } from '@actions/auth';
 
 const ActivateAccount = ({ router }) => {
-  let { t } = useTranslation("common");
+  let { t } = useTranslation('common');
 
   const [values, setValues] = useState({
-    token: "",
-    error: "",
+    token: '',
+    error: '',
     loading: false,
     success: false,
     showButton: true,
@@ -25,10 +25,10 @@ const ActivateAccount = ({ router }) => {
     }
   }, [router]);
 
-  const clickSubmit = (e) => {
+  const clickSubmit = e => {
     e.preventDefault();
     setValues({ ...values, loading: true, error: false });
-    signup({ token }).then((data) => {
+    signup({ token }).then(data => {
       if (data.error) {
         setValues({
           ...values,
@@ -47,17 +47,17 @@ const ActivateAccount = ({ router }) => {
     });
   };
 
-  const showLoading = () => (loading ? <h2>...</h2> : "");
+  const showLoading = () => (loading ? <h2>...</h2> : '');
 
   return (
     <Layout footer={false} breadcrumbs={false}>
       <div className="container pt-5">
         {showLoading()}
         {error && error}
-        {success && t("activate_success")}
+        {success && t('activate_success')}
         {showButton && (
           <button className="btn btn-outline-primary" onClick={clickSubmit}>
-            {t("Activate Account")}
+            {t('Activate Account')}
           </button>
         )}
       </div>
@@ -68,7 +68,7 @@ const ActivateAccount = ({ router }) => {
 export const getStaticPaths = async () => {
   return {
     paths: [], //indicates that no page needs be created at build time
-    fallback: "blocking", //indicates the type of fallback
+    fallback: 'blocking', //indicates the type of fallback
   };
 };
 

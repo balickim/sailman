@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start -p 8080",
     "cypress:open": "npx cypress open",
-    "cypress:run": "npx cypress run"
+    "cypress:run": "npx cypress run",
+    "lint": "eslint --fix .",
+    "format": "prettier --write ./**/*.{js,ts,scss,css,md,json} --config ./.prettierrc"
   },
   "author": "balickim",
   "license": "ISC",
@@ -33,6 +35,12 @@
     "sass": "^1.32.11"
   },
   "devDependencies": {
-    "cypress": "^6.8.0"
+    "cypress": "^6.8.0",
+    "eslint": "^7.27.0",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-config-prettier": "^8.3.0",
+    "prettier": "^2.3.0"
   }
 }

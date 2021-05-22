@@ -1,20 +1,17 @@
-import useTranslation from "next-translate/useTranslation";
+import useTranslation from 'next-translate/useTranslation';
 
-import Layout from "@components/Layout";
-import styles from "@pages/index.module.scss";
+import Layout from '@components/Layout';
+import styles from '@pages/index.module.scss';
 
 const Index = () => {
-  let { t } = useTranslation("home");
+  let { t } = useTranslation('home');
 
   return (
     <>
       <Layout wrap={false}>
         {/* <!-- Introduction --> */}
-        <section
-          className={`container-fluid ${styles.introduction}`}
-          id="introduction"
-        >
-          <h1 className="text-center pt-5">{t("Sailman project")}</h1>
+        <section className={`container-fluid ${styles.introduction}`} id="introduction">
+          <h1 className="text-center pt-5">{t('Sailman project')}</h1>
         </section>
 
         {/* <!-- About us --> */}
@@ -30,33 +27,28 @@ const Index = () => {
               </div>
               <div className="col-md-4">
                 <p>
-                  To enjoy good health, to bring true happiness to one's family,
-                  to bring peace to all, one must first discipline and control
-                  one's own mind. If a man can control his mind he can find the
-                  way to Enlightenment, and all wisdom and virtue will naturally
-                  come to him.
+                  To enjoy good health, to bring true happiness to one's family, to bring peace to
+                  all, one must first discipline and control one's own mind. If a man can control
+                  his mind he can find the way to Enlightenment, and all wisdom and virtue will
+                  naturally come to him.
                 </p>
                 <p>
-                  Saving our planet, lifting people out of poverty, advancing
-                  economic growth... these are one and the same fight. We must
-                  connect the dots between climate change, water scarcity,
-                  energy shortages, global health, food security and women's
-                  empowerment. Solutions to one problem must be solutions for
-                  all.
+                  Saving our planet, lifting people out of poverty, advancing economic growth...
+                  these are one and the same fight. We must connect the dots between climate change,
+                  water scarcity, energy shortages, global health, food security and women's
+                  empowerment. Solutions to one problem must be solutions for all.
                 </p>
               </div>
               <div className="col-md-4">
                 <p>
-                  Our greatest happiness does not depend on the condition of
-                  life in which chance has placed us, but is always the result
-                  of a good conscience, good health, occupation, and freedom in
-                  all just pursuits.
+                  Our greatest happiness does not depend on the condition of life in which chance
+                  has placed us, but is always the result of a good conscience, good health,
+                  occupation, and freedom in all just pursuits.
                 </p>
                 <p>
-                  Being in control of your life and having realistic
-                  expectations about your day-to-day challenges are the keys to
-                  stress management, which is perhaps the most important
-                  ingredient to living a happy, healthy and rewarding life.
+                  Being in control of your life and having realistic expectations about your
+                  day-to-day challenges are the keys to stress management, which is perhaps the most
+                  important ingredient to living a happy, healthy and rewarding life.
                 </p>
                 <p>
                   <a href="#" className="btn btn-primary">
@@ -81,9 +73,7 @@ const Index = () => {
                     alt=""
                   />
                   <h5>Fred S.</h5>
-                  <p className="font-weight-dark mb-0">
-                    "Lorem ipsum dolor sit amet!"
-                  </p>
+                  <p className="font-weight-dark mb-0">"Lorem ipsum dolor sit amet!"</p>
                 </div>
               </div>
               <div className="col-lg-4">
@@ -94,9 +84,7 @@ const Index = () => {
                     alt=""
                   />
                   <h5>Margaret E.</h5>
-                  <p className="font-weight-dark mb-0">
-                    "Lorem ipsum dolor sit amet"
-                  </p>
+                  <p className="font-weight-dark mb-0">"Lorem ipsum dolor sit amet"</p>
                 </div>
               </div>
               <div className="col-lg-4">
@@ -107,9 +95,7 @@ const Index = () => {
                     alt=""
                   />
                   <h5>Sarah W.</h5>
-                  <p className="font-weight-dark mb-0">
-                    "Lorem ipsum dolor sit amet!"
-                  </p>
+                  <p className="font-weight-dark mb-0">"Lorem ipsum dolor sit amet!"</p>
                 </div>
               </div>
             </div>
@@ -121,41 +107,36 @@ const Index = () => {
           <div className="container">
             <h2>Services</h2>
             <p className=" mb-5">
-              There are many variations of passages of Lorem Ipsum available,
-              but the majority have suffered alteration in some form.
+              There are many variations of passages of Lorem Ipsum available, but the majority have
+              suffered alteration in some form.
             </p>
             <div className="row">
               <div className="col-sm-6 col-lg-4 mb-3">
                 <h6>Ex cupidatat eu</h6>
                 <p className="">
-                  Ex cupidatat eu officia consequat incididunt labore occaecat
-                  ut veniam labore et cillum id et.
+                  Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
+                  cillum id et.
                 </p>
               </div>
               <div className="col-sm-6 col-lg-4 mb-3">
                 <h6>Tempor aute occaecat</h6>
-                <p className="">
-                  Tempor aute occaecat pariatur esse aute amet.
-                </p>
+                <p className="">Tempor aute occaecat pariatur esse aute amet.</p>
               </div>
               <div className="col-sm-6 col-lg-4 mb-3">
                 <h6>Voluptate ex irure</h6>
                 <p className="">
-                  Voluptate ex irure ipsum ipsum ullamco ipsum reprehenderit non
-                  ut mollit commodo.
+                  Voluptate ex irure ipsum ipsum ullamco ipsum reprehenderit non ut mollit commodo.
                 </p>
               </div>
               <div className="col-sm-6 col-lg-4 mb-3">
                 <h6>Tempor commodo</h6>
-                <p className="">
-                  Tempor commodo nostrud ex Lorem occaecat duis occaecat minim.
-                </p>
+                <p className="">Tempor commodo nostrud ex Lorem occaecat duis occaecat minim.</p>
               </div>
               <div className="col-sm-6 col-lg-4 mb-3">
                 <h6>Et fugiat sint occaecat</h6>
                 <p className="">
-                  Et fugiat sint occaecat voluptate incididunt anim nostrud ea
-                  cillum cillum consequat.
+                  Et fugiat sint occaecat voluptate incididunt anim nostrud ea cillum cillum
+                  consequat.
                 </p>
               </div>
               <div className="col-sm-6 col-lg-4 mb-3">
@@ -185,10 +166,7 @@ const Index = () => {
                       />
                     </div>
                     <div className="col-12 col-md-3">
-                      <button
-                        type="submit"
-                        className="btn mybtn btn-block btn-lg btn-danger"
-                      >
+                      <button type="submit" className="btn mybtn btn-block btn-lg btn-danger">
                         Submit
                       </button>
                     </div>

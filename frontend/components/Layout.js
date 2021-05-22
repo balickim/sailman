@@ -1,16 +1,16 @@
-import { useAuth } from "@components/auth/AuthProvider";
+import { useAuth } from '@components/auth/AuthProvider';
 
-import Header from "@components/Header";
-import Footer from "@components/Footer";
-import FeedbackForm from "@components/form/FeedbackForm";
-import Breadcrumbs from "@components/Breadcrumbs";
+import Header from '@components/Header';
+import Footer from '@components/Footer';
+import FeedbackForm from '@components/form/FeedbackForm';
+import Breadcrumbs from '@components/Breadcrumbs';
 
-import NProgress from "nprogress";
-import Router from "next/router";
+import NProgress from 'nprogress';
+import Router from 'next/router';
 
-Router.onRouteChangeStart = (url) => NProgress.start();
-Router.onRouteChangeComplete = (url) => NProgress.done();
-Router.onRouteChangeError = (url) => NProgress.done();
+Router.onRouteChangeStart = () => NProgress.start();
+Router.onRouteChangeComplete = () => NProgress.done();
+Router.onRouteChangeError = () => NProgress.done();
 
 const Layout = ({ children, wrap, footer, breadcrumbs }) => {
   wrap = wrap ?? true;
@@ -21,13 +21,12 @@ const Layout = ({ children, wrap, footer, breadcrumbs }) => {
 
   return (
     <>
-      <Header role={user?.role} />
-      {user?.role === "user" && <FeedbackForm />}
+      <Header userRole={user?.role} />
+      {user?.role === 'user' && <FeedbackForm />}
       {wrap && (
         <div
-          style={{ minHeight: "70vh" }}
-          className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded"
-        >
+          style={{ minHeight: '70vh' }}
+          className="container bg-white mt-2 mb-2 pt-2 pb-2 border rounded">
           {breadcrumbs && <Breadcrumbs />}
           {children}
         </div>

@@ -1,17 +1,17 @@
-import GoogleLogin from "react-google-login";
-import Router from "next/router";
+import GoogleLogin from 'react-google-login';
+import Router from 'next/router';
 
-import { loginWithGoogle } from "@actions/auth";
-import { useAuth } from "@components/auth/AuthProvider";
+import { loginWithGoogle } from '@actions/auth';
+import { useAuth } from '@components/auth/AuthProvider';
 
 const LoginGoogle = ({ buttonText }) => {
   const { authenticate } = useAuth();
 
-  const responseGoogle = (response) => {
+  const responseGoogle = response => {
     const tokenId = response.tokenId;
     const token = { tokenId };
 
-    loginWithGoogle(token).then((data) => {
+    loginWithGoogle(token).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {

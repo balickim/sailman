@@ -1,12 +1,12 @@
-import Head from "next/head";
-import useTranslation from "next-translate/useTranslation";
-import { useState } from "react";
-import { withRouter } from "next/router";
-import Link from "next/link";
+import Head from 'next/head';
+import useTranslation from 'next-translate/useTranslation';
+import { useState } from 'react';
+import { withRouter } from 'next/router';
+import Link from 'next/link';
 
-import Layout from "@components/Layout";
-import Card from "@components/announcement/Card";
-import { listAnnouncementsWithCategoriesAndTags } from "@actions/announcement";
+import Layout from '@components/Layout';
+import Card from '@components/announcement/Card';
+import { listAnnouncementsWithCategoriesAndTags } from '@actions/announcement';
 
 const Announcements = ({
   announcements,
@@ -23,13 +23,13 @@ const Announcements = ({
   const [loadedAnnouncements, setLoadedAnnouncements] = useState([]);
 
   const [values, setValues] = useState({
-    phrase: "",
+    phrase: '',
     priceFrom: 0,
     priceTo: 0,
-    dateStartFrom: "",
-    dateStartTo: "",
-    dateEndFrom: "",
-    dateEndTo: "",
+    dateStartFrom: '',
+    dateStartTo: '',
+    dateEndFrom: '',
+    dateEndTo: '',
     lastMinute: false,
     tidalCruise: false,
     map: false,
@@ -48,7 +48,7 @@ const Announcements = ({
     map,
   } = values;
 
-  let { t } = useTranslation("announcements");
+  let { t } = useTranslation('announcements');
 
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
@@ -59,23 +59,14 @@ const Announcements = ({
       <title>Boat renting | {DOMAIN}</title>
       <meta name="description" content="Boat renting announcements" />
       <link rel="canonical" href={`${DOMAIN}${router.pathname}`} />
-      <meta
-        property="og:title"
-        content={`Latest Boat renting announcements | ${APP_NAME}`}
-      />
+      <meta property="og:title" content={`Latest Boat renting announcements | ${APP_NAME}`} />
       <meta property="og:description" content="Boat renting announcements" />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={`${DOMAIN}${router.pathname}`} />
       <meta property="og:site_name" content={`${APP_NAME}`} />
 
-      <meta
-        property="og:image"
-        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
-      />
-      <meta
-        property="og:image:secure_url"
-        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
-      />
+      <meta property="og:image" content={`${DOMAIN}/images/sailman-wynajem.jpg`} />
+      <meta property="og:image:secure_url" content={`${DOMAIN}/images/sailman-wynajem.jpg`} />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
     </Head>
@@ -83,7 +74,7 @@ const Announcements = ({
 
   const loadMore = () => {
     let toSkip = skip + limit;
-    listAnnouncementsWithCategoriesAndTags(toSkip, limit).then((data) => {
+    listAnnouncementsWithCategoriesAndTags(toSkip, limit).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -122,19 +113,13 @@ const Announcements = ({
       return (
         <div key={i} className="row">
           {announcement[0] && (
-            <article
-              className={`mb-3 col-lg-${cols}`}
-              key={announcement[0]._id}
-            >
+            <article className={`mb-3 col-lg-${cols}`} key={announcement[0]._id}>
               <Card announcement={announcement[0]} />
             </article>
           )}
 
           {announcement[1] && (
-            <article
-              className={`mb-3 col-lg-${cols}`}
-              key={announcement[1]._id}
-            >
+            <article className={`mb-3 col-lg-${cols}`} key={announcement[1]._id}>
               <Card announcement={announcement[1]} />
             </article>
           )}
@@ -167,11 +152,11 @@ const Announcements = ({
     ));
   };
 
-  const handleChange = (name) => (e) => {
+  const handleChange = name => e => {
     let value;
     const target = e.target;
 
-    if (target.type === "checkbox") {
+    if (target.type === 'checkbox') {
       value = target.checked;
     } else {
       value = target.value;
@@ -180,7 +165,7 @@ const Announcements = ({
     setValues({ ...values, [name]: value });
   };
 
-  const pushParams = (e) => {
+  const pushParams = e => {
     e.preventDefault();
 
     router.push(`/announcements?${new URLSearchParams(values).toString()}`);
@@ -188,7 +173,7 @@ const Announcements = ({
 
   const filterForm = () => {
     return (
-      <div className="container border mb-3" style={{ overflow: "hidden" }}>
+      <div className="container border mb-3" style={{ overflow: 'hidden' }}>
         <form onSubmit={pushParams} id="filterForm" className="mt-2">
           {/* <div className="pb-5 text-center">
             {showAllCategories()}
@@ -201,12 +186,12 @@ const Announcements = ({
                 <input
                   type="phrase"
                   className="form-control"
-                  placeholder={t("Search phrase")}
-                  onChange={handleChange("phrase")}
+                  placeholder={t('Search phrase')}
+                  onChange={handleChange('phrase')}
                 />
               </div>
             </div>
-            <label className="ms-2">{t("Price per person")}</label>
+            <label className="ms-2">{t('Price per person')}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -216,7 +201,7 @@ const Announcements = ({
                   value={priceFrom}
                   min={0}
                   max={10000}
-                  onChange={handleChange("priceFrom")}
+                  onChange={handleChange('priceFrom')}
                 />
               </div>
               <div className="col-6">
@@ -227,20 +212,20 @@ const Announcements = ({
                   value={priceTo}
                   min={0}
                   max={10000}
-                  onChange={handleChange("priceTo")}
+                  onChange={handleChange('priceTo')}
                 />
               </div>
             </div>
           </div>
           <div className="form-group">
-            <label className="ms-2">{t("Start date")}</label>
+            <label className="ms-2">{t('Start date')}</label>
             <div className="row">
               <div className="col-6">
                 <input
                   type="date"
                   className="form-control"
                   value={dateStartFrom}
-                  onChange={handleChange("dateStartFrom")}
+                  onChange={handleChange('dateStartFrom')}
                 />
               </div>
               <div className="col-6">
@@ -248,20 +233,20 @@ const Announcements = ({
                   type="date"
                   className="form-control"
                   value={dateStartTo}
-                  onChange={handleChange("dateStartTo")}
+                  onChange={handleChange('dateStartTo')}
                 />
               </div>
             </div>
           </div>
           <div className="form-group">
-            <label className="ms-2">{t("End date")}</label>
+            <label className="ms-2">{t('End date')}</label>
             <div className="row">
               <div className="col-6">
                 <input
                   type="date"
                   className="form-control"
                   value={dateEndFrom}
-                  onChange={handleChange("dateEndFrom")}
+                  onChange={handleChange('dateEndFrom')}
                 />
               </div>
               <div className="col-6">
@@ -269,7 +254,7 @@ const Announcements = ({
                   type="date"
                   className="form-control"
                   value={dateEndTo}
-                  onChange={handleChange("dateEndTo")}
+                  onChange={handleChange('dateEndTo')}
                 />
               </div>
             </div>
@@ -281,10 +266,10 @@ const Announcements = ({
                   id="lastMinute"
                   type="checkbox"
                   value={lastMinute}
-                  onChange={handleChange("lastMinute")}
+                  onChange={handleChange('lastMinute')}
                 />
                 <label htmlFor="lastMinute" className="ms-1 small">
-                  {t("last_minute")}
+                  {t('last_minute')}
                 </label>
               </div>
               <div>
@@ -292,32 +277,23 @@ const Announcements = ({
                   id="tidalCruise"
                   type="checkbox"
                   value={tidalCruise}
-                  onChange={handleChange("tidalCruise")}
+                  onChange={handleChange('tidalCruise')}
                 />
                 <label htmlFor="tidalCruise" className="ms-1 small">
-                  {t("tidal_cruise")}
+                  {t('tidal_cruise')}
                 </label>
               </div>
               <div>
-                <input
-                  id="withMap"
-                  type="checkbox"
-                  value={map}
-                  onChange={handleChange("map")}
-                />
+                <input id="withMap" type="checkbox" value={map} onChange={handleChange('map')} />
                 <label htmlFor="withMap" className="ms-1 small">
-                  {t("Announcement with map")}
+                  {t('Announcement with map')}
                 </label>
               </div>
             </div>
 
             <div className="col-2">
-              <button
-                type="submit"
-                className="btn btn-primary m-3 float-end"
-                form="filterForm"
-              >
-                {t("Search")}
+              <button type="submit" className="btn btn-primary m-3 float-end" form="filterForm">
+                {t('Search')}
               </button>
             </div>
           </div>
@@ -334,9 +310,7 @@ const Announcements = ({
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">
-                <h1 className="font-weight-bold text-start mb-5">
-                  {t("Announcements")}
-                </h1>
+                <h1 className="font-weight-bold text-start mb-5">{t('Announcements')}</h1>
               </div>
             </header>
           </div>
@@ -356,11 +330,7 @@ export async function getServerSideProps(context) {
   let skip = 0;
   let limit = 4;
 
-  return listAnnouncementsWithCategoriesAndTags(
-    skip,
-    limit,
-    context.query
-  ).then((data) => {
+  return listAnnouncementsWithCategoriesAndTags(skip, limit, context.query).then(data => {
     if (data.error) {
       console.log(data.error);
     } else {

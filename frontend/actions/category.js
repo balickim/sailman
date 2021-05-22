@@ -1,50 +1,50 @@
-export const create = (category) => {
+export const create = category => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/category`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
     body: JSON.stringify(category),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 export const getCategories = () => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/categories`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const singleCategory = (slug) => {
+export const singleCategory = slug => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/category/${slug}`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const removeCategory = (slug) => {
+export const removeCategory = slug => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/category/${slug}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };

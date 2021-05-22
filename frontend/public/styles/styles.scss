@@ -24,8 +24,8 @@
   margin-left: 5px;
 }
 .breadcrumb > li:after {
-  content: "  /";
+  content: '  /';
 }
 .breadcrumb > li:last-child:after {
-  content: "";
+  content: '';
 }

@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { create, getTags, removeTag } from "@actions/tag";
+import { create, getTags, removeTag } from '@actions/tag';
 
 const Tag = () => {
   const [values, setValues] = useState({
-    name: "",
+    name: '',
     error: false,
     success: false,
     tags: [],
@@ -19,7 +19,7 @@ const Tag = () => {
   }, [reload]);
 
   const loadTags = () => {
-    getTags().then((data) => {
+    getTags().then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -35,23 +35,22 @@ const Tag = () => {
           onDoubleClick={() => deleteConfirm(c.slug)}
           title="Double click to delete"
           key={i}
-          className="btn btn-outline-primary me-1 ms-1 mt-3"
-        >
+          className="btn btn-outline-primary me-1 ms-1 mt-3">
           {c.name}
         </button>
       );
     });
   };
 
-  const deleteConfirm = (slug) => {
-    let answer = window.confirm("Are you sure you want to delete this tag?");
+  const deleteConfirm = slug => {
+    let answer = window.confirm('Are you sure you want to delete this tag?');
     if (answer) {
       deleteTag(slug);
     }
   };
 
-  const deleteTag = (slug) => {
-    removeTag(slug).then((data) => {
+  const deleteTag = slug => {
+    removeTag(slug).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -59,7 +58,7 @@ const Tag = () => {
           ...values,
           error: false,
           success: false,
-          name: "",
+          name: '',
           removed: !removed,
           reload: !reload,
         });
@@ -67,9 +66,9 @@ const Tag = () => {
     });
   };
 
-  const clickSubmit = (e) => {
+  const clickSubmit = e => {
     e.preventDefault();
-    create({ name }).then((data) => {
+    create({ name }).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
@@ -77,7 +76,7 @@ const Tag = () => {
           ...values,
           error: false,
           success: true,
-          name: "",
+          name: '',
           removed: removed,
           reload: !reload,
         });
@@ -85,13 +84,13 @@ const Tag = () => {
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setValues({
       ...values,
       name: e.target.value,
       error: false,
       success: false,
-      removed: "",
+      removed: '',
     });
   };
 
@@ -113,21 +112,15 @@ const Tag = () => {
     }
   };
 
-  const mouseMoveHandler = (e) => {
-    setValues({ ...values, error: false, success: false, removed: "" });
+  const mouseMoveHandler = () => {
+    setValues({ ...values, error: false, success: false, removed: '' });
   };
 
   const newTagFom = () => (
     <form onSubmit={clickSubmit}>
       <div className="form-group">
-        <label className="text-muted">Name</label>
-        <input
-          type="text"
-          className="form-control"
-          onChange={handleChange}
-          value={name}
-          required
-        />
+        <p className="text-muted">Name</p>
+        <input type="text" className="form-control" onChange={handleChange} value={name} required />
       </div>
       <div>
         <button type="submit" className="btn btn-primary">

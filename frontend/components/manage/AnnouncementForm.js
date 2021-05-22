@@ -1,8 +1,8 @@
-import useTranslation from "next-translate/useTranslation";
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import Image from "next/image";
-import { withRouter, useRouter } from "next/router";
+import useTranslation from 'next-translate/useTranslation';
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { withRouter, useRouter } from 'next/router';
 import {
   MDBSpinner,
   MDBBtn,
@@ -13,24 +13,24 @@ import {
   MDBModalTitle,
   MDBModalBody,
   MDBModalFooter,
-} from "mdb-react-ui-kit";
-import Link from "next/link";
+} from 'mdb-react-ui-kit';
+import Link from 'next/link';
 
-import { getCategories } from "@actions/category";
-import { getTags } from "@actions/tag";
-import { update, singleAnnouncement } from "@actions/announcement";
-import { create } from "@actions/announcement";
-import { useAuth } from "@components/auth/AuthProvider";
-import LimitedInput from "@components/helpers/LimitedInput";
-import useExitPrompt from "@components/helpers/useExitPrompt.js";
+import { getCategories } from '@actions/category';
+import { getTags } from '@actions/tag';
+import { update, singleAnnouncement } from '@actions/announcement';
+import { create } from '@actions/announcement';
+import { useAuth } from '@components/auth/AuthProvider';
+import LimitedInput from '@components/helpers/LimitedInput';
+import useExitPrompt from '@components/helpers/useExitPrompt.js';
 
-const ReactQuill = dynamic(() => import("react-quill"), {
+const ReactQuill = dynamic(() => import('react-quill'), {
   loading: () => <MDBSpinner color="primary" />,
   ssr: false,
 });
-import { QuillModules, QuillFormats } from "@helpers/quill";
+import { QuillModules, QuillFormats } from '@helpers/quill';
 
-const Map = dynamic(() => import("../map/Map"), {
+const Map = dynamic(() => import('../map/Map'), {
   loading: () => <MDBSpinner color="primary" />,
   ssr: false,
 });
@@ -38,21 +38,21 @@ const Map = dynamic(() => import("../map/Map"), {
 const AnnouncementForm = ({ router }) => {
   const announcementFromLS = () => {
     if (!router.query.slug) {
-      if (typeof window === "undefined") {
+      if (typeof window === 'undefined') {
         return false;
       }
 
-      if (localStorage.getItem("announcement")) {
-        return JSON.parse(localStorage.getItem("announcement"));
+      if (localStorage.getItem('announcement')) {
+        return JSON.parse(localStorage.getItem('announcement'));
       } else {
         return false;
       }
     } else {
-      return "";
+      return '';
     }
   };
 
-  let { t } = useTranslation("announcements");
+  let { t } = useTranslation('announcements');
   const { locale } = useRouter();
   const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
 
@@ -70,24 +70,24 @@ const AnnouncementForm = ({ router }) => {
   const [modal, setModal] = useState(false);
   const [modalLoading, setModalLoading] = useState(false);
 
-  const [renderedPhoto, setRenderedPhoto] = useState("");
+  const [renderedPhoto, setRenderedPhoto] = useState('');
   const [gallery, setGallery] = useState([]);
 
   const [values, setValues] = useState({
-    error: "",
-    success: "",
-    responseData: "",
-    title: "",
-    startDate: "",
-    endDate: "",
-    days: "",
-    price: "",
-    currency: "pln",
-    includedInPrice: "",
-    yacht: "",
+    error: '',
+    success: '',
+    responseData: '',
+    title: '',
+    startDate: '',
+    endDate: '',
+    days: '',
+    price: '',
+    currency: 'pln',
+    includedInPrice: '',
+    yacht: '',
     lastMinute: false,
     tidalCruise: false,
-    photo: "",
+    photo: '',
   });
 
   const {
@@ -124,7 +124,7 @@ const AnnouncementForm = ({ router }) => {
   }, [router]);
 
   const initAnnouncement = () => {
-    singleAnnouncement(router.query.slug).then((data) => {
+    singleAnnouncement(router.query.slug).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -149,7 +149,7 @@ const AnnouncementForm = ({ router }) => {
     });
   };
 
-  const setCategoriesArray = (announcementCategories) => {
+  const setCategoriesArray = announcementCategories => {
     let ca = [];
     announcementCategories.map((c, i) => {
       ca.push(c._id);
@@ -157,7 +157,7 @@ const AnnouncementForm = ({ router }) => {
     setCheckedCategory(ca);
   };
 
-  const setTagsArray = (announcementTags) => {
+  const setTagsArray = announcementTags => {
     let ta = [];
     announcementTags.map((t, i) => {
       ta.push(t._id);
@@ -166,7 +166,7 @@ const AnnouncementForm = ({ router }) => {
   };
 
   const initCategories = () => {
-    getCategories().then((data) => {
+    getCategories().then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -176,7 +176,7 @@ const AnnouncementForm = ({ router }) => {
   };
 
   const initTags = () => {
-    getTags().then((data) => {
+    getTags().then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -185,24 +185,24 @@ const AnnouncementForm = ({ router }) => {
     });
   };
 
-  const handleChange = (name) => (e) => {
+  const handleChange = name => e => {
     let value;
     const target = e.target;
 
-    if (name === "photo") {
+    if (name === 'photo') {
       if (target.files[0].size <= 1000000) {
         value = target.files[0];
         setRenderedPhoto(URL.createObjectURL(value));
       } else {
-        alert(t("file_too_big"));
+        alert(t('file_too_big'));
       }
-    } else if (name === "gallery") {
+    } else if (name === 'gallery') {
       let safeToSave = true;
       const length = target.files.length;
 
       if (length > 10) {
         safeToSave = false;
-        alert(t("too_many_images"));
+        alert(t('too_many_images'));
       }
 
       for (let i = 0; i < length; i++) {
@@ -210,14 +210,14 @@ const AnnouncementForm = ({ router }) => {
           value = target.files[i];
         } else {
           safeToSave = false;
-          alert(t("file_too_big"));
+          alert(t('file_too_big'));
         }
       }
 
       if (safeToSave) {
         setGallery(target.files);
       }
-    } else if (target.type === "checkbox") {
+    } else if (target.type === 'checkbox') {
       value = target.checked;
     } else {
       value = target.value;
@@ -225,18 +225,18 @@ const AnnouncementForm = ({ router }) => {
 
     setShowExitPrompt(true);
 
-    setValues({ ...values, [name]: value, error: "" });
+    setValues({ ...values, [name]: value, error: '' });
   };
 
-  const handleBody = (e) => {
+  const handleBody = e => {
     setBody(e);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("announcement", JSON.stringify(e));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('announcement', JSON.stringify(e));
     }
   };
 
-  const handleCategoryToggle = (c) => () => {
-    setValues({ ...values, error: "" });
+  const handleCategoryToggle = c => () => {
+    setValues({ ...values, error: '' });
     const clickedCategory = checkedCategory.indexOf(c);
     const all = [...checkedCategory];
 
@@ -248,8 +248,8 @@ const AnnouncementForm = ({ router }) => {
     setCheckedCategory(all);
   };
 
-  const handleTagToggle = (c) => () => {
-    setValues({ ...values, error: "" });
+  const handleTagToggle = c => () => {
+    setValues({ ...values, error: '' });
     const clickedTag = checkedTag.indexOf(c);
     const all = [...checkedTag];
 
@@ -261,7 +261,7 @@ const AnnouncementForm = ({ router }) => {
     setCheckedTag(all);
   };
 
-  const findOutCategory = (c) => {
+  const findOutCategory = c => {
     const result = checkedCategory.indexOf(c);
     if (result !== -1) {
       return true;
@@ -270,7 +270,7 @@ const AnnouncementForm = ({ router }) => {
     }
   };
 
-  const findOutTag = (t) => {
+  const findOutTag = t => {
     const result = checkedTag.indexOf(t);
     if (result !== -1) {
       return true;
@@ -314,44 +314,38 @@ const AnnouncementForm = ({ router }) => {
   };
 
   const showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: error ? "" : "none" }}
-    >
+    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
       {error}
     </div>
   );
 
   const showSuccess = () => (
-    <div
-      className="alert alert-success"
-      style={{ display: success ? "" : "none" }}
-    >
+    <div className="alert alert-success" style={{ display: success ? '' : 'none' }}>
       {success}
     </div>
   );
 
   const toggleShow = () => setModal(!modal);
 
-  const cleanAllState = (e) => {
+  const cleanAllState = e => {
     e.preventDefault();
 
     setValues({
       ...values,
-      title: "",
-      startDate: "",
-      endDate: "",
-      days: "",
-      price: "",
-      currency: "pln",
-      includedInPrice: "",
-      yacht: "",
+      title: '',
+      startDate: '',
+      endDate: '',
+      days: '',
+      price: '',
+      currency: 'pln',
+      includedInPrice: '',
+      yacht: '',
       lastMinute: false,
       tidalCruise: false,
-      photo: "",
-      responseData: "",
+      photo: '',
+      responseData: '',
     });
-    setBody("");
+    setBody('');
     setCheckedCategory([]);
     setCheckedTag([]);
     setModalLoading(false);
@@ -360,7 +354,7 @@ const AnnouncementForm = ({ router }) => {
     // zero out everything for user to add new one
   };
 
-  const publishOrEditAnnouncement = async (e) => {
+  const publishOrEditAnnouncement = async e => {
     e.preventDefault();
 
     setModalLoading(true);
@@ -369,74 +363,74 @@ const AnnouncementForm = ({ router }) => {
     const allRoutes = [];
 
     if (currentRoutes) {
-      await currentRoutes.map((element) => {
+      await currentRoutes.map(element => {
         allRoutes.push(element.circleCoords);
       });
     }
 
     if (seedRoutes) {
-      await seedRoutes.map((element) => {
+      await seedRoutes.map(element => {
         allRoutes.push(element);
       });
     }
 
     let formData = await new FormData();
-    await formData.append("title", values.title);
-    await formData.append("body", body);
-    await formData.append("startDate", startDate);
-    await formData.append("endDate", endDate);
-    await formData.append("days", days);
-    await formData.append("price", price);
-    await formData.append("includedInPrice", includedInPrice);
-    await formData.append("yacht", yacht);
-    await formData.append("lastMinute", lastMinute);
-    await formData.append("tidalCruise", tidalCruise);
-    await formData.append("language", locale);
-    await formData.append("currency", currency);
-    await formData.append("categories", checkedCategory);
-    await formData.append("tags", checkedTag);
-    await formData.append("allRoutes", JSON.stringify(allRoutes));
+    await formData.append('title', values.title);
+    await formData.append('body', body);
+    await formData.append('startDate', startDate);
+    await formData.append('endDate', endDate);
+    await formData.append('days', days);
+    await formData.append('price', price);
+    await formData.append('includedInPrice', includedInPrice);
+    await formData.append('yacht', yacht);
+    await formData.append('lastMinute', lastMinute);
+    await formData.append('tidalCruise', tidalCruise);
+    await formData.append('language', locale);
+    await formData.append('currency', currency);
+    await formData.append('categories', checkedCategory);
+    await formData.append('tags', checkedTag);
+    await formData.append('allRoutes', JSON.stringify(allRoutes));
     if (photo) {
       // prevent photo from overwriting with empty
-      await formData.append("photo", photo);
+      await formData.append('photo', photo);
     }
     if (gallery) {
       // prevent gallery from overwriting with empty
       const length = gallery.length;
       for (let i = 0; i < length; i++) {
-        await formData.append("gallery", gallery[i]);
+        await formData.append('gallery', gallery[i]);
       }
     }
 
     if (!router.query.slug) {
-      create(formData).then((data) => {
+      create(formData).then(data => {
         if (data.error) {
-          setValues({ ...values, error: data.error, success: "" });
+          setValues({ ...values, error: data.error, success: '' });
           setModalLoading(false);
         } else {
           setModalLoading(false);
           setShowExitPrompt(false);
           setValues({
             ...values,
-            error: "",
+            error: '',
             responseData: data,
-            success: t("create_success", { title: data.title }),
+            success: t('create_success', { title: data.title }),
           });
         }
       });
     } else if (router.query.slug) {
-      update(formData, router.query.slug, user).then((data) => {
+      update(formData, router.query.slug, user).then(data => {
         if (data.error) {
-          setValues({ ...values, error: data.error, success: "" });
+          setValues({ ...values, error: data.error, success: '' });
           setModalLoading(false);
         } else {
           setModalLoading(false);
           setShowExitPrompt(false);
           setValues({
             ...values,
-            error: "",
+            error: '',
             responseData: data,
-            success: t("update_success", { title: data.title }),
+            success: t('update_success', { title: data.title }),
           });
         }
       });
@@ -447,107 +441,86 @@ const AnnouncementForm = ({ router }) => {
     return (
       <form onSubmit={publishOrEditAnnouncement} id="announcementForm">
         <div className="form-group">
-          <label className="text-muted">{t("Title")}*</label>
-          <LimitedInput
-            type="text"
-            value={title}
-            onChange={handleChange("title")}
-            limit={70}
-          />
+          <label className="text-muted">{t('Title')}*</label>
+          <LimitedInput type="text" value={title} onChange={handleChange('title')} limit={70} />
         </div>
 
         <div className="row">
           <div className="form-group col-md-3">
-            <label className="text-muted">{t("Start date")}*</label>
+            <label className="text-muted">{t('Start date')}*</label>
             <input
               id="startDate"
               type="date"
               className="form-control"
               value={startDate}
-              onChange={handleChange("startDate")}
+              onChange={handleChange('startDate')}
             />
           </div>
 
           <div className="form-group col-md-3">
-            <label className="text-muted">{t("End date")}*</label>
+            <label className="text-muted">{t('End date')}*</label>
             <input
               id="endDate"
               type="date"
               className="form-control"
               value={endDate}
-              onChange={handleChange("endDate")}
+              onChange={handleChange('endDate')}
             />
           </div>
           <div className="form-group col-md-2">
-            <label className="text-muted text-nowrap">
-              {t("Number of cruise days")}*
-            </label>
+            <label className="text-muted text-nowrap">{t('Number of cruise days')}*</label>
             <input
               type="number"
               min="0"
               className="form-control"
               value={days}
-              onChange={handleChange("days")}
+              onChange={handleChange('days')}
             />
           </div>
           <div className="form-group col-md-2">
-            <label className="text-muted text-nowrap">
-              {t("Price per person")}*
-            </label>
+            <label className="text-muted text-nowrap">{t('Price per person')}*</label>
             <input
               type="number"
               min="0"
               className="form-control"
               value={price}
-              onChange={handleChange("price")}
+              onChange={handleChange('price')}
             />
           </div>
           <div className="form-group col-md-2">
-            <label className="text-muted text-nowrap">
-              <br />
-            </label>
+            <br />
             <select
               name="currency"
               id="currency"
               className="form-control"
-              onChange={handleChange("currency")}
-            >
+              onBlur={handleChange('currency')}>
               <option value="pln">PLN</option>
               <option value="eur">EUR</option>
             </select>
           </div>
         </div>
         <div className="form-group">
-          <label className="text-muted">
-            {t("What's included in the price")}*
-          </label>
+          <label className="text-muted">{t("What's included in the price")}*</label>
           <LimitedInput
             type="text"
             limit={120}
             value={includedInPrice}
-            onChange={handleChange("includedInPrice")}
+            onChange={handleChange('includedInPrice')}
           />
         </div>
 
         <div className="form-group">
-          <label className="text-muted">
-            {t("The yacht and its description")}*
-          </label>
-          <LimitedInput
-            type="text"
-            limit={120}
-            value={yacht}
-            onChange={handleChange("yacht")}
-          />
+          <label className="text-muted">{t('The yacht and its description')}*</label>
+          <LimitedInput type="text" limit={120} value={yacht} onChange={handleChange('yacht')} />
         </div>
 
         <div className="form-group">
-          <label className="text-muted">{t("Description")}*</label>
+          <label className="text-muted">{t('Description')}*</label>
           <ReactQuill
             modules={QuillModules}
             formats={QuillFormats}
             value={body}
-            placeholder={t("Write something")}
+            placeholder={t('Write something')}
             onChange={handleBody}
           />
         </div>
@@ -559,7 +532,7 @@ const AnnouncementForm = ({ router }) => {
     return (
       <>
         <div className="form-group pb-2 mt-3">
-          <h5>{t("featured_image")}</h5>
+          <h5>{t('featured_image')}</h5>
           <hr />
           <div className="d-flex justify-content-center mb-1">
             {router.query.slug && !renderedPhoto && (
@@ -567,21 +540,20 @@ const AnnouncementForm = ({ router }) => {
                 src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${router.query.slug}`}
                 alt={title}
                 width={200}
-                height={"100%"}
+                height={'100%'}
                 unoptimized={true}
               />
             )}
             {renderedPhoto && (
               <div
                 style={{
-                  width: "200px",
-                }}
-              >
+                  width: '200px',
+                }}>
                 <img
                   style={{
-                    width: "100%",
-                    height: "100%",
-                    objectFit: "contain",
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'contain',
                   }}
                   src={renderedPhoto}
                   alt={title}
@@ -589,39 +561,27 @@ const AnnouncementForm = ({ router }) => {
               </div>
             )}
           </div>
-          <small className="text-muted me-2">{t("max_image_size_1mb")}</small>
+          <small className="text-muted me-2">{t('max_image_size_1mb')}</small>
           <label className="btn btn-outline-info">
-            {t("upload_featured_image")}
-            <input
-              onChange={handleChange("photo")}
-              type="file"
-              accept="image/*"
-              hidden
-            />
+            {t('upload_featured_image')}
+            <input onChange={handleChange('photo')} type="file" accept="image/*" hidden />
           </label>
         </div>
 
         <div className="form-group pb-2 mt-3">
-          <h5>{t("gallery")}</h5>
+          <h5>{t('gallery')}</h5>
           <hr />
-          <small className="text-muted me-2">
-            {t("max_images", { count: 10 })}
-          </small>
-          - <small className="text-muted me-2">{t("max_image_size_1mb")}</small>
+          <small className="text-muted me-2">{t('max_images', { count: 10 })}</small>-{' '}
+          <small className="text-muted me-2">{t('max_image_size_1mb')}</small>
           <label className="btn ">
-            <input
-              onChange={handleChange("gallery")}
-              type="file"
-              accept="image/*"
-              multiple
-            />
+            <input onChange={handleChange('gallery')} type="file" accept="image/*" multiple />
           </label>
         </div>
 
         <div className="form-group mt-3">
-          <h5>{t("Cruise map (Optional)")}</h5>
+          <h5>{t('Cruise map (Optional)')}</h5>
           <hr />
-          <div className="border" style={{ width: "auto", height: "400px" }}>
+          <div className="border" style={{ width: 'auto', height: '400px' }}>
             <Map
               setCurrentRoutes={setCurrentRoutes}
               setSeedRoutes={setSeedRoutes}
@@ -631,46 +591,42 @@ const AnnouncementForm = ({ router }) => {
         </div>
 
         <div className="mt-3">
-          <h5>{t("Categories")}*</h5>
+          <h5>{t('Categories')}*</h5>
           <hr />
-          <ul style={{ maxHeight: "200px", overflowY: "scroll" }}>
-            {showCategories()}
-          </ul>
+          <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>{showCategories()}</ul>
         </div>
 
         <div>
-          <h5>{t("Tags")}*</h5>
+          <h5>{t('Tags')}*</h5>
           <hr />
-          <ul style={{ maxHeight: "200px", overflowY: "scroll" }}>
-            {showTags()}
-          </ul>
+          <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>{showTags()}</ul>
         </div>
 
         <div className="mb-2">
-          <h5>{t("last_minute")}</h5>
+          <h5>{t('last_minute')}</h5>
           <hr />
           <input
             type="checkbox"
             className="me-1"
             checked={lastMinute}
-            onChange={handleChange("lastMinute")}
+            onChange={handleChange('lastMinute')}
           />
           <label htmlFor="lastMinute" className="small">
-            {t("last_minute_message")}
+            {t('last_minute_message')}
           </label>
         </div>
 
         <div className="mt-4">
-          <h5>{t("tidal_cruise")}</h5>
+          <h5>{t('tidal_cruise')}</h5>
           <hr />
           <input
             type="checkbox"
             className="me-1"
             checked={tidalCruise}
-            onChange={handleChange("tidalCruise")}
+            onChange={handleChange('tidalCruise')}
           />
           <label htmlFor="tidalCruise" className="small">
-            {t("tidal_cruise_message")}
+            {t('tidal_cruise_message')}
           </label>
         </div>
       </>
@@ -679,14 +635,12 @@ const AnnouncementForm = ({ router }) => {
 
   return (
     <>
-      <MDBModal tabIndex="-1" show={modal} getOpenState={(e) => setModal(e)}>
+      <MDBModal tabIndex="-1" show={modal} getOpenState={e => setModal(e)}>
         <MDBModalDialog centered>
           <MDBModalContent>
             <MDBModalHeader>
               <MDBModalTitle>
-                {router.query.slug
-                  ? t("Edit announcement")
-                  : t("Publish announcement")}
+                {router.query.slug ? t('Edit announcement') : t('Publish announcement')}
               </MDBModalTitle>
             </MDBModalHeader>
             <MDBModalBody>
@@ -696,7 +650,7 @@ const AnnouncementForm = ({ router }) => {
                     <MDBSpinner
                       color="primary"
                       role="status"
-                      style={{ width: "3rem", height: "3rem" }}
+                      style={{ width: '3rem', height: '3rem' }}
                     />
                   </div>
                 )}
@@ -709,23 +663,23 @@ const AnnouncementForm = ({ router }) => {
                 <>
                   {!router.query.slug && (
                     <>
-                      <MDBBtn onClick={cleanAllState}>{t("add_new")}</MDBBtn>
+                      <MDBBtn onClick={cleanAllState}>{t('add_new')}</MDBBtn>
 
                       <Link href={`/user/manage/${responseData.slug}`}>
                         <a>
-                          <MDBBtn>{t("edit")}</MDBBtn>
+                          <MDBBtn>{t('edit')}</MDBBtn>
                         </a>
                       </Link>
                     </>
                   )}
                   <Link href={`/announcements/${responseData.slug}`}>
                     <a>
-                      <MDBBtn>{t("see")}</MDBBtn>
+                      <MDBBtn>{t('see')}</MDBBtn>
                     </a>
                   </Link>
                 </>
               )}
-              {error && <MDBBtn onClick={toggleShow}>{t("close")}</MDBBtn>}
+              {error && <MDBBtn onClick={toggleShow}>{t('close')}</MDBBtn>}
             </MDBModalFooter>
           </MDBModalContent>
         </MDBModalDialog>
@@ -736,14 +690,8 @@ const AnnouncementForm = ({ router }) => {
           <div className="col-xl-4">{additionalInfo()}</div>
         </div>
         <div className="float-end mb-4">
-          <button
-            type="submit"
-            className="btn btn-primary  "
-            form="announcementForm"
-          >
-            {router.query.slug
-              ? t("Edit announcement")
-              : t("Publish announcement")}
+          <button type="submit" className="btn btn-primary  " form="announcementForm">
+            {router.query.slug ? t('Edit announcement') : t('Publish announcement')}
           </button>
         </div>
       </div>

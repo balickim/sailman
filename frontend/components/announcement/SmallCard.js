@@ -1,5 +1,5 @@
-import dayjs from "dayjs";
-import Link from "next/link";
+import dayjs from 'dayjs';
+import Link from 'next/link';
 
 const SmallCard = ({ announcement }) => {
   return (
@@ -7,7 +7,7 @@ const SmallCard = ({ announcement }) => {
       <section>
         <Link href={`/announcements/${announcement.slug}`}>
           <img
-            style={{ height: "250px", width: "100%" }}
+            style={{ height: '250px', width: '100%' }}
             src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
             alt={announcement.title}
             className="img img-fluid"
@@ -27,12 +27,11 @@ const SmallCard = ({ announcement }) => {
       <div className="card-body">
         <div>
           <div className="mark ms-1 pt-2 pb-2">
-            Posted by{" "}
+            Posted by{' '}
             <Link href={`/profile/${announcement.postedBy.username}`}>
               <a>{announcement.postedBy.username}</a>
-            </Link>{" "}
-            | Published{" "}
-            {dayjs(announcement.updatedAt).format("D MMMM, YYYY HH:MM")}
+            </Link>{' '}
+            | Published {dayjs(announcement.updatedAt).format('D MMMM, YYYY HH:MM')}
           </div>
         </div>
       </div>
