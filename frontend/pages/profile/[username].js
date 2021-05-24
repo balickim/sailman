@@ -1,9 +1,9 @@
-import Head from "next/head";
-import Link from "next/link";
-import dayjs from "dayjs";
+import Head from 'next/head';
+import Link from 'next/link';
+import dayjs from 'dayjs';
 
-import { userPublicProfile } from "@actions/user";
-import Layout from "@components/Layout";
+import { userPublicProfile } from '@actions/user';
+import Layout from '@components/Layout';
 
 const UserProfile = ({ user, announcements, query }) => {
   const showUserAnnouncements = () => {
@@ -35,14 +35,8 @@ const UserProfile = ({ user, announcements, query }) => {
       <meta property="og:url" content={`${DOMAIN}/profile/${query.username}`} />
       <meta property="og:site_name" content={`${APP_NAME}`} />
 
-      <meta
-        property="og:image"
-        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
-      />
-      <meta
-        property="og:image:secure_url"
-        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
-      />
+      <meta property="og:image" content={`${DOMAIN}/images/sailman-wynajem.jpg`} />
+      <meta property="og:image:secure_url" content={`${DOMAIN}/images/sailman-wynajem.jpg`} />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
     </Head>
@@ -62,22 +56,20 @@ const UserProfile = ({ user, announcements, query }) => {
                       <h5>{user.name}</h5>
                     </div>
                     <div className="col-md-4">
-                      {user.username &&
-                      user.username !== "" &&
-                      Boolean(user.username) !== false ? (
+                      {user.username && user.username !== '' && Boolean(user.username) !== false ? (
                         <img
                           src={`${process.env.NEXT_PUBLIC_API}/user/photo/${user.username}`}
                           alt="user profile"
-                          style={{ maxHeight: "auto", maxWidth: "100%" }}
+                          style={{ maxHeight: 'auto', maxWidth: '100%' }}
                           className="img img-fluid img-thumbnail mb-3"
                         />
                       ) : (
-                        ""
+                        ''
                       )}
                     </div>
                   </div>
                   <p className="text-muted">
-                    Joined {dayjs(user.createdAt).format("D MMMM, YYYY HH:MM")}
+                    Joined {dayjs(user.createdAt).format('D MMMM, YYYY HH:MM')}
                   </p>
                 </div>
               </div>
@@ -114,9 +106,9 @@ const UserProfile = ({ user, announcements, query }) => {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  return userPublicProfile(query.username).then((data) => {
+  return userPublicProfile(query.username).then(data => {
     if (data.error) {
-      return console.log("ERROR " + data.error);
+      return console.log('ERROR ' + data.error);
     } else {
       return {
         props: { user: data.user, announcements: data.announcements, query },

@@ -1,8 +1,8 @@
-import L from "leaflet";
-import "./Leaflet.PolylineMeasure";
-import { createControlComponent } from "@react-leaflet/core";
+import L from 'leaflet';
+import './Leaflet.PolylineMeasure';
+import { createControlComponent } from '@react-leaflet/core';
 
-const createPolylineMeasurer = (props) => {
+const createPolylineMeasurer = props => {
   return L.control.polylineMeasure({ ...props });
 };
 

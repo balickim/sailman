@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-const initBeforeUnLoad = (showExitPrompt) => {
-  window.onbeforeunload = (event) => {
+const initBeforeUnLoad = showExitPrompt => {
+  window.onbeforeunload = event => {
     if (showExitPrompt) {
       const e = event || window.event;
       e.preventDefault();
       if (e) {
-        e.returnValue = "";
+        e.returnValue = '';
       }
-      return "";
+      return '';
     }
   };
 };

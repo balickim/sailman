@@ -1,18 +1,18 @@
-import queryString from "query-string";
+import queryString from 'query-string';
 
-export const create = (announcement) => {
+export const create = announcement => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcement`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
     body: announcement,
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 export const listAnnouncementsWithCategoriesAndTags = (skip, limit) => {
@@ -22,59 +22,59 @@ export const listAnnouncementsWithCategoriesAndTags = (skip, limit) => {
   };
 
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcements-categories-tags`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(data),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const singleAnnouncement = (slug) => {
+export const singleAnnouncement = slug => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcement/${slug}`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
-export const listRelated = (announcement) => {
+export const listRelated = announcement => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/related`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(announcement),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
-export const getGalleryCount = (slug) => {
+export const getGalleryCount = slug => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcement/${slug}/gallery`, {
-    method: "GET",
+    method: 'GET',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
-export const list = (username) => {
+export const list = username => {
   let listAnnouncementEndpoint;
 
   if (username) {
@@ -84,68 +84,68 @@ export const list = (username) => {
   }
 
   return fetch(`${listAnnouncementEndpoint}`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };
 
 export const remove = (slug, user) => {
   let removeAnnouncementEndpoint;
 
-  if ((user && user.role === "admin") || user.role === "moderator") {
+  if ((user && user.role === 'admin') || user.role === 'moderator') {
     removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcement/${slug}`;
-  } else if (user && user.role === "user") {
+  } else if (user && user.role === 'user') {
     removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/user/announcement/${slug}`;
   }
 
   return fetch(`${removeAnnouncementEndpoint}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 export const update = (announcement, slug, user) => {
   let updateAnnouncementEndpoint;
 
-  if ((user && user.role === "admin") || user.role === "moderator") {
+  if ((user && user.role === 'admin') || user.role === 'moderator') {
     updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcement/${slug}`;
-  } else if (user && user.role === "user") {
+  } else if (user && user.role === 'user') {
     updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/user/announcement/${slug}`;
   }
 
   return fetch(`${updateAnnouncementEndpoint}`, {
-    method: "PUT",
+    method: 'PUT',
     headers: {
-      Accept: "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
     body: announcement,
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const listSearch = (params) => {
+export const listSearch = params => {
   let query = queryString.stringify(params);
 
   return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/search?${query}`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.log(err));
+    .catch(err => console.log(err));
 };

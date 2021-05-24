@@ -1,6 +1,6 @@
-import Image from "next/image";
+import Image from 'next/image';
 
-import styles from "@components/BackgroundImage.module.scss";
+import styles from '@components/BackgroundImage.module.scss';
 
 const BackgroundImage = () => (
   <>

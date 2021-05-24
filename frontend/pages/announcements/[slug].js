@@ -1,26 +1,22 @@
-import Head from "next/head";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import dynamic from "next/dynamic";
-import { MDBSpinner } from "mdb-react-ui-kit";
-import dayjs from "dayjs";
-import parseToHTML from "html-react-parser";
+import Head from 'next/head';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+import { MDBSpinner } from 'mdb-react-ui-kit';
+import dayjs from 'dayjs';
+import parseToHTML from 'html-react-parser';
 
-import Layout from "@components/Layout";
+import Layout from '@components/Layout';
 
-import {
-  singleAnnouncement,
-  listRelated,
-  getGalleryCount,
-} from "@actions/announcement";
-import SmallCard from "@components/announcement/SmallCard";
+import { singleAnnouncement, listRelated, getGalleryCount } from '@actions/announcement';
+import SmallCard from '@components/announcement/SmallCard';
 
-const Map = dynamic(() => import("@components/map/Map"), {
+const Map = dynamic(() => import('@components/map/Map'), {
   loading: () => <MDBSpinner color="primary" />,
   ssr: false,
 });
 
-const ImageGallery = dynamic(() => import("react-image-gallery"), {
+const ImageGallery = dynamic(() => import('react-image-gallery'), {
   loading: () => <MDBSpinner color="primary" />,
 });
 
@@ -39,22 +35,13 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
       </title>
       <meta name="description" content={announcement.mdesc} />
       <link rel="canonical" href={`${DOMAIN}/announcements/${query.slug}`} />
-      <meta
-        property="og:title"
-        content={`${announcement.title} | ${APP_NAME}`}
-      />
+      <meta property="og:title" content={`${announcement.title} | ${APP_NAME}`} />
       <meta property="og:description" content={announcement.mdesc} />
       <meta property="og:type" content="website" />
-      <meta
-        property="og:url"
-        content={`${DOMAIN}/announcements/${query.slug}`}
-      />
+      <meta property="og:url" content={`${DOMAIN}/announcements/${query.slug}`} />
       <meta property="og:site_name" content={`${APP_NAME}`} />
 
-      <meta
-        property="og:image"
-        content={`${API}/announcement/photo/${announcement.slug}`}
-      />
+      <meta property="og:image" content={`${API}/announcement/photo/${announcement.slug}`} />
       <meta
         property="og:image:secure_url"
         content={`${API}/announcement/photo/${announcement.slug}`}
@@ -65,7 +52,7 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
   );
 
   const loadRelated = () => {
-    listRelated({ announcement }).then((data) => {
+    listRelated({ announcement }).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -78,14 +65,14 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
     loadRelated();
   }, []);
 
-  const showAnnouncementCategories = (announcement) =>
+  const showAnnouncementCategories = announcement =>
     announcement.categories.map((c, i) => (
       <Link key={i} href={`/categories/${c.slug}`}>
         <a className="btn btn-primary me-1 ms-1 mt-3 ">{c.name}</a>
       </Link>
     ));
 
-  const showAnnouncementTags = (announcement) =>
+  const showAnnouncementTags = announcement =>
     announcement.tags.map((t, i) => (
       <Link key={i} href={`/tags/${t.slug}`}>
         <a className="btn btn-outline-primary me-1 ms-1 mt-3 ">{t.name}</a>
@@ -110,15 +97,10 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
           <article>
             <div className="container">
               <h2 className="pb-3 text-center pt-3">{announcement.title}</h2>
-              {gallery && gallery.length > 0 && (
-                <ImageGallery items={gallery} />
-              )}
+              {gallery && gallery.length > 0 && <ImageGallery items={gallery} />}
               <section>
                 {announcement.route && announcement.route.length > 0 && (
-                  <div
-                    className="border"
-                    style={{ width: "auto", height: "400px" }}
-                  >
+                  <div className="border" style={{ width: 'auto', height: '400px' }}>
                     <Map seedRoutes={announcement.route} />
                   </div>
                 )}
@@ -126,19 +108,15 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
                 <div className="row">Do: {announcement.endDate}</div>
                 <div className="row">Dni: {announcement.days}</div>
                 <div className="row">
-                  Cena: {announcement.price + " " + announcement.currency} za
-                  osobę
+                  Cena: {announcement.price + ' ' + announcement.currency} za osobę
                 </div>
-                <div className="row">
-                  Zawarte: {announcement.includedInPrice}
-                </div>
+                <div className="row">Zawarte: {announcement.includedInPrice}</div>
                 <div className="row">Jacht: {announcement.yacht}</div>
                 <div className="row">
-                  LastMinute:{" "}
-                  {announcement.lastMinute === false ? "tak" : "nie"}
+                  LastMinute: {announcement.lastMinute === false ? 'tak' : 'nie'}
                 </div>
                 <div className="row">
-                  Pływowy: {announcement.tidalCruise === false ? "tak" : "nie"}
+                  Pływowy: {announcement.tidalCruise === false ? 'tak' : 'nie'}
                 </div>
                 <div className="col-md-12 lead mt-3 text-break">
                   {parseToHTML(announcement.body)}
@@ -146,21 +124,18 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
               </section>
             </div>
             <div className="container pb-5">
-              <h4 className="text-center pt-5 pb-5 h2">
-                Related announcements
-              </h4>
+              <h4 className="text-center pt-5 pb-5 h2">Related announcements</h4>
               <hr />
               <div className="row">{showRelatedAnnouncement()}</div>
             </div>
             <div className="container-fluid">
               <div className="container">
                 <p className="lead mt-3 mark">
-                  Posted by{" "}
+                  Posted by{' '}
                   <Link href={`/profile/${announcement.postedBy.username}`}>
                     <a>{announcement.postedBy.username}</a>
-                  </Link>{" "}
-                  | Published{" "}
-                  {dayjs(announcement.updatedAt).format("D MMMM, YYYY HH:MM")}
+                  </Link>{' '}
+                  | Published {dayjs(announcement.updatedAt).format('D MMMM, YYYY HH:MM')}
                 </p>
 
                 <div className="pb-3">

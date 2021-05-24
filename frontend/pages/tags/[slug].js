@@ -1,8 +1,8 @@
-import Head from "next/head";
+import Head from 'next/head';
 
-import Layout from "@components/Layout";
-import Card from "@components/announcement/Card";
-import { singleTag } from "@actions/tag";
+import Layout from '@components/Layout';
+import Card from '@components/announcement/Card';
+import { singleTag } from '@actions/tag';
 
 const Tag = ({ tag, announcements, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;
@@ -22,14 +22,8 @@ const Tag = ({ tag, announcements, query }) => {
       <meta property="og:url" content={`${DOMAIN}/tags/${query.slug}`} />
       <meta property="og:site_name" content={`${APP_NAME}`} />
 
-      <meta
-        property="og:image"
-        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
-      />
-      <meta
-        property="og:image:secure_url"
-        content={`${DOMAIN}/images/sailman-wynajem.jpg`}
-      />
+      <meta property="og:image" content={`${DOMAIN}/images/sailman-wynajem.jpg`} />
+      <meta property="og:image:secure_url" content={`${DOMAIN}/images/sailman-wynajem.jpg`} />
       <meta property="og:image:type" content="image/jpg" />
       <meta property="fb:app_id" content={`${FB_APP_ID}`} />
     </Head>
@@ -57,7 +51,7 @@ const Tag = ({ tag, announcements, query }) => {
 };
 
 export const getServerSideProps = async ({ query }) => {
-  return singleTag(query.slug).then((data) => {
+  return singleTag(query.slug).then(data => {
     if (data.error) {
       console.log(data.error);
     } else {

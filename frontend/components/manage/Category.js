@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { create, getCategories, removeCategory } from "@actions/category";
+import { create, getCategories, removeCategory } from '@actions/category';
 
 const Category = () => {
   const [values, setValues] = useState({
-    name: "",
+    name: '',
     error: false,
     success: false,
     categories: [],
@@ -19,7 +19,7 @@ const Category = () => {
   }, [reload]);
 
   const loadCategories = () => {
-    getCategories().then((data) => {
+    getCategories().then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -35,25 +35,22 @@ const Category = () => {
           onDoubleClick={() => deleteConfirm(c.slug)}
           title="Double click to delete"
           key={i}
-          className="btn btn-outline-primary me-1 ms-1 mt-3"
-        >
+          className="btn btn-outline-primary me-1 ms-1 mt-3">
           {c.name}
         </button>
       );
     });
   };
 
-  const deleteConfirm = (slug) => {
-    let answer = window.confirm(
-      "Are you sure you want to delete this category?"
-    );
+  const deleteConfirm = slug => {
+    let answer = window.confirm('Are you sure you want to delete this category?');
     if (answer) {
       deleteCategory(slug);
     }
   };
 
-  const deleteCategory = (slug) => {
-    removeCategory(slug).then((data) => {
+  const deleteCategory = slug => {
+    removeCategory(slug).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -61,7 +58,7 @@ const Category = () => {
           ...values,
           error: false,
           success: false,
-          name: "",
+          name: '',
           removed: !removed,
           reload: !reload,
         });
@@ -69,9 +66,9 @@ const Category = () => {
     });
   };
 
-  const clickSubmit = (e) => {
+  const clickSubmit = e => {
     e.preventDefault();
-    create({ name }).then((data) => {
+    create({ name }).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error, success: false });
       } else {
@@ -79,7 +76,7 @@ const Category = () => {
           ...values,
           error: false,
           success: true,
-          name: "",
+          name: '',
           removed: removed,
           reload: !reload,
         });
@@ -87,13 +84,13 @@ const Category = () => {
     });
   };
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setValues({
       ...values,
       name: e.target.value,
       error: false,
       success: false,
-      removed: "",
+      removed: '',
     });
   };
 
@@ -115,21 +112,15 @@ const Category = () => {
     }
   };
 
-  const mouseMoveHandler = (e) => {
-    setValues({ ...values, error: false, success: false, removed: "" });
+  const mouseMoveHandler = () => {
+    setValues({ ...values, error: false, success: false, removed: '' });
   };
 
   const newCategoryFom = () => (
     <form onSubmit={clickSubmit}>
       <div className="form-group">
-        <label className="text-muted">Name</label>
-        <input
-          type="text"
-          className="form-control"
-          onChange={handleChange}
-          value={name}
-          required
-        />
+        <p className="text-muted">Name</p>
+        <input type="text" className="form-control" onChange={handleChange} value={name} required />
       </div>
       <div>
         <button type="submit" className="btn btn-primary">

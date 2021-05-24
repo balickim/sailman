@@ -1,22 +1,22 @@
-import Router from "next/router";
-import useTranslation from "next-translate/useTranslation";
-import Link from "next/link";
-import { useState, useEffect } from "react";
-import { MDBSpinner } from "mdb-react-ui-kit";
+import Router from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { MDBSpinner } from 'mdb-react-ui-kit';
 
-import { useAuth } from "@components/auth/AuthProvider";
-import { signin } from "@actions/auth";
-import LoginGoogle from "@components/auth/LoginGoogle";
+import { useAuth } from '@components/auth/AuthProvider';
+import { signin } from '@actions/auth';
+import LoginGoogle from '@components/auth/LoginGoogle';
 
 const SigninComponent = () => {
-  let { t } = useTranslation("common");
+  let { t } = useTranslation('common');
 
   const [values, setValues] = useState({
-    email: "",
-    password: "",
-    error: "",
+    email: '',
+    password: '',
+    error: '',
     loading: false,
-    message: "",
+    message: '',
     showForm: true,
   });
 
@@ -28,23 +28,23 @@ const SigninComponent = () => {
     user && Router.push(`/`);
   }, [user]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     setValues({ ...values, loading: true, error: false });
     const user = { email, password };
 
-    signin(user).then((data) => {
+    signin(user).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error, loading: false });
       } else {
         authenticate(data, () => {
-          Router.push("/");
+          Router.push('/');
         });
       }
     });
   };
 
-  const handleChange = (name) => (e) => {
+  const handleChange = name => e => {
     setValues({ ...values, error: false, [name]: e.target.value });
   };
 
@@ -54,46 +54,40 @@ const SigninComponent = () => {
         <MDBSpinner color="primary" />
       </div>
     ) : (
-      ""
+      ''
     );
   const showError = () =>
-    error ? <div className="alert alert-danger text-center">{error}</div> : "";
+    error ? <div className="alert alert-danger text-center">{error}</div> : '';
   const showMessage = () =>
-    message ? (
-      <div className="alert alert-info text-center">{message}</div>
-    ) : (
-      ""
-    );
+    message ? <div className="alert alert-info text-center">{message}</div> : '';
 
   const signinForm = () => {
     return (
       <>
-        <h2 className="text-center pt-4 pb-4">{t("Signin")}</h2>
+        <h2 className="text-center pt-4 pb-4">{t('Signin')}</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <input
               value={email}
-              onChange={handleChange("email")}
+              onChange={handleChange('email')}
               type="email"
               className="form-control"
-              placeholder={t("E-mail")}
-            ></input>
+              placeholder={t('E-mail')}></input>
           </div>
           <div className="form-group">
             <input
               value={password}
-              onChange={handleChange("password")}
+              onChange={handleChange('password')}
               type="password"
               className="form-control"
-              placeholder={t("Password")}
-            ></input>
+              placeholder={t('Password')}></input>
           </div>
           <div className="pt-2">
-            <button className="btn btn-primary">{t("Signin")}</button>
+            <button className="btn btn-primary">{t('Signin')}</button>
           </div>
           <div>
             <Link href="/auth/password/forgot">
-              <a>{t("forgot password")}</a>
+              <a>{t('forgot password')}</a>
             </Link>
           </div>
         </form>
@@ -106,9 +100,9 @@ const SigninComponent = () => {
       {showMessage()}
       {showForm && signinForm()}
       <hr />
-      <h2>{t("OR")}</h2>
+      <h2>{t('OR')}</h2>
       <hr />
-      <LoginGoogle buttonText={t("Login with Google")} />
+      <LoginGoogle buttonText={t('Login with Google')} />
       {showLoading()}
     </>
   );

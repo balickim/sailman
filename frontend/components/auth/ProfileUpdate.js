@@ -1,40 +1,30 @@
-import { useState, useEffect } from "react";
-import { MDBSpinner } from "mdb-react-ui-kit";
+import { useState, useEffect } from 'react';
+import { MDBSpinner } from 'mdb-react-ui-kit';
 
-import { useAuth } from "@components/auth/AuthProvider";
+import { useAuth } from '@components/auth/AuthProvider';
 
-import { getProfile, update } from "@actions/user";
+import { getProfile, update } from '@actions/user';
 
 const ProfileUpdate = () => {
   const [values, setValues] = useState({
-    username: "",
-    name: "",
-    email: "",
-    about: "",
-    password: "",
+    username: '',
+    name: '',
+    email: '',
+    about: '',
+    password: '',
     error: false,
     success: false,
     loading: false,
-    photo: "",
-    userData: "",
+    photo: '',
+    userData: '',
   });
 
   const { updateUser } = useAuth();
 
-  const {
-    username,
-    name,
-    email,
-    about,
-    password,
-    error,
-    success,
-    loading,
-    photo,
-  } = values;
+  const { username, name, email, about, password, error, success, loading, photo } = values;
 
   const init = () => {
-    getProfile().then((data) => {
+    getProfile().then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
@@ -49,26 +39,26 @@ const ProfileUpdate = () => {
     });
   };
 
-  const handleChange = (name) => (e) => {
-    const value = name === "photo" ? e.target.files[0] : e.target.value;
+  const handleChange = name => e => {
+    const value = name === 'photo' ? e.target.files[0] : e.target.value;
     setValues({ ...values, [name]: value, error: false, success: false });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     setValues({ ...values, loading: true });
 
     let userData = new FormData();
-    userData.append("username", username);
-    userData.append("name", name);
-    userData.append("email", email);
+    userData.append('username', username);
+    userData.append('name', name);
+    userData.append('email', email);
     // userData.append("password", password);
-    userData.append("about", values.about);
+    userData.append('about', values.about);
     if (values.photo) {
-      userData.append("photo", values.photo);
+      userData.append('photo', values.photo);
     }
 
-    update(userData).then((data) => {
+    update(userData).then(data => {
       if (data.error) {
         setValues({
           ...values,
@@ -84,7 +74,7 @@ const ProfileUpdate = () => {
             name: data.name,
             email: data.email,
             about: data.about,
-            password: "",
+            password: '',
             success: true,
             loading: false,
           });
@@ -98,18 +88,13 @@ const ProfileUpdate = () => {
       <div className="form-group">
         <label className="btn btn-outline-info">
           Profile photo
-          <input
-            onChange={handleChange("photo")}
-            type="file"
-            accept="image/*"
-            hidden
-          />
+          <input onChange={handleChange('photo')} type="file" accept="image/*" hidden />
         </label>
       </div>
       <div className="form-group">
         <label className="text-muted">Username</label>
         <input
-          onChange={handleChange("username")}
+          onChange={handleChange('username')}
           type="text"
           className="form-control"
           value={username}
@@ -117,17 +102,12 @@ const ProfileUpdate = () => {
       </div>
       <div className="form-group">
         <label className="text-muted">Name</label>
-        <input
-          onChange={handleChange("name")}
-          type="text"
-          className="form-control"
-          value={name}
-        />
+        <input onChange={handleChange('name')} type="text" className="form-control" value={name} />
       </div>
       <div className="form-group">
         <label className="text-muted">About</label>
         <input
-          onChange={handleChange("about")}
+          onChange={handleChange('about')}
           type="text"
           className="form-control"
           value={about}
@@ -136,7 +116,7 @@ const ProfileUpdate = () => {
       <div className="form-group">
         <label className="text-muted">Email</label>
         <input
-          onChange={handleChange("email")}
+          onChange={handleChange('email')}
           type="text"
           className="form-control"
           value={email}
@@ -155,25 +135,19 @@ const ProfileUpdate = () => {
   }, []);
 
   const showError = () => (
-    <div
-      className="alert alert-danger"
-      style={{ display: error ? "" : "none" }}
-    >
+    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
       {error}
     </div>
   );
 
   const showSuccess = () => (
-    <div
-      className="alert alert-success"
-      style={{ display: success ? "" : "none" }}
-    >
+    <div className="alert alert-success" style={{ display: success ? '' : 'none' }}>
       Profile updated. Please reload to see the changes.
     </div>
   );
 
   const showLoading = () => (
-    <div style={{ display: loading ? "" : "none" }}>
+    <div style={{ display: loading ? '' : 'none' }}>
       <MDBSpinner color="primary" />
     </div>
   );
@@ -183,15 +157,15 @@ const ProfileUpdate = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-4">
-            {username && username !== "" && Boolean(username) !== false ? (
+            {username && username !== '' && Boolean(username) !== false ? (
               <img
                 src={`${process.env.NEXT_PUBLIC_API}/user/photo/${username}`}
                 alt="user profile"
-                style={{ maxHeight: "auto", maxWidth: "100%" }}
+                style={{ maxHeight: 'auto', maxWidth: '100%' }}
                 className="img img-fluid img-thumbnail mb-3"
               />
             ) : (
-              ""
+              ''
             )}
           </div>
           <div className="col-md-8 mb-5">

@@ -1,50 +1,50 @@
-export const create = (tag) => {
+export const create = tag => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
     body: JSON.stringify(tag),
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
 export const getTags = () => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tags`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const singleTag = (slug) => {
+export const singleTag = slug => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag/${slug}`, {
-    method: "GET",
+    method: 'GET',
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };
 
-export const removeTag = (slug) => {
+export const removeTag = slug => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/tag/${slug}`, {
-    method: "DELETE",
+    method: 'DELETE',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      authorization: "Bearer " + localStorage.getItem("accessToken"),
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      authorization: 'Bearer ' + localStorage.getItem('accessToken'),
     },
   })
-    .then((response) => {
+    .then(response => {
       return response.json();
     })
-    .catch((err) => console.error(err));
+    .catch(err => console.error(err));
 };

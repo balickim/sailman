@@ -1,17 +1,17 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
-import { useRouter } from "next/router";
-import Error from "next/error";
+import React, { createContext, useState, useContext, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import Error from 'next/error';
 
 const AuthContext = createContext({});
 
 const refreshToken = () => {
   return fetch(`${process.env.NEXT_PUBLIC_API}/refresh-token`, {
-    method: "POST",
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-    credentials: "include",
+    credentials: 'include',
   });
 };
 
@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     async function loadUserFromCookies() {
-      let accessToken = localStorage.getItem("accessToken");
+      let accessToken = localStorage.getItem('accessToken');
 
       const originalFetch = fetch;
       fetch = function () {
@@ -34,15 +34,15 @@ export const AuthProvider = ({ children }) => {
             let response = await refreshToken();
             // if status is 401 or 400 from token api return empty response to close recursion
             if (response.status === 401 || response.status === 400) {
-              localStorage.removeItem("accessToken");
+              localStorage.removeItem('accessToken');
               return {};
             }
             let res = await response.json();
             let accessToken = res.accessToken;
 
-            localStorage.setItem("accessToken", accessToken);
+            localStorage.setItem('accessToken', accessToken);
 
-            args[1].headers.authorization = "Bearer " + accessToken; // swap old fetch authorization token for new
+            args[1].headers.authorization = 'Bearer ' + accessToken; // swap old fetch authorization token for new
             return fetch(...args); // recall old fetch
           } else {
             return data;
@@ -52,23 +52,23 @@ export const AuthProvider = ({ children }) => {
 
       if (accessToken) {
         fetch(`${process.env.NEXT_PUBLIC_API}/user/me`, {
-          method: "GET",
+          method: 'GET',
           headers: {
-            Accept: "application/json",
-            authorization: "Bearer " + accessToken,
+            Accept: 'application/json',
+            authorization: 'Bearer ' + accessToken,
           },
         })
-          .then((response) => {
+          .then(response => {
             if (!response.ok) {
               throw Error(response.statusText);
             }
             return response;
           })
-          .then((response) => response.json())
-          .then((data) => {
+          .then(response => response.json())
+          .then(data => {
             setUser(data);
           })
-          .catch((err) => err);
+          .catch(err => err);
       }
 
       setLoading(false);
@@ -77,7 +77,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const authenticate = (data, next) => {
-    localStorage.setItem("accessToken", data.accessToken);
+    localStorage.setItem('accessToken', data.accessToken);
     setUser(data.user);
     next();
   };
@@ -93,12 +93,12 @@ export const AuthProvider = ({ children }) => {
 
   const signout = () => {
     setUser(null);
-    localStorage.removeItem("accessToken");
-    router.push("/");
+    localStorage.removeItem('accessToken');
+    router.push('/');
     return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {
-      method: "GET",
-      credentials: "include",
-    }).catch((err) => console.log(err));
+      method: 'GET',
+      credentials: 'include',
+    }).catch(err => console.log(err));
   };
 
   return (
@@ -110,8 +110,7 @@ export const AuthProvider = ({ children }) => {
         updateUser,
         loading,
         signout,
-      }}
-    >
+      }}>
       {children}
     </AuthContext.Provider>
   );
@@ -124,15 +123,15 @@ export const ProtectRoute = ({ children }) => {
   const router = useRouter();
 
   const AllowPathsList = [
-    "/",
-    "/announcements",
-    "/signup",
-    "/signin",
-    "/contact",
-    "/auth/account/activate/[token]",
-    "/auth/password/forgot",
-    "/auth/password/reset/[token]",
-    "/announcements/[slug]",
+    '/',
+    '/announcements',
+    '/signup',
+    '/signin',
+    '/contact',
+    '/auth/account/activate/[token]',
+    '/auth/password/forgot',
+    '/auth/password/reset/[token]',
+    '/announcements/[slug]',
   ];
 
   if (!isAuthenticated && AllowPathsList.indexOf(router.pathname) === -1) {

@@ -1,11 +1,11 @@
-import Layout from "@components/Layout";
-import IsAuthorized from "@components/auth/IsAuthorized";
-import Link from "next/link";
+import Layout from '@components/Layout';
+import IsAuthorized from '@components/auth/IsAuthorized';
+import Link from 'next/link';
 
 const AdminIndex = () => {
   return (
     <Layout footer={false}>
-      <IsAuthorized role={["admin", "moderator"]}>
+      <IsAuthorized userRole={['admin', 'moderator']}>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-12 pt-5 pb-5">

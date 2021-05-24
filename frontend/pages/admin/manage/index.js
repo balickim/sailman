@@ -1,11 +1,11 @@
-import Layout from "@components/Layout";
-import IsAuthorized from "@components/auth/IsAuthorized";
-import AnnouncementRead from "@components/manage/AnnouncementRead";
+import Layout from '@components/Layout';
+import IsAuthorized from '@components/auth/IsAuthorized';
+import AnnouncementRead from '@components/manage/AnnouncementRead';
 
 const Announcements = () => {
   return (
     <Layout footer={false} breadcrumbs={false}>
-      <IsAuthorized role={["admin", "moderator"]}>
+      <IsAuthorized userRole={['admin', 'moderator']}>
         <div className="container">
           <div className="row">
             <div className="col-md-12">

@@ -1,4 +1,4 @@
-const nextTranslate = require("next-translate");
+const nextTranslate = require('next-translate');
 // const withPWA = require("next-pwa");
 // const runtimeCaching = require("next-pwa/cache");
 

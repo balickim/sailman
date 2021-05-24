@@ -1,6 +1,6 @@
-import Layout from "@components/Layout";
-import AnnouncementRead from "@components/manage/AnnouncementRead";
-import { useAuth } from "@components/auth/AuthProvider";
+import Layout from '@components/Layout';
+import AnnouncementRead from '@components/manage/AnnouncementRead';
+import { useAuth } from '@components/auth/AuthProvider';
 
 const Announcements = () => {
   const { user } = useAuth();

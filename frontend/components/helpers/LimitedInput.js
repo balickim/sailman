@@ -1,12 +1,12 @@
-import styles from "@components/helpers/LimitedInput.module.scss";
+import styles from '@components/helpers/LimitedInput.module.scss';
 
 const LimitedInput = ({ type, value, onChange, limit }) => {
   const percent = Math.floor((value.length / limit) * 100, 2);
 
   const loaderStyles = {
-    position: "absolute",
-    display: value.length === 0 ? "none" : "block",
-    borderColor: percent <= 70 ? "orange" : "red",
+    position: 'absolute',
+    display: value.length === 0 ? 'none' : 'block',
+    borderColor: percent <= 70 ? 'orange' : 'red',
     width: `${percent}%`,
   };
 

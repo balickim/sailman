@@ -1,63 +1,58 @@
-import { useState } from "react";
-import { withRouter } from "next/router";
-import useTranslation from "next-translate/useTranslation";
+import { useState } from 'react';
+import { withRouter } from 'next/router';
+import useTranslation from 'next-translate/useTranslation';
 
-import Layout from "@components/Layout";
-import { resetPassword } from "@actions/auth";
+import Layout from '@components/Layout';
+import { resetPassword } from '@actions/auth';
 
 const ResetPassword = ({ router }) => {
-  let { t } = useTranslation("common");
+  let { t } = useTranslation('common');
 
   const [values, setValues] = useState({
-    name: "",
-    newPassword: "",
-    error: "",
-    message: "",
+    newPassword: '',
+    error: '',
+    message: '',
   });
 
-  const { name, newPassword, error, message } = values;
+  const { newPassword, error, message } = values;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = e => {
     e.preventDefault();
     resetPassword({
       newPassword,
       resetPasswordLink: router.query.token,
-    }).then((data) => {
+    }).then(data => {
       if (data.error) {
-        setValues({ ...values, error: data.error, newPassword: "" });
-        setTimeout(router.push("/auth/password/forgot"), 3000);
+        setValues({ ...values, error: data.error, newPassword: '' });
+        setTimeout(router.push('/auth/password/forgot'), 3000);
       } else {
         setValues({
           ...values,
           message: data.message,
-          newPassword: "",
+          newPassword: '',
           error: false,
         });
       }
     });
   };
 
-  const showError = () =>
-    error ? <div className="alert alert-danger">{error}</div> : "";
-  const showMessage = () =>
-    message ? <div className="alert alert-success">{message}</div> : "";
+  const showError = () => (error ? <div className="alert alert-danger">{error}</div> : '');
+  const showMessage = () => (message ? <div className="alert alert-success">{message}</div> : '');
 
   const passwordResetForm = () => (
     <form onSubmit={handleSubmit}>
       <div className="form-group pt-2">
         <input
           type="password"
-          onChange={(e) =>
-            setValues({ ...values, newPassword: e.target.value })
-          }
+          onChange={e => setValues({ ...values, newPassword: e.target.value })}
           className="form-control"
           value={newPassword}
-          placeholder={t("new password")}
+          placeholder={t('new password')}
           required
         />
       </div>
       <div>
-        <button className="btn btn-primary mt-3">{t("Change password")}</button>
+        <button className="btn btn-primary mt-3">{t('Change password')}</button>
       </div>
     </form>
   );
@@ -65,7 +60,7 @@ const ResetPassword = ({ router }) => {
   return (
     <Layout breadcrumbs={false} footer={false}>
       <div className="container">
-        <h2>{t("Password reset")}</h2>
+        <h2>{t('Password reset')}</h2>
         <hr />
         {passwordResetForm()}
         {showError()}
@@ -78,7 +73,7 @@ const ResetPassword = ({ router }) => {
 export const getStaticPaths = async () => {
   return {
     paths: [], //indicates that no page needs be created at build time
-    fallback: "blocking", //indicates the type of fallback
+    fallback: 'blocking', //indicates the type of fallback
   };
 };
 

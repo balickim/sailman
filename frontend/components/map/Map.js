@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useCallback } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import React, { useEffect, useState, useCallback } from 'react';
+import { MapContainer, TileLayer } from 'react-leaflet';
 
-import PolylineMeasurer from "@components/map/Leaflet.PolylineMeasure/PolylineMeasurer";
-import { getLatLngCenter } from "@helpers/getLatLngCenter";
+import PolylineMeasurer from '@components/map/Leaflet.PolylineMeasure/PolylineMeasurer';
+import { getLatLngCenter } from '@helpers/getLatLngCenter';
 
-import "leaflet/dist/leaflet.css";
-import "leaflet.polylinemeasure/Leaflet.PolylineMeasure.css";
+import 'leaflet/dist/leaflet.css';
+import 'leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
 
 let currentLines = [];
 
 function Events({ setCurrentRoutes, setSeedRoutes, map }) {
   const onFinish = useCallback(
-    (currentLine) => {
+    currentLine => {
       currentLines.push(currentLine);
       setCurrentRoutes(currentLines);
     },
-    [map]
+    [map],
   );
 
   const onClear = useCallback(() => {
@@ -26,15 +26,11 @@ function Events({ setCurrentRoutes, setSeedRoutes, map }) {
   }, [map]);
 
   useEffect(() => {
-    map.on("polylinemeasure:finish", onFinish);
-    map.on("polylinemeasure:clear", onClear);
+    map.on('polylinemeasure:finish', onFinish);
+    map.on('polylinemeasure:clear', onClear);
 
-    if (
-      setCurrentRoutes === undefined &&
-      document.getElementById("polyline-measure-control")
-    ) {
-      document.getElementById("polyline-measure-control").style.display =
-        "none";
+    if (setCurrentRoutes === undefined && document.getElementById('polyline-measure-control')) {
+      document.getElementById('polyline-measure-control').style.display = 'none';
     } // turn off polyline-measure-control when in read only map view i.e. announcements list
   }, [map]);
 
@@ -53,8 +49,7 @@ const Map = ({ setCurrentRoutes, setSeedRoutes, seedRoutes }) => {
         center={center}
         zoom={5}
         scrollWheelZoom={true}
-        style={{ height: "100%", width: "100%" }}
-      >
+        style={{ height: '100%', width: '100%' }}>
         <TileLayer
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -73,11 +68,7 @@ const Map = ({ setCurrentRoutes, setSeedRoutes, seedRoutes }) => {
         />
       </MapContainer>
       {map ? (
-        <Events
-          setCurrentRoutes={setCurrentRoutes}
-          setSeedRoutes={setSeedRoutes}
-          map={map}
-        />
+        <Events setCurrentRoutes={setCurrentRoutes} setSeedRoutes={setSeedRoutes} map={map} />
       ) : null}
     </>
   );
