@@ -1,5 +1,5 @@
 import Layout from '@components/Layout';
-import AnnouncementRead from '@components/manage/AnnouncementRead';
+import AnnouncementList from '@components/manage/AnnouncementList';
 import { useAuth } from '@components/auth/AuthProvider';
 
 const Announcements = () => {
@@ -10,7 +10,7 @@ const Announcements = () => {
       <div className="container">
         <div className="row">
           <div className="col-md-12">
-            <AnnouncementRead username={username} />
+            <AnnouncementList username={username} />
           </div>
         </div>
       </div>

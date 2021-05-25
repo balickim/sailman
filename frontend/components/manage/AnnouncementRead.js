@@ -1,104 +1,154 @@
+/* eslint-disable react/display-name */
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
+import dynamic from 'next/dynamic';
+import { MDBSpinner } from 'mdb-react-ui-kit';
 import dayjs from 'dayjs';
-import useTranslation from 'next-translate/useTranslation';
+import parseToHTML from 'html-react-parser';
 
-import { list, remove } from '@actions/announcement';
+import { listRelated } from '@actions/announcement';
+import SmallCard from '@components/announcement/SmallCard';
 
-import { useAuth } from '@components/auth/AuthProvider';
+const Map = dynamic(() => import('@components/map/Map'), {
+  loading: () => <MDBSpinner color="primary" />,
+  ssr: false,
+});
 
-const AnnouncementRead = ({ username }) => {
-  const [announcements, setAnnouncements] = useState([]);
-  const [message, setMessage] = useState('');
+const ImageGallery = dynamic(() => import('react-image-gallery'), {
+  loading: () => <MDBSpinner color="primary" />,
+});
 
-  const { user } = useAuth();
+const AnnouncementRead = ({ announcement, gallery }) => {
+  const [related, setRelated] = useState([]);
 
-  const { t } = useTranslation('common');
+  const loadRelated = () => {
+    listRelated({ announcement }).then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setRelated(data);
+      }
+    });
+  };
 
   useEffect(() => {
-    loadAnnouncements();
+    loadRelated();
   }, []);
 
-  const loadAnnouncements = () => {
-    list(username).then(data => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setAnnouncements(data);
-      }
-    });
+  const showAnnouncementCategories = announcement =>
+    announcement.categories.map((c, i) => (
+      <Link key={i} href={`/categories/${c.slug}`}>
+        <a className="btn btn-primary me-1 ms-1 mt-3 ">{c.name}</a>
+      </Link>
+    ));
+
+  const showAnnouncementTags = announcement =>
+    announcement.tags.map((t, i) => (
+      <Link key={i} href={`/tags/${t.slug}`}>
+        <a className="btn btn-outline-primary me-1 ms-1 mt-3 ">{t.name}</a>
+      </Link>
+    ));
+
+  const showRelatedAnnouncement = () => {
+    return related.map((announcement, i) => (
+      <div className="col-md-4" key={i}>
+        <article>
+          <SmallCard announcement={announcement} />
+        </article>
+      </div>
+    ));
   };
 
-  const deleteAnnouncement = slug => {
-    remove(slug, user).then(data => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setMessage(data.message);
-        loadAnnouncements();
-      }
-    });
-  };
-
-  const deleteConfirm = slug => {
-    let answer = window.confirm('Are you sure you want to delete this?');
-    if (answer) {
-      deleteAnnouncement(slug);
-    }
-  };
-
-  const showUpdateButton = announcement => {
-    if (user && user.role === 'user') {
-      return (
-        <Link href={`/user/manage/${announcement.slug}`}>
-          <a className="btn btn-sm btn-warning">Update</a>
-        </Link>
-      );
-    } else if ((user && user.role === 'admin') || user.role === 'moderator') {
-      return (
-        <Link href={`/admin/manage/${announcement.slug}`}>
-          <a className="ms-2 btn btn-sm btn-warning">Update</a>
-        </Link>
-      );
-    }
-  };
-
-  const showAllAnnouncements = () => {
-    return announcements.map((announcement, i) => {
-      return (
-        <div key={i} className="pb-5">
-          <h3>
-            <Link href={`/announcements/${announcement.slug}`}>
-              <a>
-                <h2 className="pt-3 pb-3 font-weight-bold">{announcement.title}</h2>
-              </a>
-            </Link>
-          </h3>
-          <p className="mark">
-            Written by {announcement.postedBy.name} | Published{' '}
-            {dayjs(announcement.updatedAt).format('D MMMM, YYYY HH:MM')}
-          </p>
-          <button
-            className="btn btn-sm btn-danger"
-            onClick={() => deleteConfirm(announcement.slug)}>
-            Delete
-          </button>
-          {showUpdateButton(announcement)}
-        </div>
+  const showIncludedInPrice = includedInPrice => {
+    let length = includedInPrice.length;
+    return includedInPrice.map((item, i) => {
+      return i < length - 1 ? (
+        <Fragment key={i}> {item.label},</Fragment>
+      ) : (
+        <Fragment key={i}> {item.label}</Fragment>
       );
     });
+  };
+
+  const showNotIncludedInPrice = notIncludedInPrice => {
+    let length = notIncludedInPrice.length;
+    return notIncludedInPrice.map((item, i) => {
+      return i < length - 1 ? (
+        <Fragment key={i}> {item.label},</Fragment>
+      ) : (
+        <Fragment key={i}> {item.label}</Fragment>
+      );
+    });
+  };
+
+  const days = announcement => {
+    let startDateSplit = announcement.startDate.split('-');
+    let endDateSplit = announcement.endDate.split('-');
+    let startDateParsed = new Date(
+      Number(startDateSplit[0]),
+      Number(startDateSplit[1]) - 1,
+      Number(startDateSplit[2]) + 1,
+    );
+    let endDateParsed = new Date(
+      Number(endDateSplit[0]),
+      Number(endDateSplit[1]) - 1,
+      Number(endDateSplit[2]) + 1,
+    );
+    return (endDateParsed - startDateParsed) / 60 / 60 / 24 / 1000;
   };
 
   return (
     <>
-      <div className="col-md-12 pt-5 pb-5">
-        <h2>{t('Manage announcements')}</h2>
+      <div className="container">
+        <h2 className="pb-3 text-center pt-3">{announcement.title}</h2>
+        {gallery && gallery.length > 0 && <ImageGallery items={gallery} />}
+        <section>
+          {announcement.route && announcement.route.length > 0 && (
+            <div className="border" style={{ width: 'auto', height: '400px' }}>
+              <Map seedRoutes={announcement.route} />
+            </div>
+          )}
+          <div className="row">Od: {announcement.startDate}</div>
+          <div className="row">Do: {announcement.endDate}</div>
+          <div className="row">Dni: {days(announcement)}</div>
+          <div className="row">
+            Cena: {announcement.price + ' ' + announcement.currency} za osobę
+          </div>
+          <div className="row">Zawarte: {showIncludedInPrice(announcement.includedInPrice)}</div>
+          <div className="row">
+            Nie zawarte: {showNotIncludedInPrice(announcement.notIncludedInPrice)}
+          </div>
+          <div className="row">Jacht: {announcement.yacht}</div>
+          <div className="row">LastMinute: {announcement.lastMinute === false ? 'tak' : 'nie'}</div>
+          <div className="row">Pływowy: {announcement.tidalCruise === false ? 'tak' : 'nie'}</div>
+          <div className="col-md-12 lead mt-3 text-break">{parseToHTML(announcement.body)}</div>
+        </section>
       </div>
-      <div className="row">
-        <div className="col-md-12">
-          {message && <div className="alert alert-warning">{message}</div>}
-          {showAllAnnouncements()}
+      <div className="container pb-5">
+        <h4 className="text-center pt-5 pb-5 h2">Related announcements</h4>
+        <hr />
+        <div className="row">{showRelatedAnnouncement()}</div>
+      </div>
+      <div className="container-fluid">
+        <div className="container">
+          <p className="lead mt-3 mark">
+            Posted by{' '}
+            <Link href={`/profile/${announcement.postedBy.username}`}>
+              <a>{announcement.postedBy.username}</a>
+            </Link>{' '}
+            | Published {dayjs(announcement.updatedAt).format('D MMMM, YYYY HH:MM')}
+          </p>
+
+          <div className="pb-3">
+            {showAnnouncementCategories(announcement)}
+            {showAnnouncementTags(announcement)}
+          </div>
         </div>
+      </div>
+      <div className="container pb-5">
+        <h4 className="text-center pt-5 pb-5 h2">Comments</h4>
+        <hr />
+        <p>comments</p>
       </div>
     </>
   );

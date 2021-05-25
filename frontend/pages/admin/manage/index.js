@@ -1,6 +1,6 @@
 import Layout from '@components/Layout';
 import IsAuthorized from '@components/auth/IsAuthorized';
-import AnnouncementRead from '@components/manage/AnnouncementRead';
+import AnnouncementList from '@components/manage/AnnouncementList';
 
 const Announcements = () => {
   return (
@@ -9,7 +9,7 @@ const Announcements = () => {
         <div className="container">
           <div className="row">
             <div className="col-md-12">
-              <AnnouncementRead />
+              <AnnouncementList />
             </div>
           </div>
         </div>

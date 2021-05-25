@@ -1,10 +1,13 @@
 import Image from 'next/image';
 import useTranslation from 'next-translate/useTranslation';
 import dayjs from 'dayjs';
+import { Fragment, useState } from 'react';
 import Link from 'next/link';
 
 const Card = ({ announcement }) => {
   let { t } = useTranslation('announcements');
+
+  const [imageFailed, setImageFailed] = useState(false);
 
   const showAnnouncementCategories = announcement =>
     announcement.categories.map((c, i) => (
@@ -20,44 +23,100 @@ const Card = ({ announcement }) => {
       </Link>
     ));
 
+  const showIncludedInPrice = includedInPrice => {
+    let length = includedInPrice.length;
+    return includedInPrice.map((item, i) => {
+      return i < length - 1 ? (
+        <Fragment key={i}> {item.label},</Fragment>
+      ) : (
+        <Fragment key={i}> {item.label}</Fragment>
+      );
+    });
+  };
+
+  const showNotIncludedInPrice = notIncludedInPrice => {
+    let length = notIncludedInPrice.length;
+    return notIncludedInPrice.map((item, i) => {
+      return i < length - 1 ? (
+        <Fragment key={i}> {item.label},</Fragment>
+      ) : (
+        <Fragment key={i}> {item.label}</Fragment>
+      );
+    });
+  };
+
+  const days = announcement => {
+    let startDateSplit = announcement.startDate.split('-');
+    let endDateSplit = announcement.endDate.split('-');
+    let startDateParsed = new Date(
+      Number(startDateSplit[0]),
+      Number(startDateSplit[1]) - 1,
+      Number(startDateSplit[2]) + 1,
+    );
+    let endDateParsed = new Date(
+      Number(endDateSplit[0]),
+      Number(endDateSplit[1]) - 1,
+      Number(endDateSplit[2]) + 1,
+    );
+    return (endDateParsed - startDateParsed) / 60 / 60 / 24 / 1000;
+  };
+
   return (
     <div className="card border">
       <div className="row card-text">
-        <div className="col-xxl-3 text-center">
-          <Image
-            width={'200px'}
-            height={'100%'}
-            src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
-            alt={announcement.title}
-            className="img img-fluid pt-1 ms-3"
-            unoptimized={true}
-          />
+        <div className="col-xxl-3 ms-2 mt-2">
+          <div>
+            <h2 className="h3">{announcement.title}</h2>
+          </div>
+          <div className="row">
+            <div className="col-sm-5">
+              <Image
+                width={'200px'}
+                height={'100%'}
+                src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
+                onError={e => {
+                  if (!imageFailed) {
+                    setImageFailed(true);
+                    e.target.src = '/images/ann-default.webp';
+                  }
+                }}
+                alt={announcement.title}
+                className="img img-fluid"
+                unoptimized={true}
+              />
+            </div>
+            <div className="col-sm-7">
+              <div>
+                <strong>Termin:</strong> {announcement.startDate} - {announcement.endDate} (
+                {days(announcement)} dni)
+              </div>
+              <div>
+                <strong>Cena:</strong> {announcement.price + ' ' + announcement.currency} za osobę
+              </div>
+              <div>
+                <strong>Jacht: </strong> {announcement.yacht}
+              </div>
+            </div>
+          </div>
         </div>
         <div className="col-xxl-9">
-          <div className="ms-3">
+          <div className="ms-2">
             <div>
-              <h2>{announcement.title}</h2>
+              <strong>Zawarte: </strong>
+              {announcement.includedInPrice && showIncludedInPrice(announcement.includedInPrice)}
             </div>
             <div>
-              <strong>Termin:</strong> {announcement.startDate} - {announcement.endDate} (
-              {announcement.days} dni)
-            </div>
-            <div>
-              <strong>Cena:</strong> {announcement.price + ' ' + announcement.currency} za osobę
-            </div>
-            <div>
-              <strong>Jacht: </strong> {announcement.yacht}
-            </div>
-            <div>
-              <strong>Zawarte: </strong> {announcement.includedInPrice}
+              <strong>Nie zawarte: </strong>
+              {announcement.notIncludedInPrice &&
+                showNotIncludedInPrice(announcement.notIncludedInPrice)}
             </div>
           </div>
           <div className="float-end">
             {announcement.lastMinute === true && (
               <Image
                 src="/images/clock.svg"
-                width={'40px'}
-                height={'40px'}
+                width={'35px'}
+                height={'35px'}
                 alt="clock"
                 title={t('last_minute')}
                 className="me-2"
@@ -66,8 +125,8 @@ const Card = ({ announcement }) => {
             {announcement.tidalCruise === true && (
               <Image
                 src="/images/tide.svg"
-                width={'40px'}
-                height={'40px'}
+                width={'35px'}
+                height={'35px'}
                 alt="tide"
                 title={t('tidal_cruise')}
                 className="me-1"
@@ -80,6 +139,7 @@ const Card = ({ announcement }) => {
                 height={'48px'}
                 alt="map"
                 title={t('Announcement includes map')}
+                className="mt-2"
               />
             )}
             <Link href={`/announcements/${announcement.slug}`}>
