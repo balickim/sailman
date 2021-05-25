@@ -2135,9 +2135,6 @@
           "endDate": {
             "type": "string"
           },
-          "days": {
-            "type": "integer"
-          },
           "price": {
             "type": "integer"
           },
@@ -2145,9 +2142,15 @@
             "type": "string"
           },
           "includedInPrice": {
-            "type": "string"
+            "type": "array"
+          },
+          "notIncludedInPrice": {
+            "type": "array"
           },
           "yacht": {
+            "type": "string"
+          },
+          "organizer": {
             "type": "string"
           },
           "lastMinute": {

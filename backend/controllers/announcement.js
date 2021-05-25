@@ -37,11 +37,12 @@ exports.create = (req, res) => {
       tags,
       startDate,
       endDate,
-      days,
       price,
       currency,
       includedInPrice,
+      notIncludedInPrice,
       yacht,
+      organizer,
       lastMinute,
       tidalCruise,
       language,
@@ -51,12 +52,6 @@ exports.create = (req, res) => {
     if (!title || !title.length) {
       return res.status(400).json({
         error: "Title is required.",
-      });
-    }
-
-    if (!body || body.length < 100) {
-      return res.status(400).json({
-        error: "Content must be at least 100 characters.",
       });
     }
 
@@ -105,12 +100,6 @@ exports.create = (req, res) => {
       });
     }
 
-    if (!days || !days.length) {
-      return res.status(400).json({
-        error: "Days are required.",
-      });
-    }
-
     if (!price || !price.length || price < 0) {
       return res.status(400).json({
         error: "Price is required.",
@@ -128,11 +117,12 @@ exports.create = (req, res) => {
     announcement.body = sanitizeHtml(body, sanitizeHtmlOptions);
     announcement.startDate = startDate;
     announcement.endDate = endDate;
-    announcement.days = days;
     announcement.price = price;
     announcement.currency = currency;
-    announcement.includedInPrice = includedInPrice;
+    announcement.includedInPrice = JSON.parse(includedInPrice);
+    announcement.notIncludedInPrice = JSON.parse(notIncludedInPrice);
     announcement.yacht = yacht;
+    announcement.organizer = organizer;
     announcement.lastMinute = lastMinute;
     announcement.tidalCruise = tidalCruise;
     announcement.language = language;
@@ -243,7 +233,7 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
     .skip(skip)
     .limit(limit)
     .select(
-      "_id, title startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise route slug categories tags postedBy createdAt updatedAt"
+      "_id, title startDate endDate price currency includedInPrice notIncludedInPrice yacht organizer lastMinute tidalCruise route slug categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -285,7 +275,7 @@ exports.read = (req, res) => {
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
     .select(
-      "_id title body startDate endDate days price currency includedInPrice yacht lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
+      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht organizer lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -338,16 +328,16 @@ exports.update = (req, res) => {
       const {
         title,
         body,
-        desc,
         categories,
         tags,
         startDate,
         endDate,
-        days,
         price,
         currency,
         includedInPrice,
+        notIncludedInPrice,
         yacht,
+        organizer,
         lastMinute,
         tidalCruise,
         allRoutes,
@@ -362,12 +352,6 @@ exports.update = (req, res) => {
       if (title.length > 70) {
         return res.status(400).json({
           error: "Title is too long.",
-        });
-      }
-
-      if (!body || body.length < 100) {
-        return res.status(400).json({
-          error: "Content must be at least 100 characters.",
         });
       }
 
@@ -408,12 +392,6 @@ exports.update = (req, res) => {
         });
       }
 
-      if (!days || !days.length) {
-        return res.status(400).json({
-          error: "Days are required.",
-        });
-      }
-
       if (!price || !price.length || price < 0) {
         return res.status(400).json({
           error: "Price is required.",
@@ -423,12 +401,6 @@ exports.update = (req, res) => {
       if (!currency || !currency.length) {
         return res.status(400).json({
           error: "Currency is required.",
-        });
-      }
-
-      if (includedInPrice.length > 120) {
-        return res.status(400).json({
-          error: "Included in price field is too long.",
         });
       }
 
@@ -458,10 +430,6 @@ exports.update = (req, res) => {
         oldAnnouncement.endDate = endDate;
       }
 
-      if (days) {
-        oldAnnouncement.days = days;
-      }
-
       if (price) {
         oldAnnouncement.price = price;
       }
@@ -471,11 +439,19 @@ exports.update = (req, res) => {
       }
 
       if (includedInPrice) {
-        oldAnnouncement.includedInPrice = includedInPrice;
+        oldAnnouncement.includedInPrice = JSON.parse(includedInPrice);
+      }
+
+      if (notIncludedInPrice) {
+        oldAnnouncement.notIncludedInPrice = JSON.parse(notIncludedInPrice);
       }
 
       if (yacht) {
         oldAnnouncement.yacht = yacht;
+      }
+
+      if (organizer) {
+        oldAnnouncement.organizer = organizer;
       }
 
       if (lastMinute) {

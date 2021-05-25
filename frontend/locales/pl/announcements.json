@@ -19,8 +19,9 @@
   "Number of cruise days": "Liczba dni rejsu",
   "Price per person": "Cena za osobę",
   "Currency": "Waluta",
-  "What's included in the price": "Co jest zawarte w cenie",
-  "The yacht and its description": "Jacht i jego opis",
+  "what_included_in_price": "Co jest zawarte w cenie",
+  "what_not_included_in_price": "Co NIE jest zawarte w cenie",
+  "yacht_info": "Jacht i jego opis",
   "Cruise map (Optional)": "Mapa rejsu (Opcjonalnie)",
   "The reservoir": "Akwen",
   "last_minute": "Last Minute",
@@ -52,5 +53,13 @@
   "edit": "Edytuj",
   "add_new": "Dodaj kolejne",
   "close": "Zamknij",
-  "file_too_big": "Obrazek ma rozmiar powyżej 1mb i nie zostanie zapisany!"
+  "file_too_big": "Obrazek ma rozmiar powyżej 1mb i nie zostanie zapisany!",
+  "yacht_safe": "Kasa jachtowa",
+  "transport": "Transport (np. samolot)",
+  "bunk": "Koja",
+  "insurance": "Ubezpieczenie",
+  "food": "Jedzenie (bez alkoholu)",
+  "food_alcohol": "Jedzenie (z alkoholem)",
+  "choose": "Wybierz",
+  "organizer": "Organizator"
 }

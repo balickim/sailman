@@ -1,8 +1,10 @@
+/* eslint-disable react/display-name */
 import useTranslation from 'next-translate/useTranslation';
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { withRouter, useRouter } from 'next/router';
+import CreatableSelect from 'react-select/creatable';
+import Router, { withRouter, useRouter } from 'next/router';
 import {
   MDBSpinner,
   MDBBtn,
@@ -36,25 +38,9 @@ const Map = dynamic(() => import('../map/Map'), {
 });
 
 const AnnouncementForm = ({ router }) => {
-  const announcementFromLS = () => {
-    if (!router.query.slug) {
-      if (typeof window === 'undefined') {
-        return false;
-      }
-
-      if (localStorage.getItem('announcement')) {
-        return JSON.parse(localStorage.getItem('announcement'));
-      } else {
-        return false;
-      }
-    } else {
-      return '';
-    }
-  };
-
   let { t } = useTranslation('announcements');
   const { locale } = useRouter();
-  const [showExitPrompt, setShowExitPrompt] = useExitPrompt(false);
+  const [, setShowExitPrompt] = useExitPrompt(false);
 
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
@@ -62,7 +48,7 @@ const AnnouncementForm = ({ router }) => {
   const [checkedCategory, setCheckedCategory] = useState([]);
   const [checkedTag, setCheckedTag] = useState([]);
 
-  const [body, setBody] = useState(announcementFromLS());
+  const [body, setBody] = useState('');
 
   const [seedRoutes, setSeedRoutes] = useState();
   const [currentRoutes, setCurrentRoutes] = useState();
@@ -73,6 +59,9 @@ const AnnouncementForm = ({ router }) => {
   const [renderedPhoto, setRenderedPhoto] = useState('');
   const [gallery, setGallery] = useState([]);
 
+  const [includedInPrice, setIncludedInPrice] = useState([]);
+  const [notIncludedInPrice, setNotIncludedInPrice] = useState([]);
+
   const [values, setValues] = useState({
     error: '',
     success: '',
@@ -80,11 +69,10 @@ const AnnouncementForm = ({ router }) => {
     title: '',
     startDate: '',
     endDate: '',
-    days: '',
     price: '',
     currency: 'pln',
-    includedInPrice: '',
     yacht: '',
+    organizer: '',
     lastMinute: false,
     tidalCruise: false,
     photo: '',
@@ -97,17 +85,25 @@ const AnnouncementForm = ({ router }) => {
     title,
     startDate,
     endDate,
-    days,
     price,
     currency,
-    includedInPrice,
     yacht,
+    organizer,
     lastMinute,
     tidalCruise,
     photo,
   } = values;
 
   const { user } = useAuth();
+
+  const includedInPriceData = [
+    { label: t('yacht_safe'), value: 'yacht_safe' },
+    { label: t('transport'), value: 'transport' },
+    { label: t('bunk'), value: 'bunk' },
+    { label: t('insurance'), value: 'insurance' },
+    { label: t('food'), value: 'food' },
+    { label: t('food_alcohol'), value: 'food_alcohol' },
+  ];
 
   useEffect(() => {
     setValues({ ...values });
@@ -133,14 +129,15 @@ const AnnouncementForm = ({ router }) => {
           title: data.title,
           startDate: data.startDate,
           endDate: data.endDate,
-          days: data.days,
           price: data.price,
           currency: data.currency,
-          includedInPrice: data.includedInPrice,
           yacht: data.yacht,
+          organizer: data.organizer,
           lastMinute: data.lastMinute,
           tidalCruise: data.tidalCruise,
         });
+        setIncludedInPrice(data.includedInPrice);
+        setNotIncludedInPrice(data.notIncludedInPrice);
         setBody(data.body);
         setCategoriesArray(data.categories);
         setTagsArray(data.tags);
@@ -151,7 +148,7 @@ const AnnouncementForm = ({ router }) => {
 
   const setCategoriesArray = announcementCategories => {
     let ca = [];
-    announcementCategories.map((c, i) => {
+    announcementCategories.map(c => {
       ca.push(c._id);
     });
     setCheckedCategory(ca);
@@ -159,7 +156,7 @@ const AnnouncementForm = ({ router }) => {
 
   const setTagsArray = announcementTags => {
     let ta = [];
-    announcementTags.map((t, i) => {
+    announcementTags.map(t => {
       ta.push(t._id);
     });
     setCheckedTag(ta);
@@ -226,13 +223,6 @@ const AnnouncementForm = ({ router }) => {
     setShowExitPrompt(true);
 
     setValues({ ...values, [name]: value, error: '' });
-  };
-
-  const handleBody = e => {
-    setBody(e);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('announcement', JSON.stringify(e));
-    }
   };
 
   const handleCategoryToggle = c => () => {
@@ -327,33 +317,6 @@ const AnnouncementForm = ({ router }) => {
 
   const toggleShow = () => setModal(!modal);
 
-  const cleanAllState = e => {
-    e.preventDefault();
-
-    setValues({
-      ...values,
-      title: '',
-      startDate: '',
-      endDate: '',
-      days: '',
-      price: '',
-      currency: 'pln',
-      includedInPrice: '',
-      yacht: '',
-      lastMinute: false,
-      tidalCruise: false,
-      photo: '',
-      responseData: '',
-    });
-    setBody('');
-    setCheckedCategory([]);
-    setCheckedTag([]);
-    setModalLoading(false);
-    setModal(false);
-    setShowExitPrompt(false);
-    // zero out everything for user to add new one
-  };
-
   const publishOrEditAnnouncement = async e => {
     e.preventDefault();
 
@@ -379,10 +342,11 @@ const AnnouncementForm = ({ router }) => {
     await formData.append('body', body);
     await formData.append('startDate', startDate);
     await formData.append('endDate', endDate);
-    await formData.append('days', days);
     await formData.append('price', price);
-    await formData.append('includedInPrice', includedInPrice);
+    await formData.append('includedInPrice', JSON.stringify(includedInPrice));
+    await formData.append('notIncludedInPrice', JSON.stringify(notIncludedInPrice));
     await formData.append('yacht', yacht);
+    await formData.append('organizer', organizer);
     await formData.append('lastMinute', lastMinute);
     await formData.append('tidalCruise', tidalCruise);
     await formData.append('language', locale);
@@ -446,7 +410,7 @@ const AnnouncementForm = ({ router }) => {
         </div>
 
         <div className="row">
-          <div className="form-group col-md-3">
+          <div className="form-group col-md-4 mt-2">
             <label className="text-muted">{t('Start date')}*</label>
             <input
               id="startDate"
@@ -457,7 +421,7 @@ const AnnouncementForm = ({ router }) => {
             />
           </div>
 
-          <div className="form-group col-md-3">
+          <div className="form-group col-md-4 mt-2">
             <label className="text-muted">{t('End date')}*</label>
             <input
               id="endDate"
@@ -467,17 +431,8 @@ const AnnouncementForm = ({ router }) => {
               onChange={handleChange('endDate')}
             />
           </div>
-          <div className="form-group col-md-2">
-            <label className="text-muted text-nowrap">{t('Number of cruise days')}*</label>
-            <input
-              type="number"
-              min="0"
-              className="form-control"
-              value={days}
-              onChange={handleChange('days')}
-            />
-          </div>
-          <div className="form-group col-md-2">
+
+          <div className="form-group col-md-2 mt-2">
             <label className="text-muted text-nowrap">{t('Price per person')}*</label>
             <input
               type="number"
@@ -487,7 +442,8 @@ const AnnouncementForm = ({ router }) => {
               onChange={handleChange('price')}
             />
           </div>
-          <div className="form-group col-md-2">
+
+          <div className="form-group col-md-2 mt-2">
             <br />
             <select
               name="currency"
@@ -499,29 +455,50 @@ const AnnouncementForm = ({ router }) => {
             </select>
           </div>
         </div>
-        <div className="form-group">
-          <label className="text-muted">{t("What's included in the price")}*</label>
-          <LimitedInput
-            type="text"
-            limit={120}
-            value={includedInPrice}
-            onChange={handleChange('includedInPrice')}
-          />
-        </div>
 
-        <div className="form-group">
-          <label className="text-muted">{t('The yacht and its description')}*</label>
+        <label className="text-muted mt-2">{t('what_included_in_price')}*</label>
+        <CreatableSelect
+          isMulti
+          isClearable
+          value={includedInPrice}
+          onChange={inputValue => setIncludedInPrice(inputValue)}
+          options={includedInPriceData}
+          placeholder={t('choose') + '...'}
+        />
+
+        <label className="text-muted mt-2">{t('what_not_included_in_price')}*</label>
+        <CreatableSelect
+          isMulti
+          isClearable
+          value={notIncludedInPrice}
+          onChange={inputValue => setNotIncludedInPrice(inputValue)}
+          options={includedInPriceData}
+          placeholder={t('choose') + '...'}
+        />
+
+        <div className="form-group mt-2">
+          <label className="text-muted">{t('yacht_info')}*</label>
           <LimitedInput type="text" limit={120} value={yacht} onChange={handleChange('yacht')} />
         </div>
 
-        <div className="form-group">
-          <label className="text-muted">{t('Description')}*</label>
+        <div className="form-group mt-2">
+          <label className="text-muted">{t('organizer')}*</label>
+          <LimitedInput
+            type="text"
+            limit={120}
+            value={organizer}
+            onChange={handleChange('organizer')}
+          />
+        </div>
+
+        <div className="form-group mt-2">
+          <label className="text-muted">{t('Description')}</label>
           <ReactQuill
             modules={QuillModules}
             formats={QuillFormats}
             value={body}
             placeholder={t('Write something')}
-            onChange={handleBody}
+            onChange={e => setBody(e)}
           />
         </div>
       </form>
@@ -663,7 +640,9 @@ const AnnouncementForm = ({ router }) => {
                 <>
                   {!router.query.slug && (
                     <>
-                      <MDBBtn onClick={cleanAllState}>{t('add_new')}</MDBBtn>
+                      <MDBBtn onClick={() => Router.reload(window.location.pathname)}>
+                        {t('add_new')}
+                      </MDBBtn>
 
                       <Link href={`/user/manage/${responseData.slug}`}>
                         <a>
@@ -689,7 +668,7 @@ const AnnouncementForm = ({ router }) => {
           <div className="col-xl-8">{mainForm()}</div>
           <div className="col-xl-4">{additionalInfo()}</div>
         </div>
-        <div className="float-end mb-4">
+        <div className="float-end mb-4 mt-5">
           <button type="submit" className="btn btn-primary  " form="announcementForm">
             {router.query.slug ? t('Edit announcement') : t('Publish announcement')}
           </button>

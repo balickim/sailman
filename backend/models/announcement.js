@@ -33,9 +33,6 @@ const announcementSchema = new mongoose.Schema(
       max: 20,
       required: true,
     },
-    days: {
-      type: Number,
-    },
     price: {
       type: Number,
     },
@@ -44,9 +41,15 @@ const announcementSchema = new mongoose.Schema(
       max: 3,
     },
     includedInPrice: {
-      type: String,
+      type: {},
+    },
+    notIncludedInPrice: {
+      type: {},
     },
     yacht: {
+      type: String,
+    },
+    organizer: {
       type: String,
     },
     lastMinute: {

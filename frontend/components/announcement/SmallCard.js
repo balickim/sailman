@@ -1,18 +1,28 @@
 import dayjs from 'dayjs';
+import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 const SmallCard = ({ announcement }) => {
+  const [imageFailed, setImageFailed] = useState(false);
+
   return (
     <div className="card">
-      <section>
-        <Link href={`/announcements/${announcement.slug}`}>
-          <img
-            style={{ height: '250px', width: '100%' }}
-            src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
-            alt={announcement.title}
-            className="img img-fluid"
-          />
-        </Link>
+      <section className="m-2 text-center">
+        <Image
+          width={'200px'}
+          height={'100%'}
+          src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
+          onError={e => {
+            if (!imageFailed) {
+              setImageFailed(true);
+              e.target.src = '/images/ann-default.webp';
+            }
+          }}
+          alt={announcement.title}
+          className="img img-fluid"
+          unoptimized={true}
+        />
       </section>
       <div className="card-body">
         <section>

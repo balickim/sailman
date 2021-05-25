@@ -19,8 +19,9 @@
   "Number of cruise days": "Number of cruise days",
   "Price per person": "Price per person",
   "Currency": "Currency",
-  "What's included in the price": "What's included in the price",
-  "The yacht and its description": "The yacht and its description",
+  "what_included_in_price": "What's included in the price",
+  "what_not_included_in_price": "What's NOT included in the price",
+  "yacht_info": "The yacht and its description",
   "Cruise map (Optional)": "Cruise map (Optional)",
   "The reservoir": "The reservoir",
   "last_minute": "Last Minute",
@@ -52,5 +53,13 @@
   "edit": "Edit",
   "add_new": "Add new",
   "close": "Close",
-  "file_too_big": "Picture is bigger than 1mb and won't be saved!"
+  "file_too_big": "Picture is bigger than 1mb and won't be saved!",
+  "yacht_safe": "Yacht safe",
+  "transport": "Transport (e.g. plane)",
+  "bunk": "Bunk",
+  "insurance": "Insurance",
+  "food": "Food (No alcohol)",
+  "food_alcohol": "Food (With alcohol)",
+  "choose": "Choose",
+  "organizer": "Organizer"
 }
