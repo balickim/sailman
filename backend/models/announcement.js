@@ -49,6 +49,9 @@ const announcementSchema = new mongoose.Schema(
     yacht: {
       type: String,
     },
+    yachtDesc: {
+      type: String,
+    },
     organizer: {
       type: String,
     },

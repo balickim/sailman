@@ -21,7 +21,8 @@
   "Currency": "Waluta",
   "what_included_in_price": "Co jest zawarte w cenie",
   "what_not_included_in_price": "Co NIE jest zawarte w cenie",
-  "yacht_info": "Jacht i jego opis",
+  "yacht": "Jacht",
+  "yacht_desc": "Opis jachtu",
   "Cruise map (Optional)": "Mapa rejsu (Opcjonalnie)",
   "The reservoir": "Akwen",
   "last_minute": "Last Minute",
@@ -58,8 +59,8 @@
   "transport": "Transport (np. samolot)",
   "bunk": "Koja",
   "insurance": "Ubezpieczenie",
-  "food": "Jedzenie (bez alkoholu)",
-  "food_alcohol": "Jedzenie (z alkoholem)",
+  "food": "Jedzenie",
+  "alcohol": "Alkohol",
   "choose": "Wybierz",
   "organizer": "Organizator"
 }

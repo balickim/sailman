@@ -21,7 +21,8 @@
   "Currency": "Currency",
   "what_included_in_price": "What's included in the price",
   "what_not_included_in_price": "What's NOT included in the price",
-  "yacht_info": "The yacht and its description",
+  "yacht": "Yacht",
+  "yacht_desc": "Yachts description",
   "Cruise map (Optional)": "Cruise map (Optional)",
   "The reservoir": "The reservoir",
   "last_minute": "Last Minute",
@@ -58,8 +59,8 @@
   "transport": "Transport (e.g. plane)",
   "bunk": "Bunk",
   "insurance": "Insurance",
-  "food": "Food (No alcohol)",
-  "food_alcohol": "Food (With alcohol)",
+  "food": "Food",
+  "alcohol": "Alcohol",
   "choose": "Choose",
   "organizer": "Organizer"
 }

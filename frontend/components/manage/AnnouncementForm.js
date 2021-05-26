@@ -72,6 +72,7 @@ const AnnouncementForm = ({ router }) => {
     price: '',
     currency: 'pln',
     yacht: '',
+    yachtDesc: '',
     organizer: '',
     lastMinute: false,
     tidalCruise: false,
@@ -88,6 +89,7 @@ const AnnouncementForm = ({ router }) => {
     price,
     currency,
     yacht,
+    yachtDesc,
     organizer,
     lastMinute,
     tidalCruise,
@@ -102,7 +104,7 @@ const AnnouncementForm = ({ router }) => {
     { label: t('bunk'), value: 'bunk' },
     { label: t('insurance'), value: 'insurance' },
     { label: t('food'), value: 'food' },
-    { label: t('food_alcohol'), value: 'food_alcohol' },
+    { label: t('alcohol'), value: 'alcohol' },
   ];
 
   useEffect(() => {
@@ -132,6 +134,7 @@ const AnnouncementForm = ({ router }) => {
           price: data.price,
           currency: data.currency,
           yacht: data.yacht,
+          yachtDesc: data.yachtDesc,
           organizer: data.organizer,
           lastMinute: data.lastMinute,
           tidalCruise: data.tidalCruise,
@@ -346,6 +349,7 @@ const AnnouncementForm = ({ router }) => {
     await formData.append('includedInPrice', JSON.stringify(includedInPrice));
     await formData.append('notIncludedInPrice', JSON.stringify(notIncludedInPrice));
     await formData.append('yacht', yacht);
+    await formData.append('yachtDesc', yachtDesc);
     await formData.append('organizer', organizer);
     await formData.append('lastMinute', lastMinute);
     await formData.append('tidalCruise', tidalCruise);
@@ -477,8 +481,18 @@ const AnnouncementForm = ({ router }) => {
         />
 
         <div className="form-group mt-2">
-          <label className="text-muted">{t('yacht_info')}*</label>
+          <label className="text-muted">{t('yacht')}*</label>
           <LimitedInput type="text" limit={120} value={yacht} onChange={handleChange('yacht')} />
+        </div>
+
+        <div className="form-group mt-2">
+          <label className="text-muted">{t('yacht_desc')}</label>
+          <LimitedInput
+            type="text"
+            limit={120}
+            value={yachtDesc}
+            onChange={handleChange('yachtDesc')}
+          />
         </div>
 
         <div className="form-group mt-2">

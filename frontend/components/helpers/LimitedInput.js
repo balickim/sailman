@@ -1,6 +1,7 @@
 import styles from '@components/helpers/LimitedInput.module.scss';
 
 const LimitedInput = ({ type, value, onChange, limit }) => {
+  value = value ?? '';
   const percent = Math.floor((value.length / limit) * 100, 2);
 
   const loaderStyles = {

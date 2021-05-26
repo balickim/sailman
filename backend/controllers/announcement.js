@@ -42,6 +42,7 @@ exports.create = (req, res) => {
       includedInPrice,
       notIncludedInPrice,
       yacht,
+      yachtDesc,
       organizer,
       lastMinute,
       tidalCruise,
@@ -122,6 +123,7 @@ exports.create = (req, res) => {
     announcement.includedInPrice = JSON.parse(includedInPrice);
     announcement.notIncludedInPrice = JSON.parse(notIncludedInPrice);
     announcement.yacht = yacht;
+    announcement.yachtDesc = yachtDesc;
     announcement.organizer = organizer;
     announcement.lastMinute = lastMinute;
     announcement.tidalCruise = tidalCruise;
@@ -233,7 +235,7 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
     .skip(skip)
     .limit(limit)
     .select(
-      "_id, title startDate endDate price currency includedInPrice notIncludedInPrice yacht organizer lastMinute tidalCruise route slug categories tags postedBy createdAt updatedAt"
+      "_id, title startDate endDate price currency includedInPrice notIncludedInPrice yacht yachtDesc organizer lastMinute tidalCruise route slug categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -275,7 +277,7 @@ exports.read = (req, res) => {
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
     .select(
-      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht organizer lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
+      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht yachtDesc organizer lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -337,6 +339,7 @@ exports.update = (req, res) => {
         includedInPrice,
         notIncludedInPrice,
         yacht,
+        yachtDesc,
         organizer,
         lastMinute,
         tidalCruise,
@@ -406,7 +409,13 @@ exports.update = (req, res) => {
 
       if (yacht.length > 120) {
         return res.status(400).json({
-          error: "Yacht info field is too long.",
+          error: "Yacht field is too long.",
+        });
+      }
+
+      if (yachtDesc.length > 120) {
+        return res.status(400).json({
+          error: "Yacht description info field is too long.",
         });
       }
 
@@ -448,6 +457,10 @@ exports.update = (req, res) => {
 
       if (yacht) {
         oldAnnouncement.yacht = yacht;
+      }
+
+      if (yachtDesc) {
+        oldAnnouncement.yachtDesc = yachtDesc;
       }
 
       if (organizer) {
