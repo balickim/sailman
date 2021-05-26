@@ -2,14 +2,14 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 
 import PolylineMeasurer from '@components/map/Leaflet.PolylineMeasure/PolylineMeasurer';
-import { getLatLngCenter } from '@helpers/getLatLngCenter';
+import { calculateZoom, getLatLngCenter } from '@helpers/map.helpers';
 
 import 'leaflet/dist/leaflet.css';
 import 'leaflet.polylinemeasure/Leaflet.PolylineMeasure.css';
 
-let currentLines = [];
-
 function Events({ setCurrentRoutes, setSeedRoutes, map }) {
+  let currentLines = [];
+
   const onFinish = useCallback(
     currentLine => {
       currentLines.push(currentLine);
@@ -40,14 +40,15 @@ function Events({ setCurrentRoutes, setSeedRoutes, map }) {
 const Map = ({ setCurrentRoutes, setSeedRoutes, seedRoutes }) => {
   const [map, setMap] = useState(null);
 
-  const center = seedRoutes ? getLatLngCenter(seedRoutes) : [52.11, 19.21];
+  const center = seedRoutes && seedRoutes.length > 0 ? getLatLngCenter(seedRoutes) : [52.11, 19.21];
+  const zoom = seedRoutes && seedRoutes.length > 0 ? calculateZoom(seedRoutes) : 5;
 
   return (
     <>
       <MapContainer
         whenCreated={setMap}
         center={center}
-        zoom={5}
+        zoom={zoom}
         scrollWheelZoom={true}
         style={{ height: '100%', width: '100%' }}>
         <TileLayer

@@ -1,10 +1,52 @@
+function dist(p1, p2) {
+  var x0 = p1[0] - p2[0];
+  var y0 = p1[1] - p2[1];
+  return x0 * x0 + y0 * y0;
+}
+
 function rad2degr(rad) {
   return (rad * 180) / Math.PI;
 }
 function degr2rad(degr) {
   return (degr * Math.PI) / 180;
 }
-export const getLatLngCenter = latLngInDegr => {
+
+const maxDist = p => {
+  var n = p.length;
+  var maxm = 0;
+
+  for (let i = 0; i < n; i++) {
+    for (let j = i + 1; j < n; j++) {
+      maxm = Math.max(maxm, dist(p[i], p[j]));
+    }
+  }
+  return Math.sqrt(maxm);
+};
+
+function calculateZoom(seedRoutes) {
+  let cleanArray = [];
+
+  cleanArray = seedRoutes[0].map(x => {
+    return [x.lat, x.lng];
+  });
+
+  let distance = maxDist(cleanArray);
+  let range = [];
+  let mappedValues = 1600;
+
+  for (let i = 1; i < 15; i++) {
+    mappedValues = mappedValues / 4.5;
+    range.push([i, mappedValues]);
+  }
+
+  const closest = range.reduce((a, b) => {
+    return Math.abs(b[1] - distance) < Math.abs(a[1] - distance) ? b : a;
+  });
+
+  return closest[0];
+}
+
+const getLatLngCenter = latLngInDegr => {
   let coords = [];
 
   latLngInDegr.map(element => {
@@ -37,3 +79,5 @@ export const getLatLngCenter = latLngInDegr => {
 
   return [rad2degr(lat), rad2degr(lng)];
 };
+
+export { getLatLngCenter, calculateZoom };

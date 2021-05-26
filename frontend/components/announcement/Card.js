@@ -63,29 +63,31 @@ const Card = ({ announcement }) => {
 
   return (
     <div className="card border">
-      <div className="row card-text">
-        <div className="col-xxl-3 ms-2 mt-2">
+      <div className="card-text">
+        <div className=" ms-2 mt-2">
           <div>
             <h2 className="h3">{announcement.title}</h2>
           </div>
           <div className="row">
-            <div className="col-sm-5">
-              <Image
-                width={'200px'}
-                height={'100%'}
-                src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
-                onError={e => {
-                  if (!imageFailed) {
-                    setImageFailed(true);
-                    e.target.src = '/images/ann-default.webp';
-                  }
-                }}
-                alt={announcement.title}
-                className="img img-fluid"
-                unoptimized={true}
-              />
+            <div className="col-xxl-4">
+              <div style={{ minWidth: '200px' }}>
+                <Image
+                  width={'200px'}
+                  height={'100%'}
+                  src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
+                  onError={e => {
+                    if (!imageFailed) {
+                      setImageFailed(true);
+                      e.target.src = '/images/ann-default.webp';
+                    }
+                  }}
+                  alt={announcement.title}
+                  className="img img-fluid"
+                  unoptimized={true}
+                />
+              </div>
             </div>
-            <div className="col-sm-7">
+            <div className="col-xxl-8">
               <div>
                 <strong>Termin:</strong> {announcement.startDate} - {announcement.endDate} (
                 {days(announcement)} dni)
@@ -99,7 +101,7 @@ const Card = ({ announcement }) => {
             </div>
           </div>
         </div>
-        <div className="col-xxl-9">
+        <div>
           <div className="ms-2">
             <div>
               <strong>Zawarte: </strong>
