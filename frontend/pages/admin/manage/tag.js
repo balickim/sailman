@@ -1,9 +1,8 @@
 import Layout from '@components/Layout';
 import IsAuthorized from '@components/auth/IsAuthorized';
-import Category from '@components/manage/Category';
 import Tag from '@components/manage/Tag';
 
-const CategoryTag = () => {
+const TagDashboard = () => {
   return (
     <Layout footer={false}>
       <IsAuthorized userRole={['admin', 'moderator']}>
@@ -12,12 +11,7 @@ const CategoryTag = () => {
             <div className="col-md-12 pt-5 pb-5">
               <h2>Manage categories and tags</h2>
             </div>
-            <div className="col-md-6">
-              <Category />
-            </div>
-            <div className="col-md-6">
-              <Tag />
-            </div>
+            <Tag />
           </div>
         </div>
       </IsAuthorized>
@@ -25,4 +19,4 @@ const CategoryTag = () => {
   );
 };
 
-export default CategoryTag;
+export default TagDashboard;

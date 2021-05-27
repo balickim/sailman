@@ -71,11 +71,13 @@ const announcementSchema = new mongoose.Schema(
     language: {
       type: String,
     },
+    category: {
+      type: String,
+    },
     photo: {
       data: Buffer,
       contentType: String,
     },
-    categories: [{ type: ObjectId, ref: "Category", require: true }],
     tags: [{ type: ObjectId, ref: "Tag", require: true }],
     galleries: { type: ObjectId, ref: "Gallery" },
     postedBy: {

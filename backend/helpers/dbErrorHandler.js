@@ -34,6 +34,7 @@ exports.errorHandler = (error) => {
         message = uniqueMessage(error);
         break;
       default:
+        console.log(error);
         message = "Something went wrong";
     }
   } else {

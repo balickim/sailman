@@ -11,7 +11,7 @@
   "upload_gallery": "Wrzuć galerię",
   "max_images": "Maksymalnie {{count}} obrazków",
   "too_many_images": "Za dużo obrazków. Maksymalnie 10.",
-  "Categories": "Kategorie",
+  "Category": "Kategoria",
   "Tags": "Tagi",
   "Publish announcement": "Dodaj ogłoszenie",
   "Start date": "Data rozpoczęcia",
@@ -62,5 +62,11 @@
   "food": "Jedzenie",
   "alcohol": "Alkohol",
   "choose": "Wybierz",
-  "organizer": "Organizator"
+  "organizer": "Organizator",
+  "tourist_cruise": "Rejs turystyczny",
+  "commercial_cruise": "Rejs komercyjny",
+  "non_commercial_cruise": "Rejs niekomercyjny",
+  "training_cruise": "Rejs szkoleniowy",
+  "regatta": "Regaty",
+  "rally": "Zlot"
 }

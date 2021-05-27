@@ -9,13 +9,6 @@ const Card = ({ announcement }) => {
 
   const [imageFailed, setImageFailed] = useState(false);
 
-  const showAnnouncementCategories = announcement =>
-    announcement.categories.map((c, i) => (
-      <Link key={i} href={`/categories/${c.slug}`}>
-        <a className="btn btn-primary m-1">{c.name}</a>
-      </Link>
-    ));
-
   const showAnnouncementTags = announcement =>
     announcement.tags.map((t, i) => (
       <Link key={i} href={`/tags/${t.slug}`}>
@@ -155,10 +148,7 @@ const Card = ({ announcement }) => {
           <a>{announcement.postedBy.username}</a>
         </Link>{' '}
         | {dayjs(announcement.updatedAt).format('D MMMM, YYYY HH:MM')}
-        <div className="float-end">
-          {showAnnouncementCategories(announcement)}
-          {showAnnouncementTags(announcement)}
-        </div>
+        <div className="float-end">{showAnnouncementTags(announcement)}</div>
       </div>
     </div>
   );

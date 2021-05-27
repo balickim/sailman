@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useState, useEffect, Fragment } from 'react';
 import dynamic from 'next/dynamic';
 import { MDBSpinner } from 'mdb-react-ui-kit';
+import Trans from 'next-translate/Trans';
+import DynamicNamespaces from 'next-translate/DynamicNamespaces';
 import dayjs from 'dayjs';
 import parseToHTML from 'html-react-parser';
 
@@ -34,13 +36,6 @@ const AnnouncementRead = ({ announcement, gallery }) => {
   useEffect(() => {
     loadRelated();
   }, []);
-
-  const showAnnouncementCategories = announcement =>
-    announcement.categories.map((c, i) => (
-      <Link key={i} href={`/categories/${c.slug}`}>
-        <a className="btn btn-primary me-1 ms-1 mt-3 ">{c.name}</a>
-      </Link>
-    ));
 
   const showAnnouncementTags = announcement =>
     announcement.tags.map((t, i) => (
@@ -119,6 +114,12 @@ const AnnouncementRead = ({ announcement, gallery }) => {
             Nie zawarte: {showNotIncludedInPrice(announcement.notIncludedInPrice)}
           </div>
           <div className="row">Jacht: {announcement.yacht}</div>
+          <div className="row">
+            Kategoria:{' '}
+            <DynamicNamespaces namespaces={['announcements']} fallback="Translating...">
+              <Trans i18nKey={`announcements:${announcement.category}`} />
+            </DynamicNamespaces>
+          </div>
           <div className="row">LastMinute: {announcement.lastMinute === false ? 'tak' : 'nie'}</div>
           <div className="row">Pływowy: {announcement.tidalCruise === false ? 'tak' : 'nie'}</div>
           <div className="col-md-12 lead mt-3 text-break">{parseToHTML(announcement.body)}</div>
@@ -139,10 +140,7 @@ const AnnouncementRead = ({ announcement, gallery }) => {
             | Published {dayjs(announcement.updatedAt).format('D MMMM, YYYY HH:MM')}
           </p>
 
-          <div className="pb-3">
-            {showAnnouncementCategories(announcement)}
-            {showAnnouncementTags(announcement)}
-          </div>
+          <div className="pb-3">{showAnnouncementTags(announcement)}</div>
         </div>
       </div>
       <div className="container pb-5">

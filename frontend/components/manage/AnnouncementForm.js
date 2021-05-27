@@ -18,13 +18,13 @@ import {
 } from 'mdb-react-ui-kit';
 import Link from 'next/link';
 
-import { getCategories } from '@actions/category';
 import { getTags } from '@actions/tag';
 import { update, singleAnnouncement } from '@actions/announcement';
 import { create } from '@actions/announcement';
 import { useAuth } from '@components/auth/AuthProvider';
 import LimitedInput from '@components/helpers/LimitedInput';
 import useExitPrompt from '@components/helpers/useExitPrompt.js';
+import { availableCategories } from '@root/config';
 
 const ReactQuill = dynamic(() => import('react-quill'), {
   loading: () => <MDBSpinner color="primary" />,
@@ -42,10 +42,8 @@ const AnnouncementForm = ({ router }) => {
   const { locale } = useRouter();
   const [, setShowExitPrompt] = useExitPrompt(false);
 
-  const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
 
-  const [checkedCategory, setCheckedCategory] = useState([]);
   const [checkedTag, setCheckedTag] = useState([]);
 
   const [body, setBody] = useState('');
@@ -74,6 +72,7 @@ const AnnouncementForm = ({ router }) => {
     yacht: '',
     yachtDesc: '',
     organizer: '',
+    category: 'tourist_cruise',
     lastMinute: false,
     tidalCruise: false,
     photo: '',
@@ -91,6 +90,7 @@ const AnnouncementForm = ({ router }) => {
     yacht,
     yachtDesc,
     organizer,
+    category,
     lastMinute,
     tidalCruise,
     photo,
@@ -109,7 +109,6 @@ const AnnouncementForm = ({ router }) => {
 
   useEffect(() => {
     setValues({ ...values });
-    initCategories();
     initTags();
 
     if (router.query.slug) {
@@ -136,25 +135,17 @@ const AnnouncementForm = ({ router }) => {
           yacht: data.yacht,
           yachtDesc: data.yachtDesc,
           organizer: data.organizer,
+          category: data.category,
           lastMinute: data.lastMinute,
           tidalCruise: data.tidalCruise,
         });
         setIncludedInPrice(data.includedInPrice);
         setNotIncludedInPrice(data.notIncludedInPrice);
         setBody(data.body);
-        setCategoriesArray(data.categories);
         setTagsArray(data.tags);
         setSeedRoutes(data.route);
       }
     });
-  };
-
-  const setCategoriesArray = announcementCategories => {
-    let ca = [];
-    announcementCategories.map(c => {
-      ca.push(c._id);
-    });
-    setCheckedCategory(ca);
   };
 
   const setTagsArray = announcementTags => {
@@ -163,16 +154,6 @@ const AnnouncementForm = ({ router }) => {
       ta.push(t._id);
     });
     setCheckedTag(ta);
-  };
-
-  const initCategories = () => {
-    getCategories().then(data => {
-      if (data.error) {
-        setValues({ ...values, error: data.error });
-      } else {
-        setCategories(data);
-      }
-    });
   };
 
   const initTags = () => {
@@ -184,6 +165,57 @@ const AnnouncementForm = ({ router }) => {
       }
     });
   };
+
+  const handleTagToggle = c => () => {
+    setValues({ ...values, error: '' });
+    const clickedTag = checkedTag.indexOf(c);
+    const all = [...checkedTag];
+
+    if (clickedTag === -1) {
+      all.push(c);
+    } else {
+      all.splice(clickedTag, 1);
+    }
+    setCheckedTag(all);
+  };
+
+  const findOutTag = t => {
+    const result = checkedTag.indexOf(t);
+    if (result !== -1) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const showTags = () => {
+    return (
+      tags &&
+      tags.map((t, i) => (
+        <li key={i} className="list-unstyled">
+          <input
+            type="checkbox"
+            onChange={handleTagToggle(t._id)}
+            checked={findOutTag(t._id)}
+            className="me-2"
+          />
+          <label className="form-check-label">{t.name}</label>
+        </li>
+      ))
+    );
+  };
+
+  const showError = () => (
+    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
+      {error}
+    </div>
+  );
+
+  const showSuccess = () => (
+    <div className="alert alert-success" style={{ display: success ? '' : 'none' }}>
+      {success}
+    </div>
+  );
 
   const handleChange = name => e => {
     let value;
@@ -228,96 +260,6 @@ const AnnouncementForm = ({ router }) => {
     setValues({ ...values, [name]: value, error: '' });
   };
 
-  const handleCategoryToggle = c => () => {
-    setValues({ ...values, error: '' });
-    const clickedCategory = checkedCategory.indexOf(c);
-    const all = [...checkedCategory];
-
-    if (clickedCategory === -1) {
-      all.push(c);
-    } else {
-      all.splice(clickedCategory, 1);
-    }
-    setCheckedCategory(all);
-  };
-
-  const handleTagToggle = c => () => {
-    setValues({ ...values, error: '' });
-    const clickedTag = checkedTag.indexOf(c);
-    const all = [...checkedTag];
-
-    if (clickedTag === -1) {
-      all.push(c);
-    } else {
-      all.splice(clickedTag, 1);
-    }
-    setCheckedTag(all);
-  };
-
-  const findOutCategory = c => {
-    const result = checkedCategory.indexOf(c);
-    if (result !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const findOutTag = t => {
-    const result = checkedTag.indexOf(t);
-    if (result !== -1) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  const showCategories = () => {
-    return (
-      categories &&
-      categories.map((c, i) => (
-        <li key={i} className="list-unstyled">
-          <input
-            type="checkbox"
-            onChange={handleCategoryToggle(c._id)}
-            checked={findOutCategory(c._id)}
-            className="me-2"
-          />
-          <label className="form-check-label">{c.name}</label>
-        </li>
-      ))
-    );
-  };
-
-  const showTags = () => {
-    return (
-      tags &&
-      tags.map((t, i) => (
-        <li key={i} className="list-unstyled">
-          <input
-            type="checkbox"
-            onChange={handleTagToggle(t._id)}
-            checked={findOutTag(t._id)}
-            className="me-2"
-          />
-          <label className="form-check-label">{t.name}</label>
-        </li>
-      ))
-    );
-  };
-
-  const showError = () => (
-    <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
-      {error}
-    </div>
-  );
-
-  const showSuccess = () => (
-    <div className="alert alert-success" style={{ display: success ? '' : 'none' }}>
-      {success}
-    </div>
-  );
-
   const toggleShow = () => setModal(!modal);
 
   const publishOrEditAnnouncement = async e => {
@@ -351,11 +293,11 @@ const AnnouncementForm = ({ router }) => {
     await formData.append('yacht', yacht);
     await formData.append('yachtDesc', yachtDesc);
     await formData.append('organizer', organizer);
+    await formData.append('category', category);
     await formData.append('lastMinute', lastMinute);
     await formData.append('tidalCruise', tidalCruise);
     await formData.append('language', locale);
     await formData.append('currency', currency);
-    await formData.append('categories', checkedCategory);
     await formData.append('tags', checkedTag);
     await formData.append('allRoutes', JSON.stringify(allRoutes));
     if (photo) {
@@ -582,9 +524,20 @@ const AnnouncementForm = ({ router }) => {
         </div>
 
         <div className="mt-3">
-          <h5>{t('Categories')}*</h5>
+          <h5>{t('Category')}*</h5>
           <hr />
-          <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>{showCategories()}</ul>
+          <select
+            className="form-select mb-3"
+            name="cars"
+            id="cars"
+            value={category}
+            onBlur={handleChange('category')}>
+            {availableCategories.map((cat, i) => (
+              <option key={i} value={cat.value}>
+                {t(`${cat.value}`)}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

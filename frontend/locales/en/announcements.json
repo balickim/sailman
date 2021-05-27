@@ -11,7 +11,7 @@
   "upload_gallery": "Upload gallery",
   "max_images": "Max {{count}} images",
   "too_many_images": "Too many images. Max is 10.",
-  "Categories": "Categories",
+  "Category": "Category",
   "Tags": "Tags",
   "Publish announcement": "Publish announcement",
   "Start date": "Start date",
@@ -62,5 +62,11 @@
   "food": "Food",
   "alcohol": "Alcohol",
   "choose": "Choose",
-  "organizer": "Organizer"
+  "organizer": "Organizer",
+  "tourist_cruise": "Tourist cruise",
+  "commercial_cruise": "Commercial cruise",
+  "non_commercial_cruise": "Non-commercial cruise",
+  "training_cruise": "Training cruise",
+  "regatta": "Regatta",
+  "rally": "Rally"
 }
