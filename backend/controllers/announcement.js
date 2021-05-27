@@ -497,7 +497,7 @@ exports.update = (req, res) => {
       if (files.gallery) {
         if (oldAnnouncement.galleries.length > 0) {
           await Gallery.deleteOne({
-            _id: oldAnnouncement.galleries[0],
+            _id: oldAnnouncement.galleries,
           });
         }
         gallery = await addGallery(files.gallery);
@@ -545,10 +545,10 @@ exports.galleryCount = (req, res) => {
           error: errorHandler(err),
         });
       }
-      if (!result.galleries[0]) {
+      if (!result.galleries) {
         return res.json({ size: 0 });
       } else {
-        return res.json({ size: result.galleries[0].data.length });
+        return res.json({ size: result.galleries.data.length });
       }
     });
 };
@@ -565,8 +565,8 @@ exports.gallery = (req, res) => {
           error: errorHandler(err),
         });
       }
-      res.set("Content-Type", result.galleries[0].contentType);
-      return res.send(result.galleries[0].data[index]);
+      res.set("Content-Type", result.galleries.contentType);
+      return res.send(result.galleries.data[index]);
     });
 };
 
