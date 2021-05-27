@@ -424,7 +424,7 @@ const AnnouncementForm = ({ router }) => {
 
         <div className="form-group mt-2">
           <label className="text-muted">{t('yacht')}*</label>
-          <LimitedInput type="text" limit={120} value={yacht} onChange={handleChange('yacht')} />
+          <LimitedInput type="text" limit={50} value={yacht} onChange={handleChange('yacht')} />
         </div>
 
         <div className="form-group mt-2">
@@ -530,7 +530,6 @@ const AnnouncementForm = ({ router }) => {
             className="form-select mb-3"
             name="cars"
             id="cars"
-            value={category}
             onBlur={handleChange('category')}>
             {availableCategories.map((cat, i) => (
               <option key={i} value={cat.value}>

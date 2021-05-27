@@ -112,6 +112,18 @@ exports.create = (req, res) => {
       });
     }
 
+    if (yacht.length > 50) {
+      return res.status(400).json({
+        error: "Yacht field is too long.",
+      });
+    }
+
+    if (yachtDesc.length > 120) {
+      return res.status(400).json({
+        error: "Yacht description info field is too long.",
+      });
+    }
+
     let announcement = new Announcement();
     announcement.title = title;
     announcement.body = sanitizeHtml(body, sanitizeHtmlOptions);
@@ -392,7 +404,7 @@ exports.update = (req, res) => {
         });
       }
 
-      if (yacht.length > 120) {
+      if (yacht.length > 50) {
         return res.status(400).json({
           error: "Yacht field is too long.",
         });
