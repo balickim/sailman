@@ -15,7 +15,7 @@ export const create = announcement => {
     .catch(err => console.error(err));
 };
 
-export const listAnnouncementsWithCategoriesAndTags = (skip, limit) => {
+export const listAnnouncements = (skip, limit) => {
   const data = {
     limit,
     skip,

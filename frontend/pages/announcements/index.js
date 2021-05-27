@@ -2,22 +2,13 @@ import Head from 'next/head';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { withRouter } from 'next/router';
-import Link from 'next/link';
 
 import Layout from '@components/Layout';
 import Card from '@components/announcement/Card';
-import { listAnnouncementsWithCategoriesAndTags } from '@actions/announcement';
+import { listAnnouncements } from '@actions/announcement';
 
-const Announcements = ({
-  announcements,
-  categories,
-  tags,
-  totalAnnouncements,
-  announcementsLimit,
-  announcementsSkip,
-  router,
-}) => {
-  const [limit, setLimit] = useState(announcementsLimit);
+const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, router }) => {
+  const [limit] = useState(announcementsLimit);
   const [skip, setSkip] = useState(0);
   const [size, setSize] = useState(totalAnnouncements);
   const [loadedAnnouncements, setLoadedAnnouncements] = useState([]);
@@ -36,7 +27,6 @@ const Announcements = ({
   });
 
   const {
-    phrase,
     priceFrom,
     priceTo,
     dateStartFrom,
@@ -74,7 +64,7 @@ const Announcements = ({
 
   const loadMore = () => {
     let toSkip = skip + limit;
-    listAnnouncementsWithCategoriesAndTags(toSkip, limit).then(data => {
+    listAnnouncements(toSkip, limit).then(data => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -136,22 +126,6 @@ const Announcements = ({
     ));
   };
 
-  const showAllCategories = () => {
-    return categories.map((c, i) => (
-      <Link href={`/categories/${c.slug}`} key={i}>
-        <a className="btn btn-primary me-1 ms-1 mt-3">{c.name}</a>
-      </Link>
-    ));
-  };
-
-  const showAllTags = () => {
-    return tags.map((t, i) => (
-      <Link href={`/tags/${t.slug}`} key={i}>
-        <a className="btn btn-outline-primary me-1 ms-1 mt-3">{t.name}</a>
-      </Link>
-    ));
-  };
-
   const handleChange = name => e => {
     let value;
     const target = e.target;
@@ -175,11 +149,6 @@ const Announcements = ({
     return (
       <div className="container border mb-3" style={{ overflow: 'hidden' }}>
         <form onSubmit={pushParams} id="filterForm" className="mt-2">
-          {/* <div className="pb-5 text-center">
-            {showAllCategories()}
-            <br />
-            {showAllTags()}
-          </div> */}
           <div className="form-group">
             <div className="mb-3">
               <div>
@@ -330,14 +299,13 @@ export async function getServerSideProps(context) {
   let skip = 0;
   let limit = 4;
 
-  return listAnnouncementsWithCategoriesAndTags(skip, limit, context.query).then(data => {
+  return listAnnouncements(skip, limit, context.query).then(data => {
     if (data.error) {
       console.log(data.error);
     } else {
       return {
         props: {
           announcements: data.announcements,
-          categories: data.categories,
           tags: data.tags,
           totalAnnouncements: data.size,
           announcementsLimit: limit,

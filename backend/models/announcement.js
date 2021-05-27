@@ -49,6 +49,9 @@ const announcementSchema = new mongoose.Schema(
     yacht: {
       type: String,
     },
+    yachtDesc: {
+      type: String,
+    },
     organizer: {
       type: String,
     },
@@ -62,26 +65,21 @@ const announcementSchema = new mongoose.Schema(
       type: {},
       max: 2000000,
     },
-    excerpt: {
-      type: String,
-      max: 1000,
-    },
-    mtitle: {
-      type: String,
-    },
     mdesc: {
       type: String,
     },
     language: {
       type: String,
     },
+    category: {
+      type: String,
+    },
     photo: {
       data: Buffer,
       contentType: String,
     },
-    categories: [{ type: ObjectId, ref: "Category", require: true }],
     tags: [{ type: ObjectId, ref: "Tag", require: true }],
-    galleries: [{ type: ObjectId, ref: "Gallery" }],
+    galleries: { type: ObjectId, ref: "Gallery" },
     postedBy: {
       type: ObjectId,
       ref: "User",

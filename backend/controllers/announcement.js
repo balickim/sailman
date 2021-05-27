@@ -1,6 +1,5 @@
 // models
 const Announcement = require("../models/announcement");
-const Category = require("../models/category");
 const Tag = require("../models/tag");
 const User = require("../models/user");
 const Gallery = require("../models/gallery");
@@ -33,7 +32,7 @@ exports.create = (req, res) => {
     const {
       title,
       body,
-      categories,
+      category,
       tags,
       startDate,
       endDate,
@@ -42,6 +41,7 @@ exports.create = (req, res) => {
       includedInPrice,
       notIncludedInPrice,
       yacht,
+      yachtDesc,
       organizer,
       lastMinute,
       tidalCruise,
@@ -55,9 +55,9 @@ exports.create = (req, res) => {
       });
     }
 
-    if (!categories || categories.length === 0) {
+    if (!category) {
       return res.status(400).json({
-        error: "At least one category is required.",
+        error: "Category is required.",
       });
     }
 
@@ -122,17 +122,17 @@ exports.create = (req, res) => {
     announcement.includedInPrice = JSON.parse(includedInPrice);
     announcement.notIncludedInPrice = JSON.parse(notIncludedInPrice);
     announcement.yacht = yacht;
+    announcement.yachtDesc = yachtDesc;
     announcement.organizer = organizer;
     announcement.lastMinute = lastMinute;
     announcement.tidalCruise = tidalCruise;
     announcement.language = language;
+    announcement.category = category;
     announcement.route = JSON.parse(allRoutes);
     announcement.slug = slugify(title + " " + announcement._id).toLowerCase();
-    announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
     announcement.mdesc = stripHtml(body.substr(0, 160)).result;
     announcement.postedBy = req.user._id;
 
-    let arrayOfCategories = categories && categories.split(",");
     let arrayOfTags = tags && tags.split(",");
 
     if (files.photo) {
@@ -174,7 +174,7 @@ exports.create = (req, res) => {
       }
       Announcement.findByIdAndUpdate(
         result._id,
-        { $push: { categories: arrayOfCategories } },
+        { category },
         { new: true }
       ).exec((err, result) => {
         if (err) {
@@ -203,10 +203,9 @@ exports.create = (req, res) => {
 
 exports.list = (req, res) => {
   Announcement.find({})
-    .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username profile")
-    .select("_id, title slug categories tags postedBy createdAt updatedAt")
+    .select("_id, title slug category tags postedBy createdAt updatedAt")
     .exec((err, data) => {
       if (err) {
         return res.json({
@@ -222,18 +221,16 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
   let skip = req.body.skip ? parseInt(req.body.skip) : 0;
 
   let announcements;
-  let categories;
   let tags;
 
   Announcement.find({})
-    .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username profile")
     .sort({ createdAt: -1 })
     .skip(skip)
     .limit(limit)
     .select(
-      "_id, title startDate endDate price currency includedInPrice notIncludedInPrice yacht organizer lastMinute tidalCruise route slug categories tags postedBy createdAt updatedAt"
+      "_id, title startDate endDate price currency includedInPrice notIncludedInPrice yacht yachtDesc organizer lastMinute tidalCruise route slug category tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -242,14 +239,6 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
         });
       }
       announcements = data;
-      Category.find({}).exec((err, c) => {
-        if (err) {
-          return res.json({
-            error: errorHandler(err),
-          });
-        }
-        categories = c;
-      });
       Tag.find({}).exec((err, t) => {
         if (err) {
           return res.json({
@@ -260,7 +249,6 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
 
         res.json({
           announcements,
-          categories,
           tags,
           size: announcements.length,
         });
@@ -271,11 +259,10 @@ exports.listAllAnnouncementsCategoriesTags = (req, res) => {
 exports.read = (req, res) => {
   const slug = req.params.slug.toLowerCase();
   Announcement.findOne({ slug })
-    .populate("categories", "_id name slug")
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
     .select(
-      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht organizer lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
+      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht yachtDesc organizer lastMinute tidalCruise route slug mdesc category tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {
@@ -328,7 +315,7 @@ exports.update = (req, res) => {
       const {
         title,
         body,
-        categories,
+        category,
         tags,
         startDate,
         endDate,
@@ -337,6 +324,7 @@ exports.update = (req, res) => {
         includedInPrice,
         notIncludedInPrice,
         yacht,
+        yachtDesc,
         organizer,
         lastMinute,
         tidalCruise,
@@ -355,9 +343,9 @@ exports.update = (req, res) => {
         });
       }
 
-      if (!categories || categories.length === 0) {
+      if (!category) {
         return res.status(400).json({
-          error: "At least one category is required.",
+          error: "Category is required.",
         });
       }
 
@@ -406,7 +394,13 @@ exports.update = (req, res) => {
 
       if (yacht.length > 120) {
         return res.status(400).json({
-          error: "Yacht info field is too long.",
+          error: "Yacht field is too long.",
+        });
+      }
+
+      if (yachtDesc.length > 120) {
+        return res.status(400).json({
+          error: "Yacht description info field is too long.",
         });
       }
 
@@ -414,8 +408,8 @@ exports.update = (req, res) => {
         oldAnnouncement.mdesc = stripHtml(body.substr(0, 160)).result;
       }
 
-      if (categories) {
-        oldAnnouncement.categories = categories.split(",");
+      if (category) {
+        oldAnnouncement.category = category;
       }
 
       if (tags) {
@@ -448,6 +442,10 @@ exports.update = (req, res) => {
 
       if (yacht) {
         oldAnnouncement.yacht = yacht;
+      }
+
+      if (yachtDesc) {
+        oldAnnouncement.yachtDesc = yachtDesc;
       }
 
       if (organizer) {
@@ -485,7 +483,7 @@ exports.update = (req, res) => {
       if (files.gallery) {
         if (oldAnnouncement.galleries.length > 0) {
           await Gallery.deleteOne({
-            _id: oldAnnouncement.galleries[0],
+            _id: oldAnnouncement.galleries,
           });
         }
         gallery = await addGallery(files.gallery);
@@ -533,10 +531,10 @@ exports.galleryCount = (req, res) => {
           error: errorHandler(err),
         });
       }
-      if (!result.galleries[0]) {
+      if (!result.galleries) {
         return res.json({ size: 0 });
       } else {
-        return res.json({ size: result.galleries[0].data.length });
+        return res.json({ size: result.galleries.data.length });
       }
     });
 };
@@ -553,16 +551,16 @@ exports.gallery = (req, res) => {
           error: errorHandler(err),
         });
       }
-      res.set("Content-Type", result.galleries[0].contentType);
-      return res.send(result.galleries[0].data[index]);
+      res.set("Content-Type", result.galleries.contentType);
+      return res.send(result.galleries.data[index]);
     });
 };
 
 exports.listRelated = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 3;
-  const { _id, categories } = req.body.announcement;
+  const { _id, category } = req.body.announcement;
 
-  Announcement.find({ _id: { $ne: _id }, categories: { $in: categories } })
+  Announcement.find({ _id: { $ne: _id }, category: { $in: category } })
     .limit(limit)
     .populate("postedBy", "_id name username profile")
     .select("title slug mdesc postedBy createdAt updatedAt")
@@ -607,8 +605,6 @@ exports.listByUser = (req, res) => {
     }
     let userId = user._id;
     Announcement.find({ postedBy: userId })
-      .populate("categories", "_id name slug")
-      .populate("tags", "_id name slug")
       .populate("postedBy", "_id name username")
       .select("_id title slug postedBy")
       .exec((err, data) => {
