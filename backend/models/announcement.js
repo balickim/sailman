@@ -65,13 +65,6 @@ const announcementSchema = new mongoose.Schema(
       type: {},
       max: 2000000,
     },
-    excerpt: {
-      type: String,
-      max: 1000,
-    },
-    mtitle: {
-      type: String,
-    },
     mdesc: {
       type: String,
     },

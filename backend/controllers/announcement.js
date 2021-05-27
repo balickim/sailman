@@ -130,7 +130,6 @@ exports.create = (req, res) => {
     announcement.language = language;
     announcement.route = JSON.parse(allRoutes);
     announcement.slug = slugify(title + " " + announcement._id).toLowerCase();
-    announcement.mtitle = `${title} - ${process.env.APP_NAME}`;
     announcement.mdesc = stripHtml(body.substr(0, 160)).result;
     announcement.postedBy = req.user._id;
 
@@ -277,7 +276,7 @@ exports.read = (req, res) => {
     .populate("tags", "_id name slug")
     .populate("postedBy", "_id name username")
     .select(
-      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht yachtDesc organizer lastMinute tidalCruise route slug mtitle mdesc categories tags postedBy createdAt updatedAt"
+      "_id title body startDate endDate price currency includedInPrice notIncludedInPrice yacht yachtDesc organizer lastMinute tidalCruise route slug mdesc categories tags postedBy createdAt updatedAt"
     )
     .exec((err, data) => {
       if (err) {

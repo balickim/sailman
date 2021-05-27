@@ -2187,9 +2187,6 @@
           "slug": {
             "type": "string"
           },
-          "excerpt": {
-            "type": "string"
-          },
           "categories": {
             "type": "object"
           },
@@ -2214,9 +2211,6 @@
             "type": "string"
           },
           "slug": {
-            "type": "string"
-          },
-          "excerpt": {
             "type": "string"
           },
           "postedBy": {
