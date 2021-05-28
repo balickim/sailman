@@ -9,7 +9,7 @@ import dayjs from 'dayjs';
 import parseToHTML from 'html-react-parser';
 
 import { listRelated } from '@actions/announcement';
-import SmallCard from '@components/announcement/SmallCard';
+import SmallCard from '@components/announcements/SmallCard';
 
 const Map = dynamic(() => import('@components/map/Map'), {
   loading: () => <MDBSpinner color="primary" />,
@@ -20,7 +20,7 @@ const ImageGallery = dynamic(() => import('react-image-gallery'), {
   loading: () => <MDBSpinner color="primary" />,
 });
 
-const AnnouncementRead = ({ announcement, gallery }) => {
+const Read = ({ announcement, gallery }) => {
   const [related, setRelated] = useState([]);
 
   const loadRelated = () => {
@@ -152,4 +152,4 @@ const AnnouncementRead = ({ announcement, gallery }) => {
   );
 };
 
-export default AnnouncementRead;
+export default Read;

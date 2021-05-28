@@ -7,7 +7,7 @@ import { list, remove } from '@actions/announcement';
 
 import { useAuth } from '@components/auth/AuthProvider';
 
-const AnnouncementList = ({ username }) => {
+const List = ({ username }) => {
   const [announcements, setAnnouncements] = useState([]);
   const [message, setMessage] = useState('');
 
@@ -104,4 +104,4 @@ const AnnouncementList = ({ username }) => {
   );
 };
 
-export default AnnouncementList;
+export default List;

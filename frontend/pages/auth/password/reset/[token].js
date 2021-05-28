@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { withRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
-import Layout from '@components/Layout';
+import Layout from '@components/layout/Layout';
 import { resetPassword } from '@actions/auth';
 
 const ResetPassword = ({ router }) => {

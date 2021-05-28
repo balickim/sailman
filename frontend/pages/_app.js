@@ -10,7 +10,7 @@ import 'dayjs/locale/en';
 import { AuthProvider, ProtectRoute } from '@components/auth/AuthProvider';
 import Head from 'next/head';
 
-import BackgroundImage from '@components/BackgroundImage';
+import BackgroundImage from '@components/helpers/BackgroundImage';
 
 function MyApp({ Component, pageProps }) {
   return (

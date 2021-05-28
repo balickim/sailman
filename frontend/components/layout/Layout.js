@@ -1,9 +1,9 @@
 import { useAuth } from '@components/auth/AuthProvider';
 
-import Header from '@components/Header';
-import Footer from '@components/Footer';
-import FeedbackForm from '@components/form/FeedbackForm';
-import Breadcrumbs from '@components/Breadcrumbs';
+import Header from '@components/layout/Header';
+import Footer from '@components/layout/Footer';
+import FeedbackForm from '@components/forms/FeedbackForm';
+import Breadcrumbs from '@components/layout/Breadcrumbs';
 
 import NProgress from 'nprogress';
 import Router from 'next/router';

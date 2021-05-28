@@ -16,7 +16,7 @@ const ContactForm = () => {
     error: false,
   });
 
-  const { message, name, email, sent, buttonText, success, error } = values;
+  const { message, name, email, buttonText, success, error } = values;
 
   const clickSubmit = e => {
     e.preventDefault();

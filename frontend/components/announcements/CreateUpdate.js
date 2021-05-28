@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-onchange */
 /* eslint-disable react/display-name */
 import useTranslation from 'next-translate/useTranslation';
 import { useState, useEffect } from 'react';
@@ -37,7 +38,7 @@ const Map = dynamic(() => import('../map/Map'), {
   ssr: false,
 });
 
-const AnnouncementForm = ({ router }) => {
+const CreateUpdate = ({ router }) => {
   let { t } = useTranslation('announcements');
   const { locale } = useRouter();
   const [, setShowExitPrompt] = useExitPrompt(false);
@@ -98,14 +99,14 @@ const AnnouncementForm = ({ router }) => {
 
   const { user } = useAuth();
 
-  const includedInPriceData = [
+  const includedInPriceData = Object.freeze([
     { label: t('yacht_safe'), value: 'yacht_safe' },
     { label: t('transport'), value: 'transport' },
     { label: t('bunk'), value: 'bunk' },
     { label: t('insurance'), value: 'insurance' },
     { label: t('food'), value: 'food' },
     { label: t('alcohol'), value: 'alcohol' },
-  ];
+  ]);
 
   useEffect(() => {
     setValues({ ...values });
@@ -395,7 +396,8 @@ const AnnouncementForm = ({ router }) => {
               name="currency"
               id="currency"
               className="form-control"
-              onBlur={handleChange('currency')}>
+              value={currency}
+              onChange={handleChange('currency')}>
               <option value="pln">PLN</option>
               <option value="eur">EUR</option>
             </select>
@@ -526,11 +528,7 @@ const AnnouncementForm = ({ router }) => {
         <div className="mt-3">
           <h5>{t('Category')}*</h5>
           <hr />
-          <select
-            className="form-select mb-3"
-            name="cars"
-            id="cars"
-            onBlur={handleChange('category')}>
+          <select className="form-select mb-3" value={category} onChange={handleChange('category')}>
             {availableCategories.map((cat, i) => (
               <option key={i} value={cat.value}>
                 {t(`${cat.value}`)}
@@ -635,7 +633,7 @@ const AnnouncementForm = ({ router }) => {
           <div className="col-xl-4">{additionalInfo()}</div>
         </div>
         <div className="float-end mb-4 mt-5">
-          <button type="submit" className="btn btn-primary  " form="announcementForm">
+          <button type="submit" className="btn btn-primary" form="announcementForm">
             {router.query.slug ? t('Edit announcement') : t('Publish announcement')}
           </button>
         </div>
@@ -644,4 +642,4 @@ const AnnouncementForm = ({ router }) => {
   );
 };
 
-export default withRouter(AnnouncementForm);
+export default withRouter(CreateUpdate);

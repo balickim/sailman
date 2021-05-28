@@ -3,8 +3,8 @@ import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 import { withRouter } from 'next/router';
 
-import Layout from '@components/Layout';
-import Card from '@components/announcement/Card';
+import Layout from '@components/layout/Layout';
+import Card from '@components/announcements/Card';
 import { listAnnouncements } from '@actions/announcement';
 
 const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, router }) => {

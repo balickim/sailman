@@ -66,7 +66,7 @@ const SigninComponent = () => {
       <>
         <h2 className="text-center pt-4 pb-4">{t('Signin')}</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group mb-3">
             <input
               value={email}
               onChange={handleChange('email')}

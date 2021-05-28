@@ -3,7 +3,7 @@ import Link from 'next/link';
 import dayjs from 'dayjs';
 
 import { userPublicProfile } from '@actions/user';
-import Layout from '@components/Layout';
+import Layout from '@components/layout/Layout';
 
 const UserProfile = ({ user, announcements, query }) => {
   const showUserAnnouncements = () => {
