@@ -1,7 +1,7 @@
 import Head from 'next/head';
 
-import Layout from '@components/Layout';
-import Card from '@components/announcement/Card';
+import Layout from '@components/layout/Layout';
+import Card from '@components/announcements/Card';
 import { singleTag } from '@actions/tag';
 
 const Tag = ({ tag, announcements, query }) => {

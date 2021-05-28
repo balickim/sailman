@@ -1,8 +1,8 @@
 import Head from 'next/head';
 
 import { singleAnnouncement, getGalleryCount } from '@actions/announcement';
-import Layout from '@components/Layout';
-import AnnouncementRead from '@components/manage/AnnouncementRead';
+import Layout from '@components/layout/Layout';
+import Read from '@components/announcements/Read';
 
 const SingleAnnouncement = ({ announcement, gallery, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;
@@ -38,7 +38,7 @@ const SingleAnnouncement = ({ announcement, gallery, query }) => {
       <Layout>
         <main>
           <article>
-            <AnnouncementRead announcement={announcement} gallery={gallery} />
+            <Read announcement={announcement} gallery={gallery} />
           </article>
         </main>
       </Layout>

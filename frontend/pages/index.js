@@ -1,6 +1,6 @@
 import useTranslation from 'next-translate/useTranslation';
 
-import Layout from '@components/Layout';
+import Layout from '@components/layout/Layout';
 import styles from '@pages/index.module.scss';
 
 const Index = () => {

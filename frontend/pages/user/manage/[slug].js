@@ -1,7 +1,7 @@
 import useTranslation from 'next-translate/useTranslation';
 
-import Layout from '@components/Layout';
-import AnnouncementForm from '@components/manage/AnnouncementForm';
+import Layout from '@components/layout/Layout';
+import CreateUpdate from '@components/announcements/CreateUpdate';
 
 const Announcement = () => {
   let { t } = useTranslation('announcements');
@@ -14,7 +14,7 @@ const Announcement = () => {
             <h2>{t('Edit announcement')}</h2>
           </div>
           <div className="col-md-12">
-            <AnnouncementForm />
+            <CreateUpdate />
           </div>
         </div>
       </div>

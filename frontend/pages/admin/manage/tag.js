@@ -1,6 +1,6 @@
-import Layout from '@components/Layout';
+import Layout from '@components/layout/Layout';
 import IsAuthorized from '@components/auth/IsAuthorized';
-import Tag from '@components/manage/Tag';
+import Tag from '@components/tags/Tag';
 
 const TagDashboard = () => {
   return (

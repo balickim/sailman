@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 
-import Layout from '@components/Layout';
+import Layout from '@components/layout/Layout';
 import { forgotPassword } from '@actions/auth';
 
 const ForgotPassword = () => {

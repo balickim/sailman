@@ -71,7 +71,7 @@ const SignupComponent = () => {
       <>
         <h2 className="text-center pt-4 pb-4">{t('Signup')}</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-group">
+          <div className="form-group mb-2">
             <input
               value={name}
               onChange={handleChange('name')}
@@ -79,7 +79,7 @@ const SignupComponent = () => {
               className="form-control"
               placeholder={t('Name')}></input>
           </div>
-          <div className="form-group">
+          <div className="form-group mb-2">
             <input
               value={email}
               onChange={handleChange('email')}
