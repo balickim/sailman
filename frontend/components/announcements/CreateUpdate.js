@@ -73,7 +73,7 @@ const CreateUpdate = ({ router }) => {
     yacht: '',
     yachtDesc: '',
     organizer: '',
-    category: 'tourist_cruise',
+    category: 'commercial_cruise',
     lastMinute: false,
     tidalCruise: false,
     photo: '',
