@@ -17,7 +17,7 @@ describe('AuthService', () => {
       controllers: [AuthController],
       providers: [
         AuthService,
-        JwtService, // <--here
+        JwtService,
         {
           provide: getRepositoryToken(User),
           useClass: Repository,
