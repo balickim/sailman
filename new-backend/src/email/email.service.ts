@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { nodemailer } from 'nodemailer';
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class EmailService {
@@ -23,8 +23,8 @@ export class EmailService {
 
     return transporter
       .sendMail(emailData)
-      .then((data) => {
-        return { data, success: true };
+      .then(() => {
+        return { success: true };
       })
       .catch((err) => console.log(`Problem sending email: ${err}`));
   }

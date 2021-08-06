@@ -25,7 +25,7 @@ export class AuthService {
 
   async preSignUp(
     authCredentialsDto: AuthCredentialsDto,
-    siteLang = 'en',
+    lang = 'en',
   ): Promise<void> {
     const { email } = authCredentialsDto;
 
@@ -37,19 +37,35 @@ export class AuthService {
       expiresIn: this.configService.get('JWT_ACCOUNT_ACTIVATION_EXPIRE'),
     });
 
+    const title =
+      lang === 'en'
+        ? 'Click button below to activate you account'
+        : 'Kliknij poniższy przycisk by aktywować konto';
+    const buttonText = lang === 'en' ? 'Activate' : 'Aktywuj';
+
     const emailData = {
       from: `${this.configService.get('GOOGLE_APP_EMAIL')}`,
       to: email,
       subject: `${this.configService.get('APP_NAME')} account activation link`,
       html: `
-          <p>Use the following email to activate your account:</p>
-          <p>${this.configService.get(
+          <h2>${title}</h2>
+          <a href="${this.configService.get(
             'CLIENT_BASE_URL',
-          )}${siteLang}/auth/account/activate/${token}</p>
+          )}/${lang}/auth/account/activate/${token}" style="background-color: blue; font-size: 18px; font-family: Helvetica, Arial, sans-serif; font-weight: bold; text-decoration: none; padding: 14px 20px; color: #ffffff; border-radius: 5px; display: inline-block; miso-padding-alt: 0;">
+              <!--[if mso]>
+              <i style="letter-spacing: 25px; mso-font-width: -100%; mso-text-raise: 30pt;">&nbsp;</i>
+              <![endif]-->
+              <span style="mso-text-raise: 15pt;">${buttonText} &rarr;</span>
+              <!--[if mso]>
+              <i style="letter-spacing: 25px; mso-font-width: -100%;">&nbsp;</i>
+              <![endif]-->
+          </a>
       `,
     };
 
-    return await this.emailService.sendEmailWithNodemailer(emailData);
+    const result = await this.emailService.sendEmailWithNodemailer(emailData);
+
+    return result;
   }
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {

@@ -1,4 +1,19 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Param, Post } from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { ApiResponse } from '@nestjs/swagger';
+
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 
 @Controller('auth')
-export class AuthController {}
+export class AuthController {
+  constructor(private authService: AuthService) {}
+
+  @Post('/pre-signup/:lang')
+  @ApiResponse({ status: 201 })
+  preSignUp(
+    @Param('lang') lang: string,
+    @Body() authCredentialsDto: AuthCredentialsDto,
+  ): Promise<void> {
+    return this.authService.preSignUp(authCredentialsDto, lang);
+  }
+}
