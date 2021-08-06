@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { ApiResponse } from '@nestjs/swagger';
 
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { TokenDto } from './dto/token.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -15,5 +16,10 @@ export class AuthController {
     @Body() authCredentialsDto: AuthCredentialsDto,
   ): Promise<void> {
     return this.authService.preSignUp(authCredentialsDto, lang);
+  }
+
+  @Post('/signup')
+  signUp(@Body() tokenDto: TokenDto): Promise<void> {
+    return this.authService.signUp(tokenDto);
   }
 }

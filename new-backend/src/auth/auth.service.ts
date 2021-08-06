@@ -1,5 +1,6 @@
 import {
   ConflictException,
+  HttpException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -12,6 +13,7 @@ import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { UsersRepository } from './users.repository';
 import { JwtPayload } from './jwt-payload.interface';
 import { EmailService } from 'src/email/email.service';
+import { TokenDto } from './dto/token.dto';
 
 @Injectable()
 export class AuthService {
@@ -68,8 +70,20 @@ export class AuthService {
     return result;
   }
 
-  async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    return this.usersRepository.createUser(authCredentialsDto);
+  async signUp(tokenDto: TokenDto): Promise<void> {
+    const { token } = tokenDto;
+
+    try {
+      await this.jwtService.verify(token, {
+        secret: this.configService.get('JWT_ACCOUNT_ACTIVATION_SECRET'),
+      });
+    } catch (e) {
+      throw new HttpException('Link expired.', 403);
+    }
+
+    const decoded = await this.jwtService.decode(token);
+
+    return this.usersRepository.createUser(decoded);
   }
 
   async signIn(

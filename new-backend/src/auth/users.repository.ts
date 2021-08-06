@@ -5,13 +5,12 @@ import {
 import { EntityRepository, Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 
-import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { User } from './user.entity';
 
 @EntityRepository(User)
 export class UsersRepository extends Repository<User> {
-  async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    const { email, password } = authCredentialsDto;
+  async createUser(decoded): Promise<void> {
+    const { email, password } = decoded;
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
