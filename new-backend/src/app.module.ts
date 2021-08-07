@@ -19,12 +19,17 @@ import { EmailService } from './email/email.service';
         autoLoadEntities: true,
       }),
     }),
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 10,
+    ThrottlerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        ttl: configService.get('THROTTLER_TTL'),
+        limit: configService.get('THROTTLER_LIMIT'),
+      }),
     }),
     ConfigModule.forRoot({
       isGlobal: true,
+      cache: true,
     }),
     AuthModule,
   ],

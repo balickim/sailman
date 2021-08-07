@@ -62,6 +62,7 @@ export class AuthService {
               <i style="letter-spacing: 25px; mso-font-width: -100%;">&nbsp;</i>
               <![endif]-->
           </a>
+          ${token}
       `,
     };
 

@@ -24,9 +24,10 @@ import { EmailService } from 'src/email/email.service';
       inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([UsersRepository]),
+    ConfigModule,
   ],
-  providers: [AuthService, JwtStrategy, EmailService],
+  providers: [AuthService, JwtStrategy, EmailService, ConfigService],
   controllers: [AuthController],
-  exports: [JwtStrategy, PassportModule],
+  exports: [JwtStrategy, PassportModule, ConfigModule],
 })
 export class AuthModule {}

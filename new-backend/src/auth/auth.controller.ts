@@ -1,10 +1,10 @@
 import { Body, Controller, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { ApiResponse } from '@nestjs/swagger';
+import { ThrottlerGuard } from '@nestjs/throttler';
 
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { TokenDto } from './dto/token.dto';
-import { ThrottlerGuard } from '@nestjs/throttler';
 
 @Controller('auth')
 @UseGuards(ThrottlerGuard)
