@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ThrottlerModule } from '@nestjs/throttler';
 
 import { AuthModule } from './auth/auth.module';
 import { EmailService } from './email/email.service';
@@ -17,6 +18,10 @@ import { EmailService } from './email/email.service';
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         autoLoadEntities: true,
       }),
+    }),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
     }),
     ConfigModule.forRoot({
       isGlobal: true,

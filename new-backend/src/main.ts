@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
+import { fastifyHelmet } from 'fastify-helmet';
 import { ConfigService } from '@nestjs/config';
 import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 import { AppModule } from './app.module';
+import { TransformInterceptor } from './transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
@@ -15,6 +18,8 @@ async function bootstrap() {
   );
 
   app.setGlobalPrefix('api');
+  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalInterceptors(new TransformInterceptor());
 
   const configSwagger = new DocumentBuilder()
     .setTitle('Sailman')
@@ -26,6 +31,7 @@ async function bootstrap() {
   const config = new ConfigService();
   const port = config.get<string>('PORT');
 
+  await app.register(fastifyHelmet);
   await app.listen(port, () => {
     console.info(`Server running on port ${port}`);
   });
