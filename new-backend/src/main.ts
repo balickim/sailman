@@ -17,9 +17,15 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  const config = new ConfigService();
+
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalInterceptors(new TransformInterceptor());
+  app.enableCors({
+    origin: config.get<string>('CLIENT_BASE_URL'),
+    credentials: true,
+  });
 
   const configSwagger = new DocumentBuilder()
     .setTitle('Sailman')
@@ -28,7 +34,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, configSwagger);
   SwaggerModule.setup('api-docs', app, document);
 
-  const config = new ConfigService();
   const port = config.get<string>('PORT');
 
   await app.register(fastifyHelmet, {

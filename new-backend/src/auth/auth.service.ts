@@ -94,7 +94,12 @@ export class AuthService {
     const user = await this.usersRepository.findOne({ email });
     if (user && (await bcrypt.compare(password, user.password))) {
       const payload: JwtPayload = { email };
-      const accessToken: string = await this.jwtService.sign(payload);
+
+      const accessToken: string = await this.jwtService.sign(payload, {
+        secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
+        expiresIn: this.configService.get('JWT_ACCESS_TOKEN_EXPIRE'),
+      });
+
       return { accessToken };
     } else {
       throw new UnauthorizedException('Please check your login credentials');
