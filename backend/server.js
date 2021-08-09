@@ -15,6 +15,7 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const tagRoutes = require("./routes/tag");
 const formRoutes = require("./routes/form");
+const waterReservoirRoutes = require("./routes/waterreservoir");
 const openApiJson = require("./routes/openapi.json");
 
 // app
@@ -58,6 +59,7 @@ app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", tagRoutes);
 app.use("/api", formRoutes);
+app.use("/api", waterReservoirRoutes);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(openApiJson));
 
 // port
