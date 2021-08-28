@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import CreatableSelect from 'react-select/creatable';
 import Router, { withRouter, useRouter } from 'next/router';
+import AsyncSelect from 'react-select/async';
 import {
   MDBSpinner,
   MDBBtn,
@@ -73,7 +74,7 @@ const CreateUpdate = ({ router }) => {
     yacht: '',
     yachtDesc: '',
     organizer: '',
-    category: 'tourist_cruise',
+    category: 'commercial_cruise',
     lastMinute: false,
     tidalCruise: false,
     photo: '',
@@ -348,6 +349,28 @@ const CreateUpdate = ({ router }) => {
     }
   };
 
+
+  const loadWaterReservoirs = async (inputValue) => {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/find_water_reservoir`, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        slug: inputValue
+      })
+    })
+    const jsonData = await response.json();
+    let ret = [];
+    for (let el of jsonData) {
+      ret.push({
+        label: el.reservoir,
+        value: el.reservoir,
+      })
+    }
+    return ret;
+  }
+
   const mainForm = () => {
     return (
       <form onSubmit={publishOrEditAnnouncement} id="announcementForm">
@@ -423,6 +446,19 @@ const CreateUpdate = ({ router }) => {
           options={includedInPriceData}
           placeholder={t('choose') + '...'}
         />
+
+        <div className="form-group mt-2">
+          <label className="text-muted">{t('water_reservoir')}</label>
+          <AsyncSelect
+            isClearable
+            cacheOptions
+            loadOptions={loadWaterReservoirs}
+            placeholder={t('choose') + '...'}
+            noOptionsMessage={()=>{
+              return t('search_database')
+            }}
+          />
+        </div>
 
         <div className="form-group mt-2">
           <label className="text-muted">{t('yacht')}*</label>

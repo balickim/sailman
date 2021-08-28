@@ -68,5 +68,7 @@
   "non_commercial_cruise": "Non-commercial cruise",
   "training_cruise": "Training cruise",
   "regatta": "Regatta",
-  "rally": "Rally"
+  "rally": "Rally",
+  "water_reservoir": "Water reservoir",
+  "search_database": "Search database"
 }
