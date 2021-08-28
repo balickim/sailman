@@ -11,7 +11,23 @@ const Index = () => {
       <Layout wrap={false}>
         {/* <!-- Introduction --> */}
         <section className={`container-fluid ${styles.introduction}`} id="introduction">
-          <h1 className="text-center pt-5">{t('Sailman project')}</h1>
+          <div className="container-fluid pt-5"></div>
+          {/* <div className={`pt-5 ${styles.menu}`}> */}
+          <ul className={`pt-5 ${styles.menu}`}>
+            <li className={`${styles.item}`}>
+              <p className={`${styles.child}`}>LOREM IPSUM</p>
+            </li>
+            <li className={`${styles.item}`}>
+              <p className={`${styles.child}`}>DOLOR SIT AMET</p>
+            </li>
+            <li className={`${styles.item}`}>
+              <p className={`${styles.child}`}>LOREM IPSUM</p>
+            </li>
+            <li className={`${styles.item}`}>
+              <p className={`${styles.child}`}>DOLOR SIT AMET</p>
+            </li>
+          </ul>
+          {/* </div> */}
         </section>
 
         {/* <!-- About us --> */}
@@ -60,92 +76,7 @@ const Index = () => {
           </div>
         </section>
 
-        {/* <!-- Testimonials --> */}
-        <section className={`text-center ${styles.testimonials}`}>
-          <div className="container">
-            <h2 className="mb-5">What people are saying...</h2>
-            <div className="row">
-              <div className="col-lg-4">
-                <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                  <img
-                    className="img-fluid rounded-circle mb-3"
-                    src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260"
-                    alt=""
-                  />
-                  <h5>Fred S.</h5>
-                  <p className="font-weight-dark mb-0">"Lorem ipsum dolor sit amet!"</p>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                  <img
-                    className="img-fluid rounded-circle mb-3"
-                    src="https://images.pexels.com/photos/324658/pexels-photo-324658.jpeg?auto=compress&cs=tinysrgb&h=350"
-                    alt=""
-                  />
-                  <h5>Margaret E.</h5>
-                  <p className="font-weight-dark mb-0">"Lorem ipsum dolor sit amet"</p>
-                </div>
-              </div>
-              <div className="col-lg-4">
-                <div className="testimonial-item mx-auto mb-5 mb-lg-0">
-                  <img
-                    className="img-fluid rounded-circle mb-3"
-                    src="https://images.pexels.com/photos/372042/pexels-photo-372042.jpeg?auto=compress&cs=tinysrgb&h=350"
-                    alt=""
-                  />
-                  <h5>Sarah W.</h5>
-                  <p className="font-weight-dark mb-0">"Lorem ipsum dolor sit amet!"</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* <!-- Services--> */}
-        <section className={`bg-primary text-white ${styles.services}`}>
-          <div className="container">
-            <h2>Services</h2>
-            <p className=" mb-5">
-              There are many variations of passages of Lorem Ipsum available, but the majority have
-              suffered alteration in some form.
-            </p>
-            <div className="row">
-              <div className="col-sm-6 col-lg-4 mb-3">
-                <h6>Ex cupidatat eu</h6>
-                <p className="">
-                  Ex cupidatat eu officia consequat incididunt labore occaecat ut veniam labore et
-                  cillum id et.
-                </p>
-              </div>
-              <div className="col-sm-6 col-lg-4 mb-3">
-                <h6>Tempor aute occaecat</h6>
-                <p className="">Tempor aute occaecat pariatur esse aute amet.</p>
-              </div>
-              <div className="col-sm-6 col-lg-4 mb-3">
-                <h6>Voluptate ex irure</h6>
-                <p className="">
-                  Voluptate ex irure ipsum ipsum ullamco ipsum reprehenderit non ut mollit commodo.
-                </p>
-              </div>
-              <div className="col-sm-6 col-lg-4 mb-3">
-                <h6>Tempor commodo</h6>
-                <p className="">Tempor commodo nostrud ex Lorem occaecat duis occaecat minim.</p>
-              </div>
-              <div className="col-sm-6 col-lg-4 mb-3">
-                <h6>Et fugiat sint occaecat</h6>
-                <p className="">
-                  Et fugiat sint occaecat voluptate incididunt anim nostrud ea cillum cillum
-                  consequat.
-                </p>
-              </div>
-              <div className="col-sm-6 col-lg-4 mb-3">
-                <h6>Et labore tempor et</h6>
-                <p className="">Et labore tempor et adipisicing dolor.</p>
-              </div>
-            </div>
-          </div>
-        </section>
+        <div className="container-fluid pt-5"></div>
 
         {/* <!-- Call to Action --> */}
         <section className={`text-center text-white ${styles.callToAction}`}>
