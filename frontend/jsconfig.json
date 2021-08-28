@@ -2,11 +2,11 @@
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
-      "@components/*": ["components/*"],
-      "@actions/*": ["actions/*"],
+      "@components/*": ["src/components/*"],
+      "@actions/*": ["src/actions/*"],
       "@public/*": ["public/*"],
-      "@helpers/*": ["helpers/*"],
-      "@pages/*": ["pages/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@pages/*": ["src/pages/*"],
       "@root/*": ["*"]
     }
   }
