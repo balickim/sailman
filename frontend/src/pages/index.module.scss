@@ -8,11 +8,12 @@
 }
 
 .menu {
+  display: none;
   background-color: white;
   padding: 50px;
   height: 50vh;
   position: relative;
-  display: flex;
+  // display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
