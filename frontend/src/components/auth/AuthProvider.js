@@ -67,11 +67,12 @@ export const AuthProvider = ({ children }) => {
           .then(response => response.json())
           .then(data => {
             setUser(data);
+            setLoading(false);
           })
           .catch(err => err);
+      } else {
+        setLoading(false);
       }
-
-      setLoading(false);
     }
     loadUserFromCookies();
   }, []);
@@ -91,10 +92,11 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signout = () => {
+  const signout = async () => {
+    await router.push('/');
+
     setUser(null);
     localStorage.removeItem('accessToken');
-    router.push('/');
     return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {
       method: 'GET',
       credentials: 'include',
@@ -119,7 +121,7 @@ export const AuthProvider = ({ children }) => {
 export const useAuth = () => useContext(AuthContext);
 
 export const ProtectRoute = ({ children }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
   const router = useRouter();
 
   const AllowPathsList = [
@@ -133,6 +135,8 @@ export const ProtectRoute = ({ children }) => {
     '/auth/password/reset/[token]',
     '/announcements/[slug]',
   ];
+
+  if (loading) return <></>;
 
   if (!isAuthenticated && AllowPathsList.indexOf(router.pathname) === -1) {
     return <Error statusCode={403} title="Access denied" />;
