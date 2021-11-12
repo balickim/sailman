@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "0.2.14",
+  "version": "0.3.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -12,18 +12,29 @@
     "lint": "eslint --fix .",
     "format": "prettier --write ./**/*.{js,ts,scss,css,md,json} --config ./.prettierrc"
   },
+  "prisma": {
+    "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
+  },
   "author": "balickim",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^3.3.0",
     "@react-leaflet/core": "^1.1.0",
+    "axios": "^0.24.0",
+    "bcryptjs": "^2.4.3",
     "dayjs": "^1.10.6",
+    "express-rate-limit": "^5.5.1",
+    "helmet": "^4.6.0",
+    "hpp": "^0.2.3",
     "html-react-parser": "^1.2.8",
+    "jsonwebtoken": "^8.5.1",
     "leaflet": "^1.7.1",
     "leaflet.polylinemeasure": "^3.0.0",
     "mdb-react-ui-kit": "^1.3.0",
     "next": "^12.0.1",
     "next-pwa": "^5.3.1",
     "next-translate": "^1.0.7",
+    "nodemailer": "^6.7.0",
     "nprogress": "^0.2.0",
     "query-string": "^7.0.1",
     "react": "^17.0.2",
@@ -33,15 +44,25 @@
     "react-leaflet": "^3.2.1",
     "react-quill": "^1.3.5",
     "react-select": "^5.1.0",
-    "sass": "^1.38.2"
+    "sass": "^1.43.4",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.16.0",
+    "@babel/plugin-proposal-decorators": "^7.16.0",
+    "@types/node": "^16.11.6",
+    "@typescript-eslint/eslint-plugin": "^5.3.0",
+    "@typescript-eslint/parser": "^5.3.0",
+    "babel-plugin-transform-typescript-metadata": "^0.3.2",
     "cypress": "^8.3.1",
     "eslint": "^8.1.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.24.0",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "prisma": "^3.3.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
 }
