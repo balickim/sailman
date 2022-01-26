@@ -4,13 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
+    "dev": "yarn && next dev",
     "build": "next build",
     "start": "next start -p 8080",
     "cypress:open": "npx cypress open",
     "cypress:run": "npx cypress run",
     "lint": "eslint --fix .",
-    "format": "prettier --write ./**/*.{js,ts,scss,css,md,json} --config ./.prettierrc"
+    "format": "prettier --write ./**/*.{js,ts,scss,css,md,json} --config ./.prettierrc",
+    "prisma:seed": "npx prisma db seed",
+    "prisma:migrate:reset": "npx prisma migrate reset",
+    "prisma:migrate:dev": "npx prisma migrate dev"
   },
   "prisma": {
     "seed": "ts-node --compiler-options {\"module\":\"CommonJS\"} prisma/seed.ts"
