@@ -14,7 +14,7 @@ export default validate(
 async function preSignup(req, res) {
   try {
     const { username, email, password, lang } = req.body;
-    const user = await prisma.user.findUnique({
+    let user = await prisma.user.findUnique({
       where: {
         email: email.toLowerCase(),
       },
@@ -22,6 +22,17 @@ async function preSignup(req, res) {
     if (user) {
       return res.status(400).json({
         message: 'Email is taken',
+      });
+    }
+
+    user = await prisma.user.findUnique({
+      where: {
+        username: username,
+      },
+    });
+    if (user) {
+      return res.status(400).json({
+        message: 'Username is taken',
       });
     }
 

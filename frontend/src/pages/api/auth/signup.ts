@@ -25,17 +25,21 @@ async function signup(req, res) {
         const { username, email, password } = decoded;
         const hashed_password = await bcrypt.hash(password, 10);
 
-        await prisma.user.create({
-          data: {
-            username,
-            email,
-            hashed_password,
-          },
-        });
+        try {
+          await prisma.user.create({
+            data: {
+              username,
+              email,
+              hashed_password,
+            },
+          });
 
-        return res.status(201).json({
-          message: 'Signup success! Please sign in',
-        });
+          return res.status(201).json({
+            message: 'Signup success! Please sign in',
+          });
+        } catch (err) {
+          errorHandler(err, res);
+        }
       });
     }
   } catch (err) {

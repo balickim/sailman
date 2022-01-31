@@ -5,7 +5,9 @@ import rateLimit from 'express-rate-limit';
 import hpp from 'hpp';
 import { PrismaError } from './PrismaError';
 
-export const prisma = new PrismaClient();
+export const prisma = new PrismaClient({
+  errorFormat: 'pretty',
+});
 
 const limiter = rateLimit({
   windowMs: process.env.API_RATE_LIMIT_TIME_MS,
