@@ -22,7 +22,8 @@ export async function signRefreshToken(
   const expiresIn: number = expiration;
   const refreshToken = jwt.sign(dataStoredInToken, secret, { expiresIn });
 
-  return { cookie: createCookie(refreshToken), refreshToken };
+  const tokenData = { token: refreshToken, expiresIn };
+  return { cookie: createCookie(tokenData), refreshToken };
 }
 
 function createCookie(tokenData: { token: string; expiresIn: number }): string {

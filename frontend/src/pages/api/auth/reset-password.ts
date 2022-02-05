@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 
-import { prisma, apiHandler, errorHandler } from '@helpers/api';
-import { validate, resetPasswordSchema } from '@helpers/api/validators';
+import { prisma, apiHandler, errorHandler } from '@helpers/auth';
+import { validate, resetPasswordSchema } from '@helpers/auth/validators';
 
 export default validate(
   apiHandler({

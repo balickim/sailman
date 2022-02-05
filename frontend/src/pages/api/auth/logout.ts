@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-import { prisma, apiHandler, errorHandler } from '@helpers/api';
+import { prisma, apiHandler, errorHandler } from '@helpers/auth';
 
 export default apiHandler({
   get: controller,

@@ -1,5 +1,5 @@
-import { apiHandler, errorHandler } from '@helpers/api';
-import { signToken, verifyRefreshToken } from '@helpers/api/jwt';
+import { apiHandler, errorHandler } from '@helpers/auth';
+import { signToken, verifyRefreshToken } from '@helpers/auth/jwt';
 
 export default apiHandler({
   post: controller,

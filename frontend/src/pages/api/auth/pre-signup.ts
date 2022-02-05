@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/api';
-import { validate, preSignupSchema } from '@helpers/api/validators';
-import { signUpHtml, signUpText } from '@helpers/api/emails';
+import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
+import { validate, preSignupSchema } from '@helpers/auth/validators';
+import { signUpHtml, signUpText } from '@helpers/auth/emails';
 
 export default validate(
   apiHandler({

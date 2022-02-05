@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
 
-import { prisma, apiHandler, errorHandler } from '@helpers/api';
-import { LoginUserDto } from '@helpers/api/dtos';
-import { validate, loginSchema } from '@helpers/api/validators';
-import { signToken, signRefreshToken } from '@helpers/api/jwt';
+import { prisma, apiHandler, errorHandler } from '@helpers/auth';
+import { validate, loginSchema } from '@helpers/auth/validators';
+import { signToken, signRefreshToken } from '@helpers/auth/jwt';
+import { LoginDto } from '@helpers/auth/dtos';
 
 export default validate(
   apiHandler({
@@ -14,7 +14,7 @@ export default validate(
 
 async function controller(req, res) {
   try {
-    const userData: LoginUserDto = req.body;
+    const userData: LoginDto = req.body;
     const { cookie, refreshToken, findUser, accessTokenData } = await service(userData);
 
     // TODO expiration timestamp in db, cron job deleting old refresh tokens
@@ -35,7 +35,7 @@ async function controller(req, res) {
 }
 
 async function service(
-  userData: LoginUserDto,
+  userData: LoginDto,
 ): Promise<{ cookie: string; refreshToken; findUser; accessTokenData }> {
   const findUser = await prisma.user.findUnique({
     select: {
@@ -49,16 +49,19 @@ async function service(
       email: userData.email,
     },
   });
+
   if (!findUser)
     throw {
       status: 409,
-      message: `Your email ${userData.email} not found`,
+      message: `Your email ${userData.email} was not found`,
     };
 
   const isPasswordMatching: boolean = await bcrypt.compare(
     userData.password,
     findUser.hashed_password,
   );
+  delete findUser.hashed_password;
+
   if (!isPasswordMatching) {
     throw {
       status: 409,

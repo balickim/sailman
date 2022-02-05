@@ -1,7 +1,7 @@
-import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/api';
-import { validate, preResetPasswordSchema } from '@helpers/api/validators';
-import { signToken } from '@helpers/api/jwt';
-import { resetPasswordHtml, resetPasswordText } from '@helpers/api/emails';
+import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
+import { validate, preResetPasswordSchema } from '@helpers/auth/validators';
+import { signToken } from '@helpers/auth/jwt';
+import { resetPasswordHtml, resetPasswordText } from '@helpers/auth/emails';
 
 export default validate(
   apiHandler({

@@ -100,7 +100,6 @@ export async function sendEmail(
     to: email,
     from: process.env.EMAIL_FROM,
     subject: `${process.env.NEXT_PUBLIC_APP_NAME} account activation link`,
-    // text,
     html,
   });
 }
