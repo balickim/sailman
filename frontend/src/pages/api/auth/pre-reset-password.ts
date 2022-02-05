@@ -1,7 +1,7 @@
 import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
 import { validate, preResetPasswordSchema } from '@helpers/auth/validators';
 import { signToken } from '@helpers/auth/jwt';
-import { resetPasswordHtml, resetPasswordText } from '@helpers/auth/emails';
+import { resetPasswordHtml } from '@helpers/auth/emails';
 
 export default validate(
   apiHandler({
@@ -12,7 +12,7 @@ export default validate(
 
 async function controller(req, res) {
   try {
-    const { email } = req.body;
+    const { email, lang } = req.body;
     if (!email) {
       throw {
         status: 400,
@@ -26,16 +26,16 @@ async function controller(req, res) {
       },
     });
 
-    const { token } = await signToken({ id: user.id }, 30 * 60, process.env.JWT_RESET_PASSWORD);
+    const { token } = await signToken({ id: user.id }, 10 * 60, process.env.JWT_RESET_PASSWORD);
 
     await prisma.user.update({
       where: { id: user.id },
       data: { reset_password_link: token },
     });
 
-    const url = `${process.env.CLIENT_URL}/auth/password/reset/${token}`;
+    const url = `${process.env.NEXTAUTH_URL}/${lang ?? 'en'}/auth/password/reset/${token}`;
 
-    await sendEmail(res, email, resetPasswordText(url), resetPasswordHtml(url))
+    await sendEmail(email, 'Password reset', resetPasswordHtml(url))
       .then(() => {
         return res.json({
           success: true,

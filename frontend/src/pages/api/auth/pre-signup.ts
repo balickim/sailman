@@ -1,6 +1,6 @@
 import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
 import { validate, preSignupSchema } from '@helpers/auth/validators';
-import { signUpHtml, signUpText } from '@helpers/auth/emails';
+import { signUpHtml } from '@helpers/auth/emails';
 import { signToken } from '@helpers/auth/jwt';
 
 export default validate(
@@ -44,7 +44,7 @@ async function preSignup(req, res) {
     const url = `${process.env.NEXTAUTH_URL}/${lang ?? 'en'}/auth/account/activate/${token}`;
     const host = process.env.EMAIL_FROM;
 
-    await sendEmail(res, email, signUpText(url, host), signUpHtml(email, host, url))
+    await sendEmail(email, 'Account verification', signUpHtml(email, host, url))
       .then(() => {
         return res.json({
           success: true,

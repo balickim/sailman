@@ -39,6 +39,7 @@ export const loginSchema = object({
 
 export const preResetPasswordSchema = object({
   email: string().required('Please Enter your email').email(),
+  lang: string().oneOf(['pl', 'en']),
 });
 
 export const resetPasswordSchema = object({

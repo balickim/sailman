@@ -76,12 +76,7 @@ export function errorHandler(err, res) {
   return res.status(500).json({ message: err.message });
 }
 
-export async function sendEmail(
-  res: { json: (arg0: { success: boolean }) => any },
-  email: any,
-  text,
-  html,
-) {
+export async function sendEmail(toEmail: string, subject: string, html: string) {
   const transport = nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port: 587,
@@ -97,9 +92,9 @@ export async function sendEmail(
   });
 
   return transport.sendMail({
-    to: email,
+    to: toEmail,
     from: process.env.EMAIL_FROM,
-    subject: `${process.env.NEXT_PUBLIC_APP_NAME} account activation link`,
+    subject,
     html,
   });
 }
