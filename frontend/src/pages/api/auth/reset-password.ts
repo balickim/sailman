@@ -21,11 +21,8 @@ async function controller(req, res) {
         process.env.JWT_RESET_PASSWORD,
         async function (err, decoded) {
           if (err) {
-            console.log('%creset-password.ts line:24 err', 'color: #007acc;', err);
             throw { status: 401, message: 'Link expired' };
           }
-
-          console.log('%creset-password.ts line:27 decoded', 'color: #007acc;', decoded);
 
           const user = await prisma.user.findFirst({
             where: { id: decoded.id },
