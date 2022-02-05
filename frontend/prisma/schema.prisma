@@ -12,7 +12,7 @@ model User {
     email               String         @unique
     username            String         @unique @db.VarChar(32)
     hashed_password     String
-    role                String         @default("user")
+    role                Role           @default(user)
     image               String?
     reset_password_link String?
     created_at          DateTime       @default(now())
@@ -25,4 +25,10 @@ model RefreshToken {
     user_id String
     token   String @unique
     user    User   @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+enum Role {
+    user
+    moderator
+    admin
 }
