@@ -1,8 +1,7 @@
-import jwt from 'jsonwebtoken';
-
 import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
 import { validate, preSignupSchema } from '@helpers/auth/validators';
 import { signUpHtml, signUpText } from '@helpers/auth/emails';
+import { signToken } from '@helpers/auth/jwt';
 
 export default validate(
   apiHandler({
@@ -36,9 +35,11 @@ async function preSignup(req, res) {
       });
     }
 
-    const token = jwt.sign({ username, email, password }, process.env.JWT_ACCOUNT_ACTIVATION, {
-      expiresIn: '10m',
-    });
+    const { token } = await signToken(
+      { username, email, password },
+      10 * 60,
+      process.env.JWT_ACCOUNT_ACTIVATION,
+    );
 
     const url = `${process.env.NEXTAUTH_URL}/${lang ?? 'en'}/auth/account/activate/${token}`;
     const host = process.env.EMAIL_FROM;

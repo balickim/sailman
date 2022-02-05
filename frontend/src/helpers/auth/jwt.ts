@@ -33,22 +33,23 @@ function createCookie(tokenData: { token: string; expiresIn: number }): string {
 export function verifyRefreshToken(refreshToken): Promise<User> {
   return new Promise((resolve, reject) => {
     jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, payload) => {
-      if (err) throw { status: 400, message: 'Unauthorized' };
-      const tokenDb = await prisma.refreshToken.findUnique({
+      if (err) reject({ status: 400, message: 'Unauthorized' });
+      const tokenDb = await prisma.refreshToken.findMany({
         where: {
           token: refreshToken,
         },
       });
-      if (tokenDb) throw { status: 400, message: 'Unauthorized' };
+
+      if (tokenDb.length <= 0) reject({ status: 400, message: 'Unauthorized' });
       const user = await prisma.user.findUnique({
         where: {
           id: payload.id,
         },
       });
 
-      const length = refreshToken.length;
-      for (let i = 0; i < length; i++) {
-        if (refreshToken === tokenDb.token[i]) return resolve(user);
+      for (let i = 0; i < tokenDb.length; i++) {
+        if (refreshToken === tokenDb[i].token && user.id === tokenDb[i].user_id)
+          return resolve(user);
       }
       reject(err);
     });
