@@ -91,14 +91,14 @@ const Header = ({ userRole }) => {
                 <MDBNavbarItem>
                   <Link href="/signup">
                     <a className="text-white me-1">
-                      <MDBBtn rounded>{t('Signup')}</MDBBtn>
+                      <MDBBtn rounded>{t('signup')}</MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <Link href="/signin">
                     <a className="text-white">
-                      <MDBBtn rounded>{t('Signin')}</MDBBtn>
+                      <MDBBtn rounded>{t('login')}</MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>

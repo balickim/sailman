@@ -18,7 +18,7 @@ class ApiClient {
   request(params: Record<string, any>, options: Record<string, any> = {}) {
     const payload: Record<string, any> = {
       ...params,
-      ...(params.url ? { url: params.url } : { url: '/api' + params.path }),
+      // ...(params.url ? { url: params.url } : { url: '/api' + params.path }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',

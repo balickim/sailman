@@ -1,5 +1,5 @@
+import AuthForm from '@components/auth/AuthForm';
 import Layout from '@components/layout/Layout';
-import SignupComponent from '@components/auth/SignupComponent';
 
 const Signup = () => {
   return (
@@ -7,7 +7,7 @@ const Signup = () => {
       <Layout footer={false}>
         <div className="row">
           <div className="col-md-6 offset-md-3">
-            <SignupComponent />
+            <AuthForm fields={['username', 'email', 'password']} type="signup" />
           </div>
         </div>
       </Layout>
