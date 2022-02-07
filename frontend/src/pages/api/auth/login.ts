@@ -1,9 +1,9 @@
 import bcrypt from 'bcryptjs';
 
 import { prisma, apiHandler, errorHandler } from '@helpers/auth';
-import { validate, loginSchema } from '@helpers/auth/validators';
+import { validate, loginSchema } from '@http/auth.validators';
 import { signToken, signRefreshToken } from '@helpers/auth/jwt';
-import { LoginDto } from '@helpers/auth/dtos';
+import { LoginDto } from '@http/auth.dtos';
 
 export default validate(
   apiHandler({

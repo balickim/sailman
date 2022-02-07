@@ -19,7 +19,7 @@
     "baseUrl": "./",
     "paths": {
       "@components/*": ["src/components/*"],
-      "@actions/*": ["src/actions/*"],
+      "@http/*": ["src/http/*"],
       "@public/*": ["public/*"],
       "@helpers/*": ["src/helpers/*"],
       "@services/*": ["src/services/*"],

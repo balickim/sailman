@@ -3,7 +3,7 @@ import { MDBSpinner } from 'mdb-react-ui-kit';
 
 import { useAuth } from '@components/auth/AuthProvider';
 
-import { getProfile, update } from '@root/src/actions/user';
+import { getProfile, update } from '@http/user';
 
 const ProfileUpdate = () => {
   const [values, setValues] = useState({

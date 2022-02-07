@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import useTranslation from 'next-translate/useTranslation';
 
-import { list, remove } from '@root/src/actions/announcement';
+import { list, remove } from '@http/announcement';
 
 import { useAuth } from '@components/auth/AuthProvider';
 

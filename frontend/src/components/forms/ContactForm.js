@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 
-import { send } from '@root/src/actions/form';
+import { send } from '@http/form';
 
 const ContactForm = () => {
   let { t } = useTranslation('common');

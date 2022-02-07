@@ -8,7 +8,7 @@ import DynamicNamespaces from 'next-translate/DynamicNamespaces';
 import dayjs from 'dayjs';
 import parseToHTML from 'html-react-parser';
 
-import { listRelated } from '@root/src/actions/announcement';
+import { listRelated } from '@http/announcement';
 import SmallCard from '@components/announcements/SmallCard';
 
 const Map = dynamic(() => import('@components/map/Map'), {

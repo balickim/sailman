@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { MDBSpinner } from 'mdb-react-ui-kit';
 
 import { useAuth } from '@components/auth/AuthProvider';
-import { signin } from '@root/src/actions/auth';
+import { signin } from '@http/auth.resource';
 import LoginGoogle from '@components/auth/LoginGoogle';
 
 const SigninComponent = () => {

@@ -20,9 +20,9 @@ import {
 } from 'mdb-react-ui-kit';
 import Link from 'next/link';
 
-import { getTags } from '@root/src/actions/tag';
-import { update, singleAnnouncement } from '@root/src/actions/announcement';
-import { create } from '@root/src/actions/announcement';
+import { getTags } from '@http/tag';
+import { update, singleAnnouncement } from '@http/announcement';
+import { create } from '@http/announcement';
 import { useAuth } from '@components/auth/AuthProvider';
 import LimitedInput from '@components/helpers/LimitedInput';
 import useExitPrompt from '@components/helpers/useExitPrompt.js';

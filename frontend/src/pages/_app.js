@@ -2,6 +2,7 @@ import '@public/styles/mdb-react-ui-kit.scss';
 import '@public/styles/styles.scss';
 
 import 'nprogress/nprogress.css';
+import 'react-toastify/dist/ReactToastify.css';
 import 'react-image-gallery/styles/scss/image-gallery.scss';
 import 'react-quill/dist/quill.snow.css';
 
@@ -9,6 +10,7 @@ import 'dayjs/locale/en';
 
 import { AuthProvider, ProtectRoute } from '@components/auth/AuthProvider';
 import Head from 'next/head';
+import { ToastContainer } from 'react-toastify';
 
 import BackgroundImage from '@components/helpers/BackgroundImage';
 
@@ -38,6 +40,7 @@ function MyApp({ Component, pageProps }) {
         <ProtectRoute>
           <BackgroundImage />
           <Component {...pageProps} />
+          <ToastContainer />
         </ProtectRoute>
       </AuthProvider>
     </>

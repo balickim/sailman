@@ -3,7 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { useState, useEffect } from 'react';
 import { MDBSpinner } from 'mdb-react-ui-kit';
 
-import { preSignup } from '@root/src/actions/auth';
+import { preSignup } from '@http/auth.resource';
 import { useAuth } from '@components/auth/AuthProvider';
 
 const SignupComponent = () => {

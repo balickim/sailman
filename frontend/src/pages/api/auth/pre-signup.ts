@@ -1,5 +1,5 @@
 import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
-import { validate, preSignupSchema } from '@helpers/auth/validators';
+import { validate, preSignupSchema } from '@http/auth.validators';
 import { signUpHtml } from '@helpers/auth/emails';
 import { signToken } from '@helpers/auth/jwt';
 

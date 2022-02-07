@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import Layout from '@components/layout/Layout';
 import Card from '@components/announcements/Card';
-import { singleCategory } from '@root/src/actions/category';
+import { singleCategory } from '@http/category';
 
 const Category = ({ category, announcements, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;

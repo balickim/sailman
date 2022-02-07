@@ -1,5 +1,5 @@
 import { prisma, apiHandler, errorHandler, sendEmail } from '@helpers/auth';
-import { validate, preResetPasswordSchema } from '@helpers/auth/validators';
+import { validate, preResetPasswordSchema } from '@http/auth.validators';
 import { signToken } from '@helpers/auth/jwt';
 import { resetPasswordHtml } from '@helpers/auth/emails';
 

@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Link from 'next/link';
 import dayjs from 'dayjs';
 
-import { userPublicProfile } from '@root/src/actions/user';
+import { userPublicProfile } from '@http/user';
 import Layout from '@components/layout/Layout';
 
 const UserProfile = ({ user, announcements, query }) => {

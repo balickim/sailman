@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useState } from 'react';
 
-import { sendFeedback } from '@root/src/actions/form';
+import { sendFeedback } from '@http/form';
 
 const FeedbackForm = () => {
   const [values, setValues] = useState({

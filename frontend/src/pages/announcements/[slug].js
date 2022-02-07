@@ -1,6 +1,6 @@
 import Head from 'next/head';
 
-import { singleAnnouncement, getGalleryCount } from '@root/src/actions/announcement';
+import { singleAnnouncement, getGalleryCount } from '@http/announcement';
 import Layout from '@components/layout/Layout';
 import Read from '@components/announcements/Read';
 

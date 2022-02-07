@@ -5,7 +5,7 @@ import { withRouter } from 'next/router';
 
 import Layout from '@components/layout/Layout';
 import Card from '@components/announcements/Card';
-import { listAnnouncements } from '@root/src/actions/announcement';
+import { listAnnouncements } from '@http/announcement';
 
 const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, router }) => {
   const [limit] = useState(announcementsLimit);

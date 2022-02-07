@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 
 import Layout from '@components/layout/Layout';
-import { forgotPassword } from '@root/src/actions/auth';
+import { forgotPassword } from '@http/auth.resource';
 
 const ForgotPassword = () => {
   let { t } = useTranslation('common');

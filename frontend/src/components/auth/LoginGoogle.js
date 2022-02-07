@@ -1,7 +1,7 @@
 import GoogleLogin from 'react-google-login';
 import Router from 'next/router';
 
-import { loginWithGoogle } from '@root/src/actions/auth';
+import { loginWithGoogle } from '@http/auth.resource';
 import { useAuth } from '@components/auth/AuthProvider';
 
 const LoginGoogle = ({ buttonText }) => {

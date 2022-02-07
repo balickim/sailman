@@ -3,7 +3,7 @@ import useTranslation from 'next-translate/useTranslation';
 import { withRouter } from 'next/router';
 
 import Layout from '@components/layout/Layout';
-import { signup } from '@root/src/actions/auth';
+import { signup } from '@http/auth.resource';
 
 const ActivateAccount = ({ router }) => {
   let { t } = useTranslation('common');

@@ -2,7 +2,7 @@ import Head from 'next/head';
 
 import Layout from '@components/layout/Layout';
 import Card from '@components/announcements/Card';
-import { singleTag } from '@root/src/actions/tag';
+import { singleTag } from '@http/tag';
 
 const Tag = ({ tag, announcements, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;

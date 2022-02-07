@@ -3,7 +3,7 @@ import { withRouter } from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 
 import Layout from '@components/layout/Layout';
-import { resetPassword } from '@root/src/actions/auth';
+import { resetPassword } from '@http/auth.resource';
 
 const ResetPassword = ({ router }) => {
   let { t } = useTranslation('common');
