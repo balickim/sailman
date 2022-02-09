@@ -108,7 +108,7 @@ const FeedbackForm = () => {
 
         <div className="col-md-4">
           <button className="btn btn-block btn-secondary" type="submit">
-            {t('submit')}
+            {t('action.submit')}
           </button>
         </div>
       </div>

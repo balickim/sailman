@@ -1,35 +1,43 @@
 {
-  "home": "Strona główna",
-  "announcements": "Ogłoszenia",
+  "nav": {
+    "announcement": "Ogłoszenie|||Ogłoszenia",
+    "home": "Strona główna",
+    "my_account": "Moje konto",
+    "add_announcement": "Dodaj ogłoszenie",
+    "contact": "Kontakt"
+  },
+  "action": {
+    "signup": "Zarejestruj",
+    "login": "Zaloguj",
+    "logout": "Wyloguj",
+    "login_with_google": "Zaloguj z Google",
+    "submit": "Wyślij",
+    "manage": "Zarządzaj",
+    "manage_announcement": "Zarządzaj ogłoszeniem|||Zarządzaj ogłoszeniami",
+    "activate_account": "Aktywuj konto",
+    "search": "Szukaj",
+    "change_password": "Zmień hasło"
+  },
+  "notification": {
+    "email_sent": "Wysłano email z linkiem aktywacyjnym. Wygasa za {{count}} minut.",
+    "email_reset_sent": "Wysłano email z linkiem resetującym hasło. Link wygasa za {{count}} minut.",
+    "sent": "Wysłano",
+    "activate_success": "Pomyślnie aktywowano konto. Można się teraz zalogować.",
+    "sent_thank_you": "Dziękujemy za wysłanie wiadomości."
+  },
+    "errorCode": {
+
+  },
   "user": "Użytkownik",
-  "my_account": "Moje konto",
-  "dashboard": "Panel",
-  "logout": "Wyloguj",
-  "contact": "Kontakt",
-  "add_announcement": "Dodaj ogłoszenie",
-  "signup": "Zarejestruj",
-  "login": "Zaloguj",
+  "message": "Wiadomość",
   "feedback": "Opinia",
   "feedback_msg": "(Opcjonalnie) Co powinniśmy zmienić?",
-  "submit": "Wyślij",
-  "search": "Szukaj",
-  "forgot_password": "zapomniałem hasła",
+  "forgot_password": "Zapomniałem hasła",
   "password_reset": "Resetowanie hasła",
-  "or": "LUB",
+  "or": "Lub",
   "e_mail": "Adres email",
   "password": "Hasło",
   "new_password": "Nowe hasło",
-  "change_password": "Zmień hasło",
-  "login_with_google": "Zaloguj z Google",
   "username": "Nazwa użytkownika",
-  "email_sent": "Wysłano email z linkiem aktywacyjnym. Wygasa za 10 minut.",
-  "email_reset_sent": "Wysłano email z linkiem resetującym hasło. Link wygasa za 10 minut.",
-  "contact_form": "Formularz kontaktowy",
-  "message": "Wiadomość",
-  "sent": "Wysłano",
-  "sent_thank_you": "Dziękujemy za wysłanie wiadomości.",
-  "activate_account": "Aktywuj konto",
-  "activate_success": "Pomyślnie aktywowano konto. Można się teraz zalogować.",
-  "manage": "zarządzaj",
-  "manage_announcements": "Zarządzaj ogłoszeniami"
+  "contact_form": "Formularz kontaktowy"
 }

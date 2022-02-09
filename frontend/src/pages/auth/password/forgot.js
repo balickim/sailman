@@ -28,7 +28,7 @@ const ForgotPassword = () => {
       } else {
         setValues({
           ...values,
-          message: t('email_reset_sent'),
+          message: t('notification.email_reset_sent'),
           email: '',
         });
       }
@@ -51,7 +51,7 @@ const ForgotPassword = () => {
         />
       </div>
       <div>
-        <button className="btn btn-primary mt-3">{t('submit')}</button>
+        <button className="btn btn-primary mt-3">{t('action.submit')}</button>
       </div>
     </form>
   );

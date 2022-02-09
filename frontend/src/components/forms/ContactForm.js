@@ -11,7 +11,7 @@ const ContactForm = () => {
     name: '',
     email: '',
     sent: false,
-    buttonText: t('submit'),
+    buttonText: t('action.submit'),
     success: false,
     error: false,
   });
@@ -31,7 +31,7 @@ const ContactForm = () => {
           name: '',
           email: '',
           message: '',
-          buttonText: t('sent'),
+          buttonText: t('notification.sent'),
           success: data.success,
         });
       }
@@ -44,12 +44,12 @@ const ContactForm = () => {
       [name]: e.target.value,
       error: false,
       success: false,
-      buttonText: t('submit'),
+      buttonText: t('action.submit'),
     });
   };
 
   const showSuccessMessage = () =>
-    success && <div className="alert alert-info">{t('sent_thank_you')}</div>;
+    success && <div className="alert alert-info">{t('notification.sent_thank_you')}</div>;
 
   const showErrorMessage = () => (
     <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>

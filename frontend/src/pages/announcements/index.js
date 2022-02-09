@@ -262,7 +262,7 @@ const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, 
 
             <div className="col-2">
               <button type="submit" className="btn btn-primary m-3 float-end" form="filterForm">
-                {t('search')}
+                {t('action.search')}
               </button>
             </div>
           </div>

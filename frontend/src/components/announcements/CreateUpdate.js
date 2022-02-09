@@ -25,7 +25,7 @@ import { update, singleAnnouncement } from '@http/announcement';
 import { create } from '@http/announcement';
 import { useAuth } from '@components/auth/AuthProvider';
 import LimitedInput from '@components/helpers/LimitedInput';
-import useExitPrompt from '@components/helpers/useExitPrompt.js';
+import useExitPrompt from '@components/helpers/hooks/useExitPrompt.js';
 import { availableCategories } from '@root/src/config';
 
 const ReactQuill = dynamic(() => import('react-quill'), {

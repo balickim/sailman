@@ -14,10 +14,12 @@ import {
 import Image from 'next/image';
 import Link from 'next/link';
 import useTranslation from 'next-translate/useTranslation';
+import useTranslationWrapper from '@components/helpers/hooks/useTranslationWrapper';
 
 const Header = ({ userRole }) => {
   const { signout } = useAuth();
   const { t } = useTranslation('common');
+  const { tw } = useTranslationWrapper('common');
 
   const [show, setShow] = useState(false);
 
@@ -49,7 +51,9 @@ const Header = ({ userRole }) => {
           <MDBNavbarNav className="mb-2 mb-lg-0">
             <MDBNavbarItem>
               <div className="nav-link">
-                <Link href="/announcements">{t('announcements').toUpperCase()}</Link>
+                <Link href="/announcements">
+                  {tw('nav.announcement', null, { form: 1 }).toUpperCase()}
+                </Link>
               </div>
             </MDBNavbarItem>
 
@@ -58,13 +62,13 @@ const Header = ({ userRole }) => {
               <>
                 <MDBNavbarItem>
                   <div className="nav-link">
-                    <Link href="/contact">{t('contact').toUpperCase()}</Link>
+                    <Link href="/contact">{t('nav.contact').toUpperCase()}</Link>
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <Link href="/user/manage/announcement">
                     <a className="text-white">
-                      <MDBBtn rounded>{t('add_announcement')}</MDBBtn>
+                      <MDBBtn rounded>{t('nav.add_announcement')}</MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>
@@ -85,20 +89,20 @@ const Header = ({ userRole }) => {
               <>
                 <MDBNavbarItem>
                   <div className="nav-link">
-                    <Link href="/contact">{t('contact').toUpperCase()}</Link>
+                    <Link href="/contact">{t('nav.contact').toUpperCase()}</Link>
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <Link href="/signup">
                     <a className="text-white me-1">
-                      <MDBBtn rounded>{t('signup')}</MDBBtn>
+                      <MDBBtn rounded>{t('action.signup')}</MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <Link href="/signin">
                     <a className="text-white">
-                      <MDBBtn rounded>{t('login')}</MDBBtn>
+                      <MDBBtn rounded>{t('action.login')}</MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>
@@ -115,14 +119,14 @@ const Header = ({ userRole }) => {
                   <Link href={`/${userRole}`}>
                     <a className="text-white me-1">
                       <MDBBtn rounded>
-                        <div className="row text-nowrap">{t('my_account')}</div>
+                        <div className="row text-nowrap">{t('nav.my_account')}</div>
                       </MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <MDBBtn rounded onClick={() => signout()}>
-                    {t('logout')}
+                    {t('action.logout')}
                   </MDBBtn>
                 </MDBNavbarItem>
               </MDBNavbarNav>

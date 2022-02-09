@@ -54,10 +54,10 @@ const ActivateAccount = ({ router }) => {
       <div className="container pt-5">
         {showLoading()}
         {error && error}
-        {success && t('activate_success')}
+        {success && t('notification.activate_success')}
         {showButton && (
           <button className="btn btn-outline-primary" onClick={clickSubmit}>
-            {t('activate_account')}
+            {t('action.activate_account')}
           </button>
         )}
       </div>

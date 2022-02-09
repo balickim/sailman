@@ -52,7 +52,7 @@ const AuthForm = ({ type, fields }) => {
                 email: '',
                 password: '',
                 isLoading: false,
-                message: t('email_sent'),
+                message: t('notification.email_sent'),
                 showSignupForm: false,
               });
             }
@@ -143,7 +143,7 @@ const AuthForm = ({ type, fields }) => {
             <hr />
             <h2>{t('or')}</h2>
             <hr />
-            {/* <LoginGoogle buttonText={t('login_with_google')} /> */}
+            {/* <LoginGoogle buttonText={t('action.login_with_google')} /> */}
           </>
         ) : (
           <></>

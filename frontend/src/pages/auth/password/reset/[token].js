@@ -52,7 +52,7 @@ const ResetPassword = ({ router }) => {
         />
       </div>
       <div>
-        <button className="btn btn-primary mt-3">{t('change_password')}</button>
+        <button className="btn btn-primary mt-3">{t('action.change_password')}</button>
       </div>
     </form>
   );
