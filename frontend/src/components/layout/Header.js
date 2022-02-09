@@ -49,7 +49,7 @@ const Header = ({ userRole }) => {
           <MDBNavbarNav className="mb-2 mb-lg-0">
             <MDBNavbarItem>
               <div className="nav-link">
-                <Link href="/announcements">{t('Announcements').toUpperCase()}</Link>
+                <Link href="/announcements">{t('announcements').toUpperCase()}</Link>
               </div>
             </MDBNavbarItem>
 
@@ -58,13 +58,13 @@ const Header = ({ userRole }) => {
               <>
                 <MDBNavbarItem>
                   <div className="nav-link">
-                    <Link href="/contact">{t('Contact').toUpperCase()}</Link>
+                    <Link href="/contact">{t('contact').toUpperCase()}</Link>
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <Link href="/user/manage/announcement">
                     <a className="text-white">
-                      <MDBBtn rounded>{t('Add announcement')}</MDBBtn>
+                      <MDBBtn rounded>{t('add_announcement')}</MDBBtn>
                     </a>
                   </Link>
                 </MDBNavbarItem>
@@ -85,7 +85,7 @@ const Header = ({ userRole }) => {
               <>
                 <MDBNavbarItem>
                   <div className="nav-link">
-                    <Link href="/contact">{t('Contact').toUpperCase()}</Link>
+                    <Link href="/contact">{t('contact').toUpperCase()}</Link>
                   </div>
                 </MDBNavbarItem>
                 <MDBNavbarItem>
@@ -122,7 +122,7 @@ const Header = ({ userRole }) => {
                 </MDBNavbarItem>
                 <MDBNavbarItem>
                   <MDBBtn rounded onClick={() => signout()}>
-                    {t('Signout')}
+                    {t('logout')}
                   </MDBBtn>
                 </MDBNavbarItem>
               </MDBNavbarNav>

@@ -11,7 +11,7 @@ const ContactForm = () => {
     name: '',
     email: '',
     sent: false,
-    buttonText: t('Submit'),
+    buttonText: t('submit'),
     success: false,
     error: false,
   });
@@ -31,7 +31,7 @@ const ContactForm = () => {
           name: '',
           email: '',
           message: '',
-          buttonText: t('Sent'),
+          buttonText: t('sent'),
           success: data.success,
         });
       }
@@ -44,12 +44,12 @@ const ContactForm = () => {
       [name]: e.target.value,
       error: false,
       success: false,
-      buttonText: t('Submit'),
+      buttonText: t('submit'),
     });
   };
 
   const showSuccessMessage = () =>
-    success && <div className="alert alert-info">{t('Thank you for contacting us.')}</div>;
+    success && <div className="alert alert-info">{t('sent_thank_you')}</div>;
 
   const showErrorMessage = () => (
     <div className="alert alert-danger" style={{ display: error ? '' : 'none' }}>
@@ -61,7 +61,7 @@ const ContactForm = () => {
     return (
       <form onSubmit={clickSubmit} className="pb-5">
         <div className="form-group">
-          <label className="lead">{t('Message')}</label>
+          <label className="lead">{t('message')}</label>
           <textarea
             onChange={handleChange('message')}
             type="text"
@@ -72,7 +72,7 @@ const ContactForm = () => {
         </div>
 
         <div className="form-group">
-          <label className="lead">{t('Name')}</label>
+          <label className="lead">{t('username')}</label>
           <input
             type="text"
             onChange={handleChange('name')}
@@ -83,7 +83,7 @@ const ContactForm = () => {
         </div>
 
         <div className="form-group">
-          <label className="lead">{t('E-mail')}</label>
+          <label className="lead">{t('e_mail')}</label>
           <input
             type="email"
             onChange={handleChange('email')}
@@ -102,7 +102,7 @@ const ContactForm = () => {
 
   return (
     <>
-      <h2>{t('Contact form')}</h2>
+      <h2>{t('contact_form')}</h2>
       <hr />
       {showSuccessMessage()}
       {showErrorMessage()}

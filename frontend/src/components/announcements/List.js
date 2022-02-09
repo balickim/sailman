@@ -92,7 +92,7 @@ const List = ({ username }) => {
   return (
     <>
       <div className="col-md-12 pt-5 pb-5">
-        <h2>{t('Manage announcements')}</h2>
+        <h2>{t('manage_announcements')}</h2>
       </div>
       <div className="row">
         <div className="col-md-12">

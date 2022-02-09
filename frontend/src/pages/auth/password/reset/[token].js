@@ -47,12 +47,12 @@ const ResetPassword = ({ router }) => {
           onChange={e => setValues({ ...values, newPassword: e.target.value })}
           className="form-control"
           value={newPassword}
-          placeholder={t('new password')}
+          placeholder={t('new_password')}
           required
         />
       </div>
       <div>
-        <button className="btn btn-primary mt-3">{t('Change password')}</button>
+        <button className="btn btn-primary mt-3">{t('change_password')}</button>
       </div>
     </form>
   );
@@ -60,7 +60,7 @@ const ResetPassword = ({ router }) => {
   return (
     <Layout breadcrumbs={false} footer={false}>
       <div className="container">
-        <h2>{t('Password reset')}</h2>
+        <h2>{t('password_reset')}</h2>
         <hr />
         {passwordResetForm()}
         {showError()}

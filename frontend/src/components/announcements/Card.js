@@ -133,12 +133,12 @@ const Card = ({ announcement }) => {
                 width={'48px'}
                 height={'48px'}
                 alt="map"
-                title={t('Announcement includes map')}
+                title={t('announcement_includes_map')}
                 className="mt-2"
               />
             )}
             <Link href={`/announcements/${announcement.slug}`}>
-              <a className="btn btn-primary m-2">{t('Read more')}</a>
+              <a className="btn btn-primary m-2">{t('read_more')}</a>
             </Link>
           </div>
         </div>

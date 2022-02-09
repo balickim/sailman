@@ -38,7 +38,6 @@ const AuthForm = ({ type, fields }) => {
         .validate(user)
         .then(() => {
           authResource.preSignup(user).then(data => {
-            console.log('%cAuthForm.js line:43 data', 'color: #007acc;', data);
             if (data.errors) {
               setValues({
                 ...values,
@@ -142,9 +141,9 @@ const AuthForm = ({ type, fields }) => {
         {type === 'login' ? (
           <>
             <hr />
-            <h2>{t('OR')}</h2>
+            <h2>{t('or')}</h2>
             <hr />
-            {/* <LoginGoogle buttonText={t('Login with Google')} /> */}
+            {/* <LoginGoogle buttonText={t('login_with_google')} /> */}
           </>
         ) : (
           <></>

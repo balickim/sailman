@@ -155,12 +155,12 @@ const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, 
                 <input
                   type="phrase"
                   className="form-control"
-                  placeholder={t('Search phrase')}
+                  placeholder={t('search_phrase')}
                   onChange={handleChange('phrase')}
                 />
               </div>
             </div>
-            <label className="ms-2">{t('Price per person')}</label>
+            <label className="ms-2">{t('price_per_person')}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -187,7 +187,7 @@ const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, 
             </div>
           </div>
           <div className="form-group">
-            <label className="ms-2">{t('Start date')}</label>
+            <label className="ms-2">{t('start_date')}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -208,7 +208,7 @@ const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, 
             </div>
           </div>
           <div className="form-group">
-            <label className="ms-2">{t('End date')}</label>
+            <label className="ms-2">{t('end_date')}</label>
             <div className="row">
               <div className="col-6">
                 <input
@@ -255,14 +255,14 @@ const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, 
               <div>
                 <input id="withMap" type="checkbox" value={map} onChange={handleChange('map')} />
                 <label htmlFor="withMap" className="ms-1 small">
-                  {t('Announcement with map')}
+                  {t('with_map')}
                 </label>
               </div>
             </div>
 
             <div className="col-2">
               <button type="submit" className="btn btn-primary m-3 float-end" form="filterForm">
-                {t('Search')}
+                {t('search')}
               </button>
             </div>
           </div>
@@ -279,7 +279,7 @@ const Announcements = ({ announcements, totalAnnouncements, announcementsLimit, 
           <div className="container-fluid">
             <header>
               <div className="col-md-12 pt-3">
-                <h1 className="font-weight-bold text-start mb-5">{t('Announcements')}</h1>
+                <h1 className="font-weight-bold text-start mb-5">{t('announcements')}</h1>
               </div>
             </header>
           </div>

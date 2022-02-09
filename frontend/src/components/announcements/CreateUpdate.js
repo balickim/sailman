@@ -374,13 +374,13 @@ const CreateUpdate = ({ router }) => {
     return (
       <form onSubmit={publishOrEditAnnouncement} id="announcementForm">
         <div className="form-group">
-          <label className="text-muted">{t('Title')}*</label>
+          <label className="text-muted">{t('title')}*</label>
           <LimitedInput type="text" value={title} onChange={handleChange('title')} limit={70} />
         </div>
 
         <div className="row">
           <div className="form-group col-md-4 mt-2">
-            <label className="text-muted">{t('Start date')}*</label>
+            <label className="text-muted">{t('start_date')}*</label>
             <input
               id="startDate"
               type="date"
@@ -391,7 +391,7 @@ const CreateUpdate = ({ router }) => {
           </div>
 
           <div className="form-group col-md-4 mt-2">
-            <label className="text-muted">{t('End date')}*</label>
+            <label className="text-muted">{t('end_date')}*</label>
             <input
               id="endDate"
               type="date"
@@ -402,7 +402,7 @@ const CreateUpdate = ({ router }) => {
           </div>
 
           <div className="form-group col-md-2 mt-2">
-            <label className="text-muted text-nowrap">{t('Price per person')}*</label>
+            <label className="text-muted text-nowrap">{t('price_per_person')}*</label>
             <input
               type="number"
               min="0"
@@ -485,12 +485,12 @@ const CreateUpdate = ({ router }) => {
         </div>
 
         <div className="form-group mt-2">
-          <label className="text-muted">{t('Description')}</label>
+          <label className="text-muted">{t('description')}</label>
           <ReactQuill
             modules={QuillModules}
             formats={QuillFormats}
             value={body}
-            placeholder={t('Write something')}
+            placeholder={t('write_something')}
             onChange={e => setBody(e)}
           />
         </div>
@@ -549,7 +549,7 @@ const CreateUpdate = ({ router }) => {
         </div>
 
         <div className="form-group mt-3">
-          <h5>{t('Cruise map (Optional)')}</h5>
+          <h5>{t('cruise_map_optional')}</h5>
           <hr />
           <div className="border" style={{ width: 'auto', height: '400px' }}>
             <Map
@@ -561,7 +561,7 @@ const CreateUpdate = ({ router }) => {
         </div>
 
         <div className="mt-3">
-          <h5>{t('Category')}*</h5>
+          <h5>{t('category')}*</h5>
           <hr />
           <select className="form-select mb-3" value={category} onChange={handleChange('category')}>
             {availableCategories.map((cat, i) => (
@@ -573,7 +573,7 @@ const CreateUpdate = ({ router }) => {
         </div>
 
         <div>
-          <h5>{t('Tags')}*</h5>
+          <h5>{t('tags')}*</h5>
           <hr />
           <ul style={{ maxHeight: '200px', overflowY: 'scroll' }}>{showTags()}</ul>
         </div>
@@ -616,7 +616,7 @@ const CreateUpdate = ({ router }) => {
           <MDBModalContent>
             <MDBModalHeader>
               <MDBModalTitle>
-                {router.query.slug ? t('Edit announcement') : t('Publish announcement')}
+                {router.query.slug ? t('edit_announcement') : t('publish_announcement')}
               </MDBModalTitle>
             </MDBModalHeader>
             <MDBModalBody>
@@ -669,7 +669,7 @@ const CreateUpdate = ({ router }) => {
         </div>
         <div className="float-end mb-4 mt-5">
           <button type="submit" className="btn btn-primary" form="announcementForm">
-            {router.query.slug ? t('Edit announcement') : t('Publish announcement')}
+            {router.query.slug ? t('edit_announcement') : t('publish_announcement')}
           </button>
         </div>
       </div>

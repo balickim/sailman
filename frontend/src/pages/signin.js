@@ -7,7 +7,7 @@ const Signin = () => {
       <Layout footer={false}>
         <div className="row">
           <div className="col-md-6 offset-md-3">
-            <AuthForm fields={['email', 'password']} type="login" />
+            <AuthForm fields={['e_mail', 'password']} type="login" />
           </div>
         </div>
       </Layout>

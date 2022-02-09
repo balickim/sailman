@@ -57,7 +57,7 @@ const ActivateAccount = ({ router }) => {
         {success && t('activate_success')}
         {showButton && (
           <button className="btn btn-outline-primary" onClick={clickSubmit}>
-            {t('Activate Account')}
+            {t('activate_account')}
           </button>
         )}
       </div>

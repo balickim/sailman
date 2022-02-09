@@ -108,7 +108,7 @@ const FeedbackForm = () => {
 
         <div className="col-md-4">
           <button className="btn btn-block btn-secondary" type="submit">
-            {t('Submit')}
+            {t('submit')}
           </button>
         </div>
       </div>
@@ -126,7 +126,7 @@ const FeedbackForm = () => {
             showForm: !values.showForm,
           });
         }}>
-        {t('Feedback')}
+        {t('feedback')}
       </button>
       {values.showForm && (
         <div className="container">

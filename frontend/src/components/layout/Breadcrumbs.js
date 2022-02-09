@@ -61,7 +61,7 @@ const Breadcrumbs = () => {
         <ol className="breadcrumb">
           <li>
             <Link href="/">
-              <a>{t('Home').toUpperCase()}</a>
+              <a>{t('home').toUpperCase()}</a>
             </Link>
           </li>
           {breadcrumbs.map((breadcrumb, i) => {

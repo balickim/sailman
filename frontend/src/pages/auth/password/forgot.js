@@ -46,12 +46,12 @@ const ForgotPassword = () => {
           onChange={handleChange('email')}
           className="form-control"
           value={email}
-          placeholder={t('E-mail')}
+          placeholder={t('e_mail')}
           required
         />
       </div>
       <div>
-        <button className="btn btn-primary mt-3">{t('Submit')}</button>
+        <button className="btn btn-primary mt-3">{t('submit')}</button>
       </div>
     </form>
   );
@@ -59,7 +59,7 @@ const ForgotPassword = () => {
   return (
     <Layout breadcrumbs={false} footer={false}>
       <div className="container mt-4">
-        <h2>{t('Password reset')}</h2>
+        <h2>{t('password_reset')}</h2>
         <hr />
         {showError()}
         {showMessage()}
