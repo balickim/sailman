@@ -28,7 +28,7 @@ async function controller(req, res) {
     ['id', 'hashed_password'].forEach(e => delete findUser[e]);
 
     res.setHeader('Set-Cookie', [cookie]);
-    res.status(200).json({ data: findUser, accessToken: accessTokenData.token, message: 'login' });
+    res.status(200).json({ user: findUser, accessToken: accessTokenData.token, message: 'login' });
   } catch (error) {
     errorHandler(error, res);
   }
@@ -53,7 +53,8 @@ async function service(
   if (!findUser)
     throw {
       status: 409,
-      message: `Your email ${userData.email} was not found`,
+      errors: [`Email ${userData.email} was not found`],
+      code: 'VALIDATION_ERROR',
     };
 
   const isPasswordMatching: boolean = await bcrypt.compare(
@@ -65,7 +66,8 @@ async function service(
   if (!isPasswordMatching) {
     throw {
       status: 409,
-      message: `Incorrect password`,
+      errors: ['Incorrect password'],
+      code: 'VALIDATION_ERROR',
     };
   }
 

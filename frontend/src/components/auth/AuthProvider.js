@@ -5,7 +5,7 @@ import Error from 'next/error';
 const AuthContext = createContext({});
 
 const refreshToken = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/refresh-token`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/refresh-token`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
       };
 
       if (accessToken) {
-        fetch(`${process.env.NEXT_PUBLIC_API}/user/me`, {
+        fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/user/me`, {
           method: 'GET',
           headers: {
             Accept: 'application/json',
@@ -78,6 +78,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const authenticate = (data, next) => {
+    console.log('%cAuthProvider.js line:81 data', 'color: #007acc;', data);
     localStorage.setItem('accessToken', data.accessToken);
     setUser(data.user);
     next();
@@ -97,7 +98,7 @@ export const AuthProvider = ({ children }) => {
 
     setUser(null);
     localStorage.removeItem('accessToken');
-    return fetch(`${process.env.NEXT_PUBLIC_API}/signout`, {
+    return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/signout`, {
       method: 'GET',
       credentials: 'include',
     }).catch(err => console.log(err));

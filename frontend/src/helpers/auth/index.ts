@@ -68,7 +68,8 @@ export function errorHandler(err, res) {
 
   if (typeof err === 'object') {
     const statusCode = err.status;
-    return res.status(statusCode).json({ message: err.message });
+    delete err.status;
+    return res.status(statusCode).json(err);
   }
 
   // default to 500 server error

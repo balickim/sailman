@@ -1,5 +1,5 @@
 export const create = tag => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/tag`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/tag`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -15,7 +15,7 @@ export const create = tag => {
 };
 
 export const getTags = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/tags`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/tags`, {
     method: 'GET',
   })
     .then(response => {
@@ -25,7 +25,7 @@ export const getTags = () => {
 };
 
 export const singleTag = slug => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/tag/${slug}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/tag/${slug}`, {
     method: 'GET',
   })
     .then(response => {
@@ -35,7 +35,7 @@ export const singleTag = slug => {
 };
 
 export const removeTag = slug => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/tag/${slug}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/tag/${slug}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',

@@ -1,5 +1,5 @@
 export const send = data => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/contact`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/contact`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -14,7 +14,7 @@ export const send = data => {
 };
 
 export const sendFeedback = data => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/feedback`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/feedback`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',

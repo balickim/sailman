@@ -1,5 +1,5 @@
 export const userPublicProfile = username => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/user/${username}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/user/${username}`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -12,7 +12,7 @@ export const userPublicProfile = username => {
 };
 
 export const getProfile = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/user/profile`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/user/profile`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -26,7 +26,7 @@ export const getProfile = () => {
 };
 
 export const update = user => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/user/update`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/user/update`, {
     method: 'PUT',
     headers: {
       Accept: 'application/json',

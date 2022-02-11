@@ -45,8 +45,7 @@ const Breadcrumbs = () => {
     const isLastPartMongoObjectId = validateObjectId(cleanStringArray.pop());
     cleanString = isLastPartMongoObjectId ? cleanStringArray.join('-') : cleanString; // if something contains mongodb objectId at the end then delete that id
 
-    const upperCaseString = cleanString.charAt(0).toUpperCase() + cleanString.slice(1);
-    let translation = t(upperCaseString);
+    let translation = t('nav.' + cleanString);
 
     if (translation.startsWith(LOCALE)) {
       translation = cleanString.charAt(0).toUpperCase() + cleanString.slice(1);

@@ -7,7 +7,11 @@ const Signup = () => {
       <Layout footer={false}>
         <div className="row">
           <div className="col-md-6 offset-md-3">
-            <AuthForm fields={['username', 'e_mail', 'password']} type="signup" />
+            <AuthForm
+              fields={['username', 'email', 'password']}
+              type="signup"
+              typeTranslation="action.signup"
+            />
           </div>
         </div>
       </Layout>

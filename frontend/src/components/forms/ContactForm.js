@@ -83,7 +83,7 @@ const ContactForm = () => {
         </div>
 
         <div className="form-group">
-          <label className="lead">{t('e_mail')}</label>
+          <label className="lead">{t('email')}</label>
           <input
             type="email"
             onChange={handleChange('email')}

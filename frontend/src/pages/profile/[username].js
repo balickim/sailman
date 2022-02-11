@@ -58,7 +58,7 @@ const UserProfile = ({ user, announcements, query }) => {
                     <div className="col-md-4">
                       {user.username && user.username !== '' && Boolean(user.username) !== false ? (
                         <img
-                          src={`${process.env.NEXT_PUBLIC_API}/user/photo/${user.username}`}
+                          src={`${process.env.NEXT_PUBLIC_AUTH_API}/user/photo/${user.username}`}
                           alt="user profile"
                           style={{ maxHeight: 'auto', maxWidth: '100%' }}
                           className="img img-fluid img-thumbnail mb-3"

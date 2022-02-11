@@ -6,7 +6,7 @@ import Read from '@components/announcements/Read';
 
 const SingleAnnouncement = ({ announcement, gallery, query }) => {
   const DOMAIN = process.env.NEXT_PUBLIC_SEO_DOMAIN;
-  const API = process.env.NEXT_PUBLIC_API;
+  const API = process.env.NEXT_PUBLIC_AUTH_API;
   const APP_NAME = process.env.NEXT_PUBLIC_APP_NAME;
   const FB_APP_ID = process.env.NEXT_PUBLIC_FB_APP_ID;
 
@@ -54,7 +54,7 @@ export const getServerSideProps = async ({ query }) => {
 
   if (count && count.size > 0) {
     for (let i = 0; i < count.size; i++) {
-      let original = `${process.env.NEXT_PUBLIC_API}/announcement/${query.slug}/gallery/${i}/`;
+      let original = `${process.env.NEXT_PUBLIC_AUTH_API}/announcement/${query.slug}/gallery/${i}/`;
       gallery.push({ original, thumbnail: original });
     }
   }

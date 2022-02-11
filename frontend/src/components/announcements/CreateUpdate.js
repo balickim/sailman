@@ -350,7 +350,7 @@ const CreateUpdate = ({ router }) => {
   };
 
   const loadWaterReservoirs = async inputValue => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API}/find_water_reservoir`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/find_water_reservoir`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -507,7 +507,7 @@ const CreateUpdate = ({ router }) => {
           <div className="d-flex justify-content-center mb-1">
             {router.query.slug && !renderedPhoto && (
               <Image
-                src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${router.query.slug}`}
+                src={`${process.env.NEXT_PUBLIC_AUTH_API}/announcement/photo/${router.query.slug}`}
                 alt={title}
                 width={200}
                 height={'100%'}

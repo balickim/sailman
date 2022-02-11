@@ -4,7 +4,9 @@
     "home": "Strona główna",
     "my_account": "Moje konto",
     "add_announcement": "Dodaj ogłoszenie",
-    "contact": "Kontakt"
+    "contact": "Kontakt",
+    "signin": "Zaloguj",
+    "signup": "Zarejestruj"
   },
   "action": {
     "signup": "Zarejestruj",
@@ -35,7 +37,7 @@
   "forgot_password": "Zapomniałem hasła",
   "password_reset": "Resetowanie hasła",
   "or": "Lub",
-  "e_mail": "Adres email",
+  "email": "Adres email",
   "password": "Hasło",
   "new_password": "Nowe hasło",
   "username": "Nazwa użytkownika",

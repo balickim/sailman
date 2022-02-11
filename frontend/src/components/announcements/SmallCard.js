@@ -12,7 +12,7 @@ const SmallCard = ({ announcement }) => {
         <Image
           width={'200px'}
           height={'100%'}
-          src={`${process.env.NEXT_PUBLIC_API}/announcement/photo/${announcement.slug}`}
+          src={`${process.env.NEXT_PUBLIC_AUTH_API}/announcement/photo/${announcement.slug}`}
           onError={e => {
             if (!imageFailed) {
               setImageFailed(true);

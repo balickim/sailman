@@ -5,7 +5,7 @@ class AuthResource {
   baseURL: string;
 
   constructor() {
-    this.baseURL = `${process.env.NEXT_PUBLIC_API}/api/auth`;
+    this.baseURL = `${process.env.NEXT_PUBLIC_AUTH_API}/auth`;
   }
 
   get(endpoint: string): Promise<any> {
@@ -59,7 +59,7 @@ class AuthResource {
 export default new AuthResource();
 
 // export const loginWithGoogle = user => {
-//   return fetch(`${process.env.NEXT_PUBLIC_API}/google-login`, {
+//   return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/google-login`, {
 //     method: 'POST',
 //     headers: {
 //       Accept: 'application/json',

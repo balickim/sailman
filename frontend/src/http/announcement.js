@@ -1,7 +1,7 @@
 import queryString from 'query-string';
 
 export const create = announcement => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/announcement`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/announcement`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -21,7 +21,7 @@ export const listAnnouncements = (skip, limit) => {
     skip,
   };
 
-  return fetch(`${process.env.NEXT_PUBLIC_API}/announcements-categories-tags`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/announcements-categories-tags`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -36,7 +36,7 @@ export const listAnnouncements = (skip, limit) => {
 };
 
 export const singleAnnouncement = slug => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/announcement/${slug}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/announcement/${slug}`, {
     method: 'GET',
   })
     .then(response => {
@@ -46,7 +46,7 @@ export const singleAnnouncement = slug => {
 };
 
 export const listRelated = announcement => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/related`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/announcements/related`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -61,7 +61,7 @@ export const listRelated = announcement => {
 };
 
 export const getGalleryCount = slug => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/announcement/${slug}/gallery`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/announcement/${slug}/gallery`, {
     method: 'GET',
     headers: {
       Accept: 'application/json',
@@ -78,9 +78,9 @@ export const list = username => {
   let listAnnouncementEndpoint;
 
   if (username) {
-    listAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/${username}/announcements`;
+    listAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_AUTH_API}/${username}/announcements`;
   } else {
-    listAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcements`;
+    listAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_AUTH_API}/announcements`;
   }
 
   return fetch(`${listAnnouncementEndpoint}`, {
@@ -96,9 +96,9 @@ export const remove = (slug, user) => {
   let removeAnnouncementEndpoint;
 
   if ((user && user.role === 'admin') || user.role === 'moderator') {
-    removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcement/${slug}`;
+    removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_AUTH_API}/announcement/${slug}`;
   } else if (user && user.role === 'user') {
-    removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/user/announcement/${slug}`;
+    removeAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_AUTH_API}/user/announcement/${slug}`;
   }
 
   return fetch(`${removeAnnouncementEndpoint}`, {
@@ -119,9 +119,9 @@ export const update = (announcement, slug, user) => {
   let updateAnnouncementEndpoint;
 
   if ((user && user.role === 'admin') || user.role === 'moderator') {
-    updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/announcement/${slug}`;
+    updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_AUTH_API}/announcement/${slug}`;
   } else if (user && user.role === 'user') {
-    updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_API}/user/announcement/${slug}`;
+    updateAnnouncementEndpoint = `${process.env.NEXT_PUBLIC_AUTH_API}/user/announcement/${slug}`;
   }
 
   return fetch(`${updateAnnouncementEndpoint}`, {
@@ -141,7 +141,7 @@ export const update = (announcement, slug, user) => {
 export const listSearch = params => {
   let query = queryString.stringify(params);
 
-  return fetch(`${process.env.NEXT_PUBLIC_API}/announcements/search?${query}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/announcements/search?${query}`, {
     method: 'GET',
   })
     .then(response => {

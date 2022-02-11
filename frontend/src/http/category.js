@@ -1,5 +1,5 @@
 export const create = category => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/category`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/category`, {
     method: 'POST',
     headers: {
       Accept: 'application/json',
@@ -15,7 +15,7 @@ export const create = category => {
 };
 
 export const getCategories = () => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/categories`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/categories`, {
     method: 'GET',
   })
     .then(response => {
@@ -25,7 +25,7 @@ export const getCategories = () => {
 };
 
 export const singleCategory = slug => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/category/${slug}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/category/${slug}`, {
     method: 'GET',
   })
     .then(response => {
@@ -35,7 +35,7 @@ export const singleCategory = slug => {
 };
 
 export const removeCategory = slug => {
-  return fetch(`${process.env.NEXT_PUBLIC_API}/category/${slug}`, {
+  return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/category/${slug}`, {
     method: 'DELETE',
     headers: {
       Accept: 'application/json',

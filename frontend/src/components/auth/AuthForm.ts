@@ -5,8 +5,10 @@ import { MDBSpinner } from 'mdb-react-ui-kit';
 import { useAuth } from './AuthProvider';
 import { loginSchema, preSignupSchema } from '@http/auth.validators';
 import authResource from '@http/auth.resource';
+import { LoginDto, preSignupDto } from '@http/auth.dtos';
+import LoadingOverlayWrapper from 'react-loading-overlay-ts';
 
-const AuthForm = ({ type, fields }) => {
+const AuthForm = ({ type, fields, typeTranslation }) => {
   let { t } = useTranslation('common');
 
   const [values, setValues] = useState({
@@ -33,11 +35,12 @@ const AuthForm = ({ type, fields }) => {
     e.preventDefault();
     setValues({ ...values, isLoading: true, errors: [] });
     if (type === 'signup') {
-      const user = { username, email, password };
+      const user: preSignupDto = { username, email, password };
       preSignupSchema
         .validate(user)
         .then(() => {
-          authResource.preSignup(user).then(data => {
+          authResource.preSignup(user)
+            .then(data => {
             if (data.errors) {
               setValues({
                 ...values,
@@ -64,18 +67,25 @@ const AuthForm = ({ type, fields }) => {
           }
         });
     } else if (type === 'login') {
-      const user = { email, password };
-      loginSchema.validate(user).then(() => {
-        authResource.login(user).then(data => {
-          if (data.error) {
-            setValues({ ...values, error: data.error, loading: false });
-          } else {
-            authenticate(data, () => {
-              Router.push('/');
-            });
+      const user: LoginDto = { email, password };
+      loginSchema
+        .validate(user)
+        .then(() => {
+          authResource.login(user)
+            .then(response => {
+              setValues({ ...values, isLoading: false });
+              if (response) {
+                authenticate(response.data, () => {
+                  Router.push('/');
+                });
+              }
+          });
+        })
+        .catch(function (err) {
+          if (err.errors) {
+            setValues({ ...values, errors: err.errors, errorPath: err.path, isLoading: false });
           }
         });
-      });
     }
   };
 
@@ -111,7 +121,7 @@ const AuthForm = ({ type, fields }) => {
   const form = () => {
     return (
       <>
-        <h2 className="text-center pt-4 pb-4">{t(type)}</h2>
+        <h2 className="text-center pt-4 pb-4">{t(typeTranslation)}</h2>
         <form onSubmit={handleSubmit} noValidate>
           {fields.map((element, i) => {
             return (
@@ -133,8 +143,8 @@ const AuthForm = ({ type, fields }) => {
               </div>
             );
           })}
-          <button className="btn btn-primary btn-lg btn-block">
-            {t(type)}
+          <button className="btn btn-primary btn-lg btn-block" disabled={isLoading}>
+            {t(typeTranslation)}
             {showLoading()}
           </button>
         </form>
@@ -148,7 +158,7 @@ const AuthForm = ({ type, fields }) => {
         ) : (
           <></>
         )}
-      </>
+        </>
     );
   };
   return <>{showSignupForm ? form() : showMessage()}</>;

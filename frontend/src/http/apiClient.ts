@@ -8,17 +8,17 @@ class ApiClient {
   _requests: Record<string, any> = {};
 
   constructor(options?: Record<string, any>) {
-    axios.interceptors.response.use(undefined, this.errorHandlerFactory());
+    axios.interceptors.response.use(response => response, this.errorHandlerFactory());
     this.config = { ...this.config, ...options };
     this.cancel = () => true;
     this._requestOptions = { silent: false };
     this._requests = {};
   }
 
-  request(params: Record<string, any>, options: Record<string, any> = {}) {
+  request(params: Record<string, any>, options: Record<string, any> = {}): Promise<any> {
     const payload: Record<string, any> = {
       ...params,
-      // ...(params.url ? { url: params.url } : { url: '/api' + params.path }),
+      ...(params.url ? { url: params.url } : { url: params.path }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -31,7 +31,9 @@ class ApiClient {
     const hash = JSON.stringify(payload);
 
     if (!this._requests[hash]) {
-      this._requests[hash] = axios(payload);
+      this._requests[hash] = axios(payload).catch(err => {
+        console.error(err);
+      });
 
       this._requests[hash].finally((response: Record<string, any>) => {
         delete this._requests[hash];
@@ -47,52 +49,41 @@ class ApiClient {
       if (axios.isCancel(error)) {
         return Promise.reject({ message: 'Request canceled' });
       } else {
-        const errorMessages = this.getErrorsMessagesFromRequest(error);
-
         if (error?.response?.status === 401) {
           this.request({
             method: 'GET',
-            path: `${process.env.NEXT_PUBLIC_API}/api/auth/logout`,
+            path: `${process.env.NEXT_PUBLIC_AUTH_API}/auth/logout`,
           });
         }
+        const errorMessages = this.getErrorsMessagesFromRequest(error);
 
         !this._requestOptions.silent &&
-          errorMessages.forEach((error: string) => toast.error({ message: error }));
-
-        return Promise.reject(error);
+          errorMessages.forEach((error: string) => toast.error(error));
       }
+
+      return Promise.reject(error);
     };
   }
 
   getErrorsMessagesFromRequest = (error: Record<string, any>) => {
-    const generalErrorCode = error?.response?.data?.data?.code;
+    const generalErrorCode = error?.response?.data?.code;
     const errorMessages = [];
 
     if (generalErrorCode === 'VALIDATION_ERROR') {
-      error.response?.data?.data?.errors?.map((field: Record<string, any>) =>
-        field.errors?.map((err: Record<string, any>) =>
-          errorMessages.push(this.getErrorMessage(err)),
-        ),
-      );
-    } else if (error?.response?.data?.data?.errors) {
-      error.response.data.data.errors.map((err: Record<string, any>) =>
-        errorMessages.push(this.getErrorMessage(err)),
-      );
-    } else if (error?.response?.data?.data && typeof error.response.data.data === 'string') {
+      error.response?.data?.errors?.map(field => errorMessages.push(field));
+    } else if (error.response.data.errors) {
+      error.response?.data?.errors?.map(field => errorMessages.push(field));
+    } else if (error?.response?.data && typeof error.response.data === 'string') {
       if (error.response.status >= 500 && error.response.status < 600) {
         errorMessages.push(error.response.status);
       } else {
-        errorMessages.push(error.response.data.data);
+        errorMessages.push(error.response.data);
       }
     }
 
     !errorMessages.length && errorMessages.push('Internal Server Error');
 
     return errorMessages;
-  };
-
-  getErrorMessage = (error: Record<string, any> = {}) => {
-    return error.description;
   };
 }
 

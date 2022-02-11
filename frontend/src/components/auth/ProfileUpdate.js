@@ -159,7 +159,7 @@ const ProfileUpdate = () => {
           <div className="col-md-4">
             {username && username !== '' && Boolean(username) !== false ? (
               <img
-                src={`${process.env.NEXT_PUBLIC_API}/user/photo/${username}`}
+                src={`${process.env.NEXT_PUBLIC_AUTH_API}/user/photo/${username}`}
                 alt="user profile"
                 style={{ maxHeight: 'auto', maxWidth: '100%' }}
                 className="img img-fluid img-thumbnail mb-3"
