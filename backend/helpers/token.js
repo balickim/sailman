@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 exports.signAccessToken = (user) => {
-  const secret = process.env.ACCESS_TOKEN_SECRET;
+  const secret = process.env.JWT_ACCESS_TOKEN_SECRET;
   const options = {
     expiresIn: "10m", // 10 minutes
   };
@@ -16,7 +16,7 @@ exports.verifyAccessToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
   const bearerToken = authHeader.split(" ");
   const token = bearerToken[1];
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, payload) => {
+  jwt.verify(token, process.env.JWT_ACCESS_TOKEN_SECRET, (err, payload) => {
     if (err) {
       const message =
         err.name === "JsonWebTokenError" ? "Unauthorized" : err.message;
@@ -31,7 +31,7 @@ exports.verifyAccessToken = (req, res, next) => {
 };
 
 exports.signRefreshToken = (res, user) => {
-  const secret = process.env.REFRESH_TOKEN_SECRET;
+  const secret = process.env.JWT_REFRESH_TOKEN_SECRET;
   const expiration = 2592000000; // 1 month in ms
   const options = {
     expiresIn: expiration,
@@ -60,7 +60,7 @@ exports.verifyRefreshToken = (res, refreshToken) => {
   return new Promise((resolve, reject) => {
     jwt.verify(
       refreshToken,
-      process.env.REFRESH_TOKEN_SECRET,
+      process.env.JWT_REFRESH_TOKEN_SECRET,
       (err, payload) => {
         if (err) return reject("Unauthorized");
         const userId = payload._id;

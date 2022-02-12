@@ -21,7 +21,6 @@ const userData: Prisma.UserCreateInput[] = [
 async function main() {
   console.log(`Start seeding ...`);
   const password = process.env.ADMIN_PASSWORD;
-  console.log('%cseed.ts line:24 password', 'color: #007acc;', password);
   const hashed_password = await bcrypt.hash(password, 10);
 
   for (const u of userData) {

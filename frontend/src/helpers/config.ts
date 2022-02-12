@@ -8,6 +8,6 @@ const getEnvironmentVariable = (environmentVariable: string): string => {
 };
 
 export const serverSideConfig = {
-  //   nodeEnv: getEnvironmentVariable('NODE_ENV'),
+  //   nodeEnv: getEnvironmentVariable('APP_ENV'),
   //   appName: getEnvironmentVariable('APP_NAME'),
 };

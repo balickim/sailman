@@ -19,9 +19,10 @@ async function preSignup(req, res) {
       },
     });
     if (user) {
-      return res.status(400).json({
-        message: 'Email is taken',
-      });
+      throw {
+        status: 409,
+        errors: ['Email is taken'],
+      };
     }
 
     user = await prisma.user.findUnique({
@@ -38,10 +39,10 @@ async function preSignup(req, res) {
     const { token } = await signToken(
       { username, email, password },
       10 * 60,
-      process.env.JWT_ACCOUNT_ACTIVATION,
+      process.env.JWT_ACCOUNT_ACTIVATION_SECRET,
     );
 
-    const url = `${process.env.NEXTAUTH_URL}/${lang ?? 'en'}/auth/account/activate/${token}`;
+    const url = `${process.env.DOMAIN}/${lang ?? 'en'}/auth/account/activate/${token}`;
     const host = process.env.EMAIL_FROM;
 
     await sendEmail(email, 'Account verification', signUpHtml(email, host, url))

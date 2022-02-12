@@ -6,7 +6,7 @@ import { prisma } from '.';
 export function signToken(
   dataStoredInToken: object,
   expiration: number = 10 * 60,
-  secret: string = process.env.ACCESS_TOKEN_SECRET,
+  secret: string = process.env.JWT_ACCESS_TOKEN_SECRET,
 ) {
   const expiresIn: number = expiration;
 
@@ -18,7 +18,7 @@ export async function signRefreshToken(
   expiration: number = 30 * 24 * 60 * 60,
 ): Promise<{ cookie: string; refreshToken: any }> {
   const dataStoredInToken = { id: user.id };
-  const secret: string = process.env.REFRESH_TOKEN_SECRET;
+  const secret: string = process.env.JWT_REFRESH_TOKEN_SECRET;
   const expiresIn: number = expiration;
   const refreshToken = jwt.sign(dataStoredInToken, secret, { expiresIn });
 
@@ -32,7 +32,7 @@ function createCookie(tokenData: { token: string; expiresIn: number }): string {
 
 export function verifyRefreshToken(refreshToken): Promise<User> {
   return new Promise((resolve, reject) => {
-    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, payload) => {
+    jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET, async (err, payload) => {
       if (err) reject({ status: 400, message: 'Unauthorized' });
       const tokenDb = await prisma.refreshToken.findMany({
         where: {

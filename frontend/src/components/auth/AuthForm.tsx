@@ -2,14 +2,15 @@ import Router from 'next/router';
 import useTranslation from 'next-translate/useTranslation';
 import { useState, useEffect } from 'react';
 import { MDBSpinner } from 'mdb-react-ui-kit';
+import { toast } from 'react-toastify';
+
 import { useAuth } from './AuthProvider';
 import { loginSchema, preSignupSchema } from '@http/auth.validators';
 import authResource from '@http/auth.resource';
 import { LoginDto, preSignupDto } from '@http/auth.dtos';
-import LoadingOverlayWrapper from 'react-loading-overlay-ts';
 
 const AuthForm = ({ type, fields, typeTranslation }) => {
-  let { t } = useTranslation('common');
+  const { t } = useTranslation('common');
 
   const [values, setValues] = useState({
     username: '',
@@ -39,24 +40,19 @@ const AuthForm = ({ type, fields, typeTranslation }) => {
       preSignupSchema
         .validate(user)
         .then(() => {
-          authResource.preSignup(user)
-            .then(data => {
-            if (data.errors) {
-              setValues({
-                ...values,
-                errors: data.errors,
-                errorPath: data.path,
-                isLoading: false,
-              });
-            } else {
+          authResource.preSignup(user).then(response => {
+            setValues({
+              ...values,
+              isLoading: false,
+            });
+            if (response) {
+              toast.success(t('notification.email_sent', { count: 10 }));
               setValues({
                 ...values,
                 username: '',
                 email: '',
                 password: '',
                 isLoading: false,
-                message: t('notification.email_sent'),
-                showSignupForm: false,
               });
             }
           });
@@ -71,14 +67,13 @@ const AuthForm = ({ type, fields, typeTranslation }) => {
       loginSchema
         .validate(user)
         .then(() => {
-          authResource.login(user)
-            .then(response => {
-              setValues({ ...values, isLoading: false });
-              if (response) {
-                authenticate(response.data, () => {
-                  Router.push('/');
-                });
-              }
+          authResource.login(user).then(response => {
+            setValues({ ...values, isLoading: false });
+            if (response) {
+              authenticate(response.data, () => {
+                Router.push('/');
+              });
+            }
           });
         })
         .catch(function (err) {
@@ -107,13 +102,17 @@ const AuthForm = ({ type, fields, typeTranslation }) => {
 
   const ErrorField = value => {
     if (errorPath === value.name) {
-      return errors.map((element, i) => {
-        return (
-          <div key={i} className="invalid-feedback" role="alert">
-            {element}
-          </div>
-        );
-      });
+      return (
+        <>
+          {errors.map((element, i) => {
+            return (
+              <div key={i} className="invalid-feedback" role="alert">
+                {element}
+              </div>
+            );
+          })}
+        </>
+      );
     }
     return null;
   };
@@ -133,7 +132,11 @@ const AuthForm = ({ type, fields, typeTranslation }) => {
                   id={element.toString()}
                   value={values[element]}
                   onChange={handleChange(element.toString())}
-                  type={element.toString() === 'password' ? 'password' : 'text'}
+                  type={
+                    element.toString() === 'password' || element.toString() === 'email'
+                      ? element
+                      : 'text'
+                  }
                   className={`form-control form-control-lg ${
                     errorPath === element.toString() ? 'is-invalid' : ''
                   }`}
@@ -158,7 +161,7 @@ const AuthForm = ({ type, fields, typeTranslation }) => {
         ) : (
           <></>
         )}
-        </>
+      </>
     );
   };
   return <>{showSignupForm ? form() : showMessage()}</>;

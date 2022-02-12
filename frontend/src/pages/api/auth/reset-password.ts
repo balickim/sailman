@@ -18,7 +18,7 @@ async function controller(req, res) {
     if (resetPasswordToken) {
       return jwt.verify(
         resetPasswordToken,
-        process.env.JWT_RESET_PASSWORD,
+        process.env.JWT_RESET_PASSWORD_SECRET,
         async function (err, decoded) {
           if (err) {
             throw { status: 401, message: 'Link expired' };

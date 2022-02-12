@@ -15,7 +15,7 @@ async function signup(req, res) {
   try {
     const token = req.body.token;
     if (token) {
-      jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION, async function (err, decoded) {
+      jwt.verify(token, process.env.JWT_ACCOUNT_ACTIVATION_SECRET, async function (err, decoded) {
         if (err) {
           return res.status(403).json({
             message: 'Expired link. Signup again',

@@ -14,7 +14,7 @@ async function controller(req, res) {
       throw { status: 401, message: 'Unauthorized' };
     }
 
-    await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET),
+    await jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET),
       async (err, decoded) => {
         if (err) throw { status: 401, message: 'Unauthorized' };
       };

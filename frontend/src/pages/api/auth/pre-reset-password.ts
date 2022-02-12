@@ -26,14 +26,14 @@ async function controller(req, res) {
       },
     });
 
-    const { token } = await signToken({ id: user.id }, 10 * 60, process.env.JWT_RESET_PASSWORD);
+    const { token } = await signToken({ id: user.id }, 10 * 60, process.env.JWT_RESET_PASSWORD_SECRET);
 
     await prisma.user.update({
       where: { id: user.id },
       data: { reset_password_link: token },
     });
 
-    const url = `${process.env.NEXTAUTH_URL}/${lang ?? 'en'}/auth/password/reset/${token}`;
+    const url = `${process.env.DOMAIN}/${lang ?? 'en'}/auth/password/reset/${token}`;
 
     await sendEmail(email, 'Password reset', resetPasswordHtml(url))
       .then(() => {

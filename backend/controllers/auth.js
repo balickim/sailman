@@ -28,7 +28,7 @@ exports.preSignup = (req, res) => {
     }
     const token = jwt.sign(
       { name, email, password },
-      process.env.JWT_ACCOUNT_ACTIVATION,
+      process.env.JWT_ACCOUNT_ACTIVATION_SECRET,
       { expiresIn: "10m" }
     );
 
@@ -51,7 +51,7 @@ exports.signup = (req, res) => {
   if (token) {
     jwt.verify(
       token,
-      process.env.JWT_ACCOUNT_ACTIVATION,
+      process.env.JWT_ACCOUNT_ACTIVATION_SECRET,
       function (err, decoded) {
         if (err) {
           return res.status(401).json({
@@ -128,7 +128,7 @@ exports.refreshToken = async (req, res, next) => {
 exports.signout = (req, res) => {
   const refreshToken = req.cookies.refreshToken || "";
 
-  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
+  jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN_SECRET, (err, payload) => {
     if (err) return reject("Unauthorized");
     const userId = payload._id;
 
@@ -224,7 +224,7 @@ exports.forgotPassword = (req, res) => {
       });
     }
 
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_RESET_PASSWORD, {
+    const token = jwt.sign({ _id: user._id }, process.env.JWT_RESET_PASSWORD_SECRET, {
       expiresIn: "10m",
     });
 
@@ -254,7 +254,7 @@ exports.resetPassword = (req, res) => {
   if (resetPasswordLink) {
     jwt.verify(
       resetPasswordLink,
-      process.env.JWT_RESET_PASSWORD,
+      process.env.JWT_RESET_PASSWORD_SECRET,
       function (err, decoded) {
         if (err) {
           return res.status(401).json({

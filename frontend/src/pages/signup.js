@@ -8,7 +8,7 @@ const Signup = () => {
         <div className="row">
           <div className="col-md-6 offset-md-3">
             <AuthForm
-              fields={['username', 'email', 'password']}
+              fields={['email', 'username', 'password']}
               type="signup"
               typeTranslation="action.signup"
             />

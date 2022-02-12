@@ -61,7 +61,6 @@ async function service(
     userData.password,
     findUser.hashed_password,
   );
-  delete findUser.hashed_password;
 
   if (!isPasswordMatching) {
     throw {
