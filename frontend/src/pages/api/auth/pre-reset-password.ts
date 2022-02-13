@@ -26,7 +26,11 @@ async function controller(req, res) {
       },
     });
 
-    const { token } = await signToken({ id: user.id }, 10 * 60, process.env.JWT_RESET_PASSWORD_SECRET);
+    const { token } = await signToken(
+      { id: user.id },
+      10 * 60,
+      process.env.JWT_RESET_PASSWORD_SECRET,
+    );
 
     await prisma.user.update({
       where: { id: user.id },
@@ -43,6 +47,6 @@ async function controller(req, res) {
       })
       .catch(err => console.log(`Problem sending email: ${err}`));
   } catch (error) {
-    errorHandler(error, res);
+    await errorHandler(error, req, res);
   }
 }

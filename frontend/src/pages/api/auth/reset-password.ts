@@ -51,6 +51,6 @@ async function controller(req, res) {
       );
     }
   } catch (error) {
-    errorHandler(error, res);
+    await errorHandler(error, req, res);
   }
 }

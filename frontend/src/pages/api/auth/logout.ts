@@ -42,6 +42,6 @@ async function controller(req, res) {
       message: 'Sign out success.',
     });
   } catch (error) {
-    errorHandler(error, res);
+    await errorHandler(error, req, res);
   }
 }

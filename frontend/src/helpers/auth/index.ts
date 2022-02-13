@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import hpp from 'hpp';
 import { PrismaError } from './PrismaError';
+import getT from 'next-translate/getT';
 
 export const prisma = new PrismaClient({
   errorFormat: 'pretty',
@@ -35,7 +36,7 @@ export function apiHandler(handler) {
       await handler[method](req, res);
     } catch (err) {
       // global error handler
-      errorHandler(err, res);
+      await errorHandler(err, req, res);
     }
   };
 }
@@ -53,7 +54,7 @@ export function runMiddleware(req, res, fn) {
   });
 }
 
-export function errorHandler(err, res) {
+export async function errorHandler(err, req, res) {
   if (typeof err === 'string' && err.toLowerCase().endsWith('not found')) {
     return res.status(404).json({ message: err });
   }
@@ -69,6 +70,16 @@ export function errorHandler(err, res) {
   if (typeof err === 'object') {
     const statusCode = err.status;
     delete err.status;
+
+    const t = await getT(
+      req.query.__nextLocale ?? req.headers['accept-language'].substring(0, 2),
+      'common',
+    ); // TODO fix this
+
+    err.errors = err.errors.map(e => {
+      return t(e);
+    }); // translate errors
+
     return res.status(statusCode).json(err);
   }
 

@@ -38,11 +38,11 @@ async function signup(req, res) {
             message: 'Signup success! Please sign in',
           });
         } catch (err) {
-          errorHandler(err, res);
+          await errorHandler(err, req, res);
         }
       });
     }
   } catch (err) {
-    errorHandler(err, res);
+    await errorHandler(err, req, res);
   }
 }

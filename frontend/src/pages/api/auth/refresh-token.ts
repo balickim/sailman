@@ -15,6 +15,6 @@ async function controller(req, res) {
 
     return res.json({ accessToken });
   } catch (error) {
-    errorHandler(error, res);
+    await errorHandler(error, req, res);
   }
 }

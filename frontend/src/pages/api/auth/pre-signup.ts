@@ -53,6 +53,6 @@ async function preSignup(req, res) {
       })
       .catch(err => console.log(`Problem sending email: ${err}`));
   } catch (err) {
-    errorHandler(err, res);
+    await errorHandler(err, req, res);
   }
 }

@@ -17,7 +17,11 @@ export default validate(
 async function controller(req, res) {
   try {
     const userData: LoginDto = req.body;
-    const { token, refreshToken, findUser, accessTokenData } = await service(userData, req);
+    // const t = await getT(
+    //   req.query.__nextLocale ?? req.headers['accept-language'].substring(0, 2),
+    //   'common',
+    // ); // TODO fix this
+    const { token, refreshToken, findUser, accessTokenData } = await service(userData);
     const cookies = new Cookies(req, res);
 
     // TODO expiration timestamp in db, cron job deleting old refresh tokens
@@ -41,14 +45,11 @@ async function controller(req, res) {
   } catch (error) {
     console.error('LOGIN FAILED error:');
     console.error(error);
-    errorHandler(error, res);
+    await errorHandler(error, req, res);
   }
 }
 
-async function service(
-  userData: LoginDto,
-  req,
-): Promise<{
+async function service(userData: LoginDto): Promise<{
   token: { token: string; expiresIn: number };
   refreshToken;
   findUser;
@@ -66,15 +67,11 @@ async function service(
       email: userData.email,
     },
   });
-  const t = await getT(
-    req.query.__nextLocale ?? req.headers['accept-language'].substring(0, 2),
-    'common',
-  ); // TODO fix this
 
   if (!findUser)
     throw {
       status: 409,
-      errors: [t('errorCode.api_email_not_found')],
+      errors: ['errorCode.api_email_not_found'],
       code: 'VALIDATION_ERROR',
     };
 
@@ -86,7 +83,7 @@ async function service(
   if (!isPasswordMatching) {
     throw {
       status: 409,
-      errors: [t('errorCode.api_incorrect_password')],
+      errors: ['errorCode.api_incorrect_password'],
       code: 'VALIDATION_ERROR',
     };
   }
