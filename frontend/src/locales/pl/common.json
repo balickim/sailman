@@ -27,8 +27,9 @@
     "activate_success": "Pomyślnie aktywowano konto. Można się teraz zalogować.",
     "sent_thank_you": "Dziękujemy za wysłanie wiadomości."
   },
-    "errorCode": {
-
+  "errorCode": {
+    "api_email_not_found": "Nie znaleziono konta z tym adresem e-mail",
+    "api_incorrect_password": "Hasło nie jest powiązane z podanym adresem e-mail"  
   },
   "user": "Użytkownik",
   "message": "Wiadomość",

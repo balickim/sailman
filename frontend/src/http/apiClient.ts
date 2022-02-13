@@ -9,6 +9,7 @@ class ApiClient {
 
   constructor(options?: Record<string, any>) {
     axios.interceptors.response.use(response => response, this.errorHandlerFactory());
+    axios.defaults.withCredentials = true;
     this.config = { ...this.config, ...options };
     this.cancel = () => true;
     this._requestOptions = { silent: false };

@@ -25,6 +25,7 @@
     "@react-leaflet/core": "^1.1.0",
     "axios": "^0.24.0",
     "bcryptjs": "^2.4.3",
+    "cookies": "^0.8.0",
     "dayjs": "^1.10.6",
     "express-rate-limit": "^5.5.1",
     "helmet": "^4.6.0",

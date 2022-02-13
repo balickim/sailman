@@ -28,7 +28,8 @@
     "sent_thank_you": "Thank you for contacting us."
   },
     "errorCode": {
-
+    "api_email_not_found": "Account with this email was not found",
+    "api_incorrect_password": "Password is not connected to this email" 
   },
   "user": "User",
   "message": "Message",

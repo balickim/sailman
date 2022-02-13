@@ -95,7 +95,6 @@ export const AuthProvider = ({ children }): ReactElement<any, any> => {
   }, []);
 
   const authenticate = (data, next) => {
-    console.log('%cAuthProvider.js line:81 data', 'color: #007acc;', data);
     localStorage.setItem('accessToken', data.accessToken);
     setUser(data.user);
     next();

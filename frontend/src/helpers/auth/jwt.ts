@@ -16,18 +16,14 @@ export function signToken(
 export async function signRefreshToken(
   user: { id: string; email: string; username: string; role: string; hashed_password: string },
   expiration: number = 30 * 24 * 60 * 60,
-): Promise<{ cookie: string; refreshToken: any }> {
+): Promise<{ token: { token: string; expiresIn: number }; refreshToken: any }> {
   const dataStoredInToken = { id: user.id };
   const secret: string = process.env.JWT_REFRESH_TOKEN_SECRET;
   const expiresIn: number = expiration;
   const refreshToken = jwt.sign(dataStoredInToken, secret, { expiresIn });
 
   const tokenData = { token: refreshToken, expiresIn };
-  return { cookie: createCookie(tokenData), refreshToken };
-}
-
-function createCookie(tokenData: { token: string; expiresIn: number }): string {
-  return `refreshToken=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
+  return { token: tokenData, refreshToken };
 }
 
 export function verifyRefreshToken(refreshToken): Promise<User> {

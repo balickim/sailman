@@ -148,14 +148,15 @@ const AuthForm = ({ type, fields, typeTranslation }) => {
           })}
           <button className="btn btn-primary btn-lg btn-block" disabled={isLoading}>
             {t(typeTranslation)}
-            {showLoading()}
           </button>
+          <br />
+          {showLoading()}
         </form>
         {type === 'login' ? (
           <>
-            <hr />
+            {/* <hr />
             <h2>{t('or')}</h2>
-            <hr />
+            <hr /> */}
             {/* <LoginGoogle buttonText={t('action.login_with_google')} /> */}
           </>
         ) : (

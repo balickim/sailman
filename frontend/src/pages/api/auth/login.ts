@@ -1,4 +1,6 @@
 import bcrypt from 'bcryptjs';
+import getT from 'next-translate/getT';
+import Cookies from 'cookies';
 
 import { prisma, apiHandler, errorHandler } from '@helpers/auth';
 import { validate, loginSchema } from '@http/auth.validators';
@@ -15,7 +17,8 @@ export default validate(
 async function controller(req, res) {
   try {
     const userData: LoginDto = req.body;
-    const { cookie, refreshToken, findUser, accessTokenData } = await service(userData);
+    const { token, refreshToken, findUser, accessTokenData } = await service(userData, req);
+    const cookies = new Cookies(req, res);
 
     // TODO expiration timestamp in db, cron job deleting old refresh tokens
     await prisma.refreshToken.create({
@@ -27,16 +30,30 @@ async function controller(req, res) {
 
     ['id', 'hashed_password'].forEach(e => delete findUser[e]);
 
-    res.setHeader('Set-Cookie', [cookie]);
+    cookies.set('refreshToken', token.token, {
+      expires: new Date(Date.now() + token.expiresIn),
+      secure: false, // set to true if your using https
+      sameSite: 'Lax',
+      httpOnly: true,
+    });
+
     res.status(200).json({ user: findUser, accessToken: accessTokenData.token, message: 'login' });
   } catch (error) {
+    console.error('LOGIN FAILED error:');
+    console.error(error);
     errorHandler(error, res);
   }
 }
 
 async function service(
   userData: LoginDto,
-): Promise<{ cookie: string; refreshToken; findUser; accessTokenData }> {
+  req,
+): Promise<{
+  token: { token: string; expiresIn: number };
+  refreshToken;
+  findUser;
+  accessTokenData;
+}> {
   const findUser = await prisma.user.findUnique({
     select: {
       id: true,
@@ -49,11 +66,15 @@ async function service(
       email: userData.email,
     },
   });
+  const t = await getT(
+    req.query.__nextLocale ?? req.headers['accept-language'].substring(0, 2),
+    'common',
+  ); // TODO fix this
 
   if (!findUser)
     throw {
       status: 409,
-      errors: [`Email ${userData.email} was not found`],
+      errors: [t('errorCode.api_email_not_found')],
       code: 'VALIDATION_ERROR',
     };
 
@@ -65,13 +86,13 @@ async function service(
   if (!isPasswordMatching) {
     throw {
       status: 409,
-      errors: ['Incorrect password'],
+      errors: [t('errorCode.api_incorrect_password')],
       code: 'VALIDATION_ERROR',
     };
   }
 
-  const { cookie, refreshToken } = await signRefreshToken(findUser);
+  const { token, refreshToken } = await signRefreshToken(findUser);
   const accessTokenData = signToken({ id: findUser.id, role: findUser.role });
 
-  return { cookie, refreshToken, findUser, accessTokenData };
+  return { token, refreshToken, findUser, accessTokenData };
 }
