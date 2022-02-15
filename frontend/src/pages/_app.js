@@ -11,10 +11,18 @@ import 'dayjs/locale/en';
 import { AuthProvider, ProtectRoute } from '@components/auth/AuthProvider';
 import Head from 'next/head';
 import { ToastContainer } from 'react-toastify';
+import { useRouter } from 'next/router';
 
 import BackgroundImage from '@components/helpers/BackgroundImage';
 
 function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+  const { locale } = router;
+
+  if (typeof window !== 'undefined') {
+    localStorage.setItem('lang', locale); // TODO maybe do it better
+  }
+
   return (
     <>
       <Head>

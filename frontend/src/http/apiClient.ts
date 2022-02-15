@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import getT from 'next-translate/getT';
 
 class ApiClient {
   config: Record<string, any> = {};
@@ -56,24 +57,27 @@ class ApiClient {
             path: `${process.env.NEXT_PUBLIC_AUTH_API}/auth/logout`,
           });
         }
-        const errorMessages = this.getErrorsMessagesFromRequest(error);
 
-        !this._requestOptions.silent &&
-          errorMessages.forEach((error: string) => toast.error(error));
+        this.getErrorsMessagesFromRequest(error).then(errorMessages => {
+          !this._requestOptions.silent &&
+            errorMessages.forEach((error: string) => toast.error(error));
+        });
       }
 
       return Promise.reject(error);
     };
   }
 
-  getErrorsMessagesFromRequest = (error: Record<string, any>) => {
+  async getErrorsMessagesFromRequest(error: Record<string, any>) {
     const generalErrorCode = error?.response?.data?.code;
     const errorMessages = [];
 
+    const t = await getT(localStorage.getItem('lang') ?? 'en', 'common'); // TODO maybe do it better
+
     if (generalErrorCode === 'VALIDATION_ERROR') {
-      error.response?.data?.errors?.map(field => errorMessages.push(field));
+      error.response?.data?.errors?.map(field => errorMessages.push(t(field)));
     } else if (error.response.data.errors) {
-      error.response?.data?.errors?.map(field => errorMessages.push(field));
+      error.response?.data?.errors?.map(field => errorMessages.push(t(field)));
     } else if (error?.response?.data && typeof error.response.data === 'string') {
       if (error.response.status >= 500 && error.response.status < 600) {
         errorMessages.push(error.response.status);
@@ -85,7 +89,7 @@ class ApiClient {
     !errorMessages.length && errorMessages.push('Internal Server Error');
 
     return errorMessages;
-  };
+  }
 }
 
 export default new ApiClient();
