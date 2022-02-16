@@ -1,5 +1,4 @@
 import bcrypt from 'bcryptjs';
-import getT from 'next-translate/getT';
 import Cookies from 'cookies';
 
 import { prisma, apiHandler, errorHandler } from '@helpers/auth';
@@ -17,10 +16,6 @@ export default validate(
 async function controller(req, res) {
   try {
     const userData: LoginDto = req.body;
-    // const t = await getT(
-    //   req.query.__nextLocale ?? req.headers['accept-language'].substring(0, 2),
-    //   'common',
-    // ); // TODO fix this
     const { token, refreshToken, findUser, accessTokenData } = await service(userData);
     const cookies = new Cookies(req, res);
 

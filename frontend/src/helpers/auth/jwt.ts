@@ -15,7 +15,7 @@ export function signToken(
 
 export async function signRefreshToken(
   user: { id: string; email: string; username: string; role: string; hashed_password: string },
-  expiration: number = 30 * 24 * 60 * 60,
+  expiration: number = 30 * 24 * 60 * 60 * 1000, // month in milliseconds
 ): Promise<{ token: { token: string; expiresIn: number }; refreshToken: any }> {
   const dataStoredInToken = { id: user.id };
   const secret: string = process.env.JWT_REFRESH_TOKEN_SECRET;

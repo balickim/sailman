@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import Cookies from 'cookies';
 
 import { prisma, apiHandler, errorHandler } from '@helpers/auth';
 
@@ -8,6 +9,8 @@ export default apiHandler({
 
 async function controller(req, res) {
   try {
+    const cookies = new Cookies(req, res);
+
     const refreshToken = req.cookies.refreshToken;
 
     if (!refreshToken) {
@@ -33,10 +36,7 @@ async function controller(req, res) {
       });
     }
 
-    res.setHeader(
-      'Set-Cookie',
-      'refreshToken=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT',
-    );
+    cookies.set('refreshToken');
 
     res.status(200).json({
       message: 'Sign out success.',

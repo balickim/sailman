@@ -5,6 +5,7 @@
 import React, { createContext, useState, useContext, useEffect, ReactElement } from 'react';
 import { useRouter } from 'next/router';
 import Error from 'next/error';
+import authResource from '@http/auth.resource';
 
 interface AuthContextInterface {
   isAuthenticated: boolean;
@@ -114,10 +115,8 @@ export const AuthProvider = ({ children }): ReactElement<any, any> => {
 
     setUser(null);
     localStorage.removeItem('accessToken');
-    return fetch(`${process.env.NEXT_PUBLIC_AUTH_API}/signout`, {
-      method: 'GET',
-      credentials: 'include',
-    }).catch(err => console.log(err));
+
+    return authResource.get('/logout');
   };
 
   return (
