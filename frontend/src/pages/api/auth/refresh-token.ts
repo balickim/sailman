@@ -2,7 +2,7 @@ import { apiHandler, errorHandler } from '@helpers/auth';
 import { signToken, verifyRefreshToken } from '@helpers/auth/jwt';
 
 export default apiHandler({
-  post: controller,
+  get: controller,
 });
 
 async function controller(req, res) {

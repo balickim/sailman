@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 
 import Layout from '@components/layout/Layout';
-import { forgotPassword } from '@http/auth.resource';
+import authResource, { forgotPassword } from '@http/auth.resource';
 
 const ForgotPassword = () => {
   let { t } = useTranslation('common');
@@ -22,7 +22,7 @@ const ForgotPassword = () => {
   const handleSubmit = e => {
     e.preventDefault();
     setValues({ ...values, message: '', error: '' });
-    forgotPassword({ email }).then(data => {
+    authResource.preResetPassword({ email }).then(data => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
